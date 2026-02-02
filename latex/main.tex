@@ -1,0 +1,65 @@
+\documentclass{article}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{authblk}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[english]{babel}
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\usepackage{verbatim}
+
+\newcommand{\detailtexcount}[1]{%
+  \immediate\write18{texcount -merge -sum -q #1.tex output.bbl > #1.wcdetail }%
+  \verbatiminput{#1.wcdetail}%
+}
+
+% Change font
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{xcolor}
+\newcommand{\tkDE}[1]{\textcolor{magenta}{#1}} 
+%\newcommand{\tkDE}[1]{\textcolor{magenta}{\textbf{David}: #1}}  
+
+\newcommand{\diff}{\mathrm{d}}  
+
+\title{Ethnicity-based System Dynamics Model of Measles Vaccinations in Birmingham and Solihull}
+\author{David Ellis}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    Abstract here.
+\end{abstract}
+
+\section{Introduction}
+
+Factors influencing vaccine hesitancy \cite{Williams02092014}.
+
+\section{Methods}
+\subsection{Stakeholder Engagement}
+Following approach from Michail et. al \cite{michail2025evaluation}.
+
+\subsection{Modelling}
+Following approach from \cite{van2020explaining} \textbf{}.
+
+\section{Results}
+
+\section{Discussion}
+
+
+\bibliographystyle{unsrt}
+\bibliography{bibliography}
+
+
+\end{document}
