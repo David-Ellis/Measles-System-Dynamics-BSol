@@ -1,4 +1,5 @@
 library(ggplot2)
+library(stringr)
 library(dplyr)
 
 ################################################################################
@@ -41,7 +42,7 @@ mmr_BSol <- mmr_all %>%
   ) %>%
   mutate(
     Value = Count / Denominator * 100,
-    Area = "BSol"
+    Area = "Birmingham & Solihull"
   ) %>%
   select(
     Time.period.Sortable, Value, Area
@@ -73,8 +74,75 @@ ggplot(plot_data, aes(x = Year, y = Value, color = Area)) +
     x = ""
     ) +
   scale_color_manual(
-    breaks = c("England", "BSol"),
+    breaks = c("England", "Birmingham & Solihull"),
     values = c("#BF352D", "#2B6298")
   )
 
 ggsave("figures/background/measles-background.svg")
+ggsave("figures/background/measles-background.png")
+
+################################################################################
+#                        Plot coverage by ethnicity                            #
+################################################################################
+
+mmr_by_eth <- read.csv("data/background/mmr-by-ethnicity-bsol.csv") %>%
+  mutate(
+    ethnicity = str_remove(ethnicity_description, "99: "),
+    ethnicity = str_remove(ethnicity, "^.+-\\s"),
+    ethnicity = case_when(
+      ethnicity == "British" ~ "White British",
+      ethnicity == "Irish" ~ "White Irish",
+      TRUE ~ ethnicity
+      ),
+    group = str_trim(
+      str_extract(
+        ethnicity_description, 
+        "(?<=: )[^-]+"
+        )
+      )
+    ) %>%
+  arrange(desc(group))
+
+mmr_by_eth$ethnicity <- factor(
+  mmr_by_eth$ethnicity,
+  levels = unique(mmr_by_eth$ethnicity)
+)
+
+bsol_average <- mmr_by_eth %>%
+  summarise(
+    av_perc = sum(dose1_count)/sum(patients)
+  ) %>%
+  pull(av_perc)
+
+ggplot(
+  mmr_by_eth,
+  aes(y = ethnicity, x = vaccinated_perc)
+) +
+  geom_col(fill = "#2B6298") +
+  geom_vline(
+    aes(
+      xintercept = bsol_average,
+      color = "Birmingham & Solihull Average"),
+    linetype = "dashed", lwd =1.2,
+             ) + 
+  theme_bw() +
+  labs(
+    y = "",
+    x = "Children aged <6 years who received 1 MMR dose",
+    fill = ""
+  ) +
+  theme(
+    legend.position = "top"
+  ) + 
+  scale_x_continuous(
+    labels = scales::percent,
+    limits = c(0,1),
+    expand = c(0,0)
+    ) +
+  scale_colour_manual(
+    values = c("Birmingham & Solihull Average" = "#BF352D"),
+    name = NULL
+  )
+
+ggsave("figures/background/mmr-background.svg")
+ggsave("figures/background/mmr-background.png")
