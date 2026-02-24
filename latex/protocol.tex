@@ -30,7 +30,7 @@
 
 \newcommand{\diff}{\mathrm{d}}  
 
-\title{Ethnicity-based System Dynamics Model of Measles Vaccinations in Birmingham and Solihull}
+\title{Research Protocol: Ethnicity-based System Dynamics Model of Measles Vaccinations in Birmingham and Solihull}
 \author{David Ellis}
 
 \date{}
@@ -38,35 +38,160 @@
 \begin{document}
 \maketitle
 
-\begin{abstract}
-    Abstract here.
-\end{abstract}
-
 \section{Background}
 
-\tkDE{NHS MMR vaccine schedule.}
+\begin{itemize}
+    \item What is measles?
+    \item Measles vaccinations 
+    \item Variations in vaccination with focus on ethnicity \cite{Williams02092014, Tabacchi02072016}
+    \item System dynamics - values determined from the literature and expert 
+    \item Participatory modelling
+    \item Governance context (measles elimination strategy, UKHSA Immunisation Equity Strategy)
+\end{itemize}
 
-\tkDE{New MMRV vaccine.}
+% What is measles?
+%Measles is a highly-contagious airborne virus
 
-Factors influencing parental vaccine hesitancy \cite{Williams02092014}. MMR hesitancy in Europe meta analysis \cite{Tabacchi02072016}.
+% measles vaccination
+%Vaccine available since 1971 (Now the MMR vaccine)
+%NHS MMR vaccine schedule.
+%New MMRV vaccine.
+
+%UK declared measles free in 2017
+
+%Due to falling vaccination rates, measles outbreaks are becoming increasingly common
+
+% Ethnic variations in vaccination
+%There are significant differences in vaccination coverage across ethnicity
+
+% System dynamics
+
+% Participatory modelling
+
+
+
+%Factors influencing parental vaccine hesitancy \cite{Williams02092014}. MMR hesitancy in Europe meta analysis \cite{Tabacchi02072016}.
 
 \section{Literature Review}
 
+This project requires a three pronged literature review:
+\begin{itemize}
+    \item Modelling measles epidemics including vaccination (in UK/Europe?)
+    \item Factors influencing parents decisions to vaccinate their children
+    \item Interventions used to increase child vaccinations
+\end{itemize}
+
+We will use Medline, Proquest, and Web of Science. Additionally, local intelligence will also be identified through consultation with health protection leads at BCC and Solihull Metropolitan Council. 
+
+\subsection{Modelling Measles Epidemics}
+(vaccine OR vaccination) AND measles AND simulation
+
+\tkDE{Focus on why not other methods.}
+
+We see that, to date, there has not been a attempt to simulate a measles vaccination system that considers the interaction between epidemiological and behavioural factors including the variation in these factors across ethnicity.
+
+\tkDE{Prisma flow diagram (optional extra)}
+
+\subsection{Factors influencing vaccine decisions}
+Specifically related to parental decisions to vaccinate their children.
+
+vaccine AND (barrier* OR hesitancy) AND (child OR parent)
+
+\tkDE{Prisma flow diagram (optional extra)}
+
+\subsection{MMR uptake interventions}
+What are the barriers to vaccinations?
+
+intervention AND vaccination AND MMR
+
+\tkDE{Prisma flow diagram (optional extra)}
+
 \section{Research Objectives}
 
+This project will aim to answer the following research question: How can a system dynamics model be used to facilitate the development of interventions to increase measles vaccination rates and reduce negative outcomes, particularly amongst lower-uptake ethnic groups?
+
+The research aims are as follows:
+\begin{itemize}
+    \item Conduct a participatory modelling workshop with expert stakeholders to design a theoretical model for measles vaccinations and outcomes in Birmingham and Solihull.
+    \item Identify and prioritise key interventions to be modelled
+    \item Develop a functional model and calibrate using historical vaccination, notification, and hospitalisation data
+    \item Integrate most highly prioritised interventions to simulate the expected impact on the modelled behavioural science factors, vaccination rates, and health outcomes
+\end{itemize}
+
+Long term, the aim is to develop a dashboard for health protection teams working in the system to be able to dynamically plan and test interventions using variable model assumptions. However, this is beyond the scope of the thesis. 
+
 \section{Methods}
+
+\subsection{System Dynamics}
+Following approach from \cite{van2020explaining} using Stella Architect. Stocks and flows. \tkDE{Include example diagram?}
+
 \subsection{Stakeholder Engagement}
-Following approach from Michail et. al \cite{michail2025evaluation}.
 
-Following approach from \cite{van2020explaining} using Stella Architect.
+Following approach from Michail et. al \cite{michail2025evaluation}. 
 
-\subsection{Feasibility}
+Currently (\tkDE{24/02/2026}), \tkDE{five}, stakeholders have agreed to participate in the modelling workshop. Stakeholder organisations include BCC, Solihull Metropolitan Council, and BSol NHS ICB.
 
-\subsection{Timeline}
+\subsection{Data Sources}
 
+\begin{itemize}
+    \item Population data (GP registrations) – BSol ICB
+    \item Child MMR vaccinations – Federated data platform
+    \item Measles nonfictions – UKHSA (FOI)
+    \item Hospitalisation data – BSol ICB
+\end{itemize}
+
+\subsection{Data Analysis}
+GP registration and SUS data will be extracted using SQL. All data analysis and visualisation will be completed in R.
+
+\subsection{Sensitivity Analysis}
+
+\section{Feasibility}
+
+\begin{itemize}
+    \item Data completeness
+    \item Ethical approval is not required since the data used is pseudonymised and routinely collected and the purpose of this project is for service improvement so this will not impact the project feasibility. 
+\end{itemize}
+
+
+\section{Timeline}
+
+\tkDE{Gantt Chart}
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography}
 
+\newpage
+\appendix
+\section{Literature Search}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{c|c}
+         &  \\
+         & 
+    \end{tabular}
+    \caption{Papers on epidemic modelling.}
+    \label{tab:placeholder}
+\end{table}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{c|c}
+         &  \\
+         & 
+    \end{tabular}
+    \caption{Papers on parental vaccine hesitancy.}
+    \label{tab:placeholder}
+\end{table}
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{c|c}
+         &  \\
+         & 
+    \end{tabular}
+    \caption{Papers on child-vaccine interventions.}
+    \label{tab:placeholder}
+\end{table}
 
 \end{document}
