@@ -10,6 +10,7 @@
 \usepackage{amssymb}
 \usepackage[dvipsnames]{xcolor}
 \usepackage[english]{babel}
+\usepackage{pgfgantt}
 
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
@@ -44,6 +45,7 @@
     \item What is measles?
     \item Measles vaccinations 
     \item Variations in vaccination with focus on ethnicity \cite{Williams02092014, Tabacchi02072016}
+    \item Why this matters in Birmingham
     \item System dynamics - values determined from the literature and expert 
     \item Participatory modelling
     \item Governance context (measles elimination strategy, UKHSA Immunisation Equity Strategy)
@@ -125,11 +127,19 @@ Long term, the aim is to develop a dashboard for health protection teams working
 \subsection{System Dynamics}
 Following approach from \cite{van2020explaining} using Stella Architect. Stocks and flows. \tkDE{Include example diagram?}
 
+\begin{itemize}
+    \item Clear explanation of what SD and Stella Architect are. 
+    \item Assumptions
+    \item Limitations
+\end{itemize}
+
 \subsection{Stakeholder Engagement}
 
 Following approach from Michail et. al \cite{michail2025evaluation}. 
 
 Currently (\tkDE{24/02/2026}), \tkDE{five}, stakeholders have agreed to participate in the modelling workshop. Stakeholder organisations include BCC, Solihull Metropolitan Council, and BSol NHS ICB.
+
+\tkDE{Agenda dynamics}
 
 \subsection{Data Sources}
 
@@ -150,12 +160,14 @@ GP registration and SUS data will be extracted using SQL. All data analysis and 
 \begin{itemize}
     \item Data completeness
     \item Ethical approval is not required since the data used is pseudonymised and routinely collected and the purpose of this project is for service improvement so this will not impact the project feasibility. 
+    \item Talk about training and experience with R, SQL, and Stella?
 \end{itemize}
 
 
 \section{Timeline}
 
-\tkDE{Gantt Chart}
+% include thesis
+\include{latex/gantt.tex}
 
 \bibliographystyle{unsrt}
 \bibliography{bibliography}

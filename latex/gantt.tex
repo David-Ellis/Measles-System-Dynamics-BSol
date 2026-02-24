@@ -1,0 +1,74 @@
+\hspace*{-2cm}
+\begin{ganttchart}[%Specs
+     x unit = .3cm,  %<---------------------- New x unit 
+     y unit title=0.5cm,
+     y unit chart=0.7cm,
+     vgrid, hgrid,
+     title height=1,
+%     title/.style={fill=none},
+     title label font=\bfseries\footnotesize,
+     bar/.style={fill=blue},
+     bar height=0.7,
+%   progress label text={},
+     group right shift=0,
+     group top shift=0.7,
+     group height=.3,
+     group peaks width={0.2},
+     milestone/.style={fill=magenta},
+     inline]{1}{36}
+    %labels
+
+    \gantttitle[]{Jan}{4}
+    \gantttitle[]{Feb}{4}
+    \gantttitle[]{Mar}{4}
+    \gantttitle[]{Apr}{4}
+    \gantttitle[]{May}{4}
+    \gantttitle[]{Jun}{4}
+    \gantttitle[]{Jul}{4}
+    \gantttitle[]{Aug}{4}
+    \gantttitle[]{Sep}{4}
+    
+    % title
+   % \gantttitle{Q1}{1}                  
+    \\
+    
+
+    % Setting group if any
+     %\ganttgroup[inline=false]{Phase 1: Orientation}{1}{4}\\
+     \ganttgroup[inline=false]{Phase 1: Planning}{1}{10}\\
+    \ganttbar[inline=false]{Project Scoping}{1}{4}\\  
+
+    \ganttbar[inline=false]{Write Protocol Presentation}{4}{7}\\  
+    \ganttmilestone[inline=false]{Present Protocol}{7}\\
+    \ganttbar[inline=false]{Write Protocol}{7}{10}\\  
+    \ganttmilestone[inline=false]{Submit Protocol}{10}\\
+    
+  
+    \ganttgroup[inline=false]{Phase 2: Participatory Model Designing}{4}{11}\\
+    \ganttbar[inline=false]{Stakeholder Mapping}{4}{7}\\  
+    \ganttmilestone[inline=false]{Send workshop invites}{7}\\
+    
+    \ganttbar[inline=false]{Develop Evidence Pack}{7}{10}\\
+    \ganttmilestone[inline=false]{Modelling Workshop}{11}\\
+   
+    \ganttgroup[inline=false]{Phase 3: Model Development}{11}{21}\\
+    \ganttbar[inline=false]{Preliminary modelling building}{11}{14}\\
+    \ganttbar[inline=false]{Calibrate model}{15}{16}\\
+    \ganttmilestone[inline=false]{Present model to stakeholders}{16}\\   
+    \ganttbar[inline=false]{Implement stakeholder feedback}{16}{17}\\
+    \ganttbar[inline=false]{Model interventions}{17}{20}\\
+    
+    \ganttgroup[inline=false]{Phase 3: Data Analysis}{21}{24}\\
+    \ganttbar[inline=false]{Create visualisations in R}{21}{23}\\
+    \ganttbar[inline=false]{Sensitivity Analysis}{22}{24}\\
+    \ganttmilestone[inline=false]{Present preliminary results}{25}\\   
+    
+    \ganttgroup[inline=false]{Phase 3: Thesis writing}{25}{33}\\
+    \ganttbar[inline=false]{Write first draft}{25}{29}\\
+    \ganttmilestone[inline=false]{Submit draft}{29}\\
+    \ganttbar[inline=false]{Implement feedback}{29}{33}\\
+    \ganttbar[inline=false]{Design Poster}{30}{33}\\
+    \ganttmilestone[inline=false]{Present Poster}{33}\\   
+    \ganttmilestone[inline=false]{Submit final thesis}{33}
+    
+\end{ganttchart}
