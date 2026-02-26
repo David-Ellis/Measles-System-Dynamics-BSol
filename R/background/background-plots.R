@@ -79,7 +79,7 @@ ggplot(plot_data, aes(x = Year, y = Value, color = Area)) +
   )
 
 ggsave("figures/background/measles-background.svg")
-ggsave("figures/background/measles-background.png")
+ggsave("figures/background/measles-background.pdf", width = 5, height = 4)
 
 ################################################################################
 #                        Plot coverage by ethnicity                            #
