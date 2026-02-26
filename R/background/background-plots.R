@@ -12,7 +12,7 @@ cases <- read.csv("data/background/EnglandMeaslesCases.csv") %>%
     Year = year
   ) %>%
   mutate(
-    data_type = "Lab-confirmed measles cases",
+    data_type = "Lab-confirmed measles cases (England)",
     Area = "England"
   )
 
@@ -66,19 +66,20 @@ ggplot(plot_data, aes(x = Year, y = Value, color = Area)) +
   xlim(2012, 2025) +
   theme(
     legend.position = "top",
-    strip.background = element_rect(fill="white")
+    strip.background = element_rect(fill="white"),
+    legend.box.margin = margin(0,0,-10,0)
   ) +
   labs(
     color = "",
     y = "", 
-    x = ""
+    x = "Year"
     ) +
   scale_color_manual(
     breaks = c("England", "Birmingham & Solihull"),
     values = c("#BF352D", "#2B6298")
   )
 
-ggsave("figures/background/measles-background.svg")
+ggsave("figures/background/measles-background.svg", width = 5, height = 4)
 ggsave("figures/background/measles-background.pdf", width = 5, height = 4)
 
 ################################################################################
