@@ -11,7 +11,9 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage[english]{babel}
 \usepackage{pgfgantt}
-
+\usepackage{biblatex}
+\bibliography{latex/bibliography}
+\newcommand{\mycitethis}{\tkDE{[?]}}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
 \usepackage{verbatim}
@@ -27,7 +29,7 @@
 
 \usepackage{xcolor}
 \newcommand{\tkDE}[1]{\textcolor{magenta}{#1}} 
-%\newcommand{\tkDE}[1]{\textcolor{magenta}{\textbf{David}: #1}}  
+\newcommand{\citethis}{\tkDE{[?]}}
 
 \newcommand{\diff}{\mathrm{d}}  
 
@@ -41,14 +43,21 @@
 
 \section{Background}
 
+Measles is a highly infectious viral disease that can have serious complications and fatality \cite{WHO_measles_topic}. 
+In high-income countries, complications occur in around 10-20\% of cases and the case fatality ratio is around 0.05\% in  \cite{wolfson2009estimates, NICE2024MeaslesComplications}. Clinically vulnerable groups, such as immunosuppressed individuals, infants under one year, and pregnant people, are more likely to develop complications \cite{NHSEngland2024MeaslesGuidance}. 
+
+A measles vaccine has existed since... It is estimated that the introduction of this vaccine has prevented... England vaccine schedule... However, vaccine coverage is now falling globally and in England... 
+
+
+
 \begin{itemize}
     \item What is measles?
     \item Measles vaccinations 
-    \item Variations in vaccination with focus on ethnicity \cite{Williams02092014, Tabacchi02072016}
+    \item Variations in vaccination with focus on ethnicity \cite{Tabacchi02072016}
     \item Why this matters in Birmingham
     \item System dynamics - values determined from the literature and expert 
     \item Participatory modelling
-    \item Governance context (measles elimination strategy, UKHSA Immunisation Equity Strategy)
+    \item Governance context (measles elimination strategy, UKHSA Immunisation Equity Strategy, all six regions of the World Health Organization (WHO) have declared measles elimination goals \cite{WHO_measles_topic})
 \end{itemize}
 
 % What is measles?
@@ -83,7 +92,7 @@ This project requires a three pronged literature review:
     \item Interventions used to increase child vaccinations
 \end{itemize}
 
-We will use Medline, Proquest, and Web of Science. Additionally, local intelligence will also be identified through consultation with health protection leads at BCC and Solihull Metropolitan Council. 
+We will adopt a semi-structured approach finding literature. We will use Medline and Proquest and supplement with additional papers found through other means. Local intelligence will also be identified through consultation with health protection leads at BCC and Solihull Metropolitan Council. English language papers published in the last 10 years (2016 or more recent).
 
 \subsection{Modelling Measles Epidemics}
 (vaccine OR vaccination) AND measles AND simulation
@@ -95,11 +104,20 @@ We see that, to date, there has not been a attempt to simulate a measles vaccina
 \tkDE{Prisma flow diagram (optional extra)}
 
 \subsection{Factors influencing vaccine decisions}
-Specifically related to parental decisions to vaccinate their children.
+Specifically related to parental decisions to vaccinate their children. 
 
-vaccine AND (barrier* OR hesitancy) AND (child OR parent)
+(vaccine or vaccination or immunisation) AND (barrier OR hesitancy) AND (child OR parent) AND (measles OR MMR)
 
-\tkDE{Prisma flow diagram (optional extra)}
+(noft(vaccine) or noft(vaccination) or noft(immunisation)) AND (noft(barrier) OR noft(hesitancy)) AND (noft(child) OR noft(parent)) AND (noft(measles) OR noft(MMR))
+
+PubMed - 16 results (specifically filtered for systematic reviews and meta analyses)
+ProQuest - 35 results
+
+One study excluded since it related specifically to conflict setting.
+
+Papers included are presented in Table.~\ref{tab:vaccine-hesitancy-papers}.
+
+%\tkDE{Prisma flow diagram (optional extra)}
 
 \subsection{MMR uptake interventions}
 What are the barriers to vaccinations?
@@ -169,8 +187,9 @@ GP registration and SUS data will be extracted using SQL. All data analysis and 
 % include thesis
 \include{latex/gantt.tex}
 
-\bibliographystyle{unsrt}
-\bibliography{bibliography}
+%\bibliographystyle{unsrt}
+%\bibliography{bibliography}
+\printbibliography
 
 \newpage
 \appendix
@@ -186,14 +205,44 @@ GP registration and SUS data will be extracted using SQL. All data analysis and 
     \label{tab:placeholder}
 \end{table}
 
+
 \begin{table}[ht!]
-    \centering
-    \begin{tabular}{c|c}
-         &  \\
-         & 
-    \end{tabular}
-    \caption{Papers on parental vaccine hesitancy.}
-    \label{tab:placeholder}
+\begin{tabular}{p{0.6\linewidth} | p{0.15\linewidth} | p{0.06\linewidth} | p{0.1\linewidth}}
+\toprule
+\textbf{Title} & \textbf{Authors} & \textbf{Year} & \textbf{Citation} \\ \midrule
+
+\citetitle{novilla2023parents} & \citeauthor*{novilla2023parents} & \citeyear{novilla2023parents}  & \cite{novilla2023parents} \\ \midrule
+
+\citetitle{essa2024understanding} & \citeauthor*{essa2024understanding} & \citeyear{essa2024understanding}  & \cite{essa2024understanding} \\ \midrule
+
+\citetitle{maamor2024prevalence} & \citeauthor*{maamor2024prevalence} & \citeyear{maamor2024prevalence}  & \cite{maamor2024prevalence} \\ \midrule
+
+\citetitle{wilder2020resurgence} & \citeauthor*{wilder2020resurgence} & \citeyear{wilder2020resurgence}  & \cite{wilder2020resurgence} \\ \midrule
+
+\citetitle{crawshaw2022defining} & \citeauthor*{crawshaw2022defining} & \citeyear{crawshaw2022defining}  & \cite{crawshaw2022defining} \\ \midrule
+
+\citetitle{ames2017parents} & \citeauthor*{ames2017parents} & \citeyear{ames2017parents}  & \cite{ames2017parents} \\ \midrule
+
+\citetitle{halliday2025vaccine} & \citeauthor*{halliday2025vaccine} & \citeyear{halliday2025vaccine}  & \cite{halliday2025vaccine} \\ \midrule
+
+\citetitle{bocquier2017socioeconomic} & \citeauthor*{bocquier2017socioeconomic} & \citeyear{bocquier2017socioeconomic}  & \cite{bocquier2017socioeconomic} \\ \midrule
+
+\citetitle{baiocchi2025parental} & \citeauthor*{baiocchi2025parental} & \citeyear{baiocchi2025parental}  & \cite{baiocchi2025parental} \\ \midrule
+
+\citetitle{gschwend2026shadow} & \citeauthor*{gschwend2026shadow} & \citeyear{gschwend2026shadow}  & \cite{gschwend2026shadow} \\ \midrule
+
+\citetitle{cagnotta2025parental} & \citeauthor*{cagnotta2025parental} & \citeyear{cagnotta2025parental}  & \cite{cagnotta2025parental} \\ \midrule
+
+\citetitle{tankwanchi2021vaccine} & \citeauthor*{tankwanchi2021vaccine} & \citeyear{tankwanchi2021vaccine}  & \cite{tankwanchi2021vaccine} \\ \midrule
+
+\citetitle{torracinta2021mmr} & \citeauthor*{torracinta2021mmr} & \citeyear{torracinta2021mmr}  & \cite{torracinta2021mmr} \\ \midrule
+
+\citetitle{Tabacchi02072016} & \citeauthor*{Tabacchi02072016} & \citeyear{Tabacchi02072016}  & \cite{Tabacchi02072016} \\ 
+
+\bottomrule
+\end{tabular}
+    \caption{Papers on vaccine hesitancy.}
+    \label{tab:vaccine-hesitancy-papers}
 \end{table}
 
 \begin{table}[ht!]
