@@ -19,7 +19,7 @@
 \usepackage{verbatim}
 
 \newcommand{\detailtexcount}[1]{%
-  \immediate\write18{texcount -merge -sum -q #1.tex output.bbl > #1.wcdetail }%
+  \immediate\write18{texcount -merge -sum -q main.tex output.bbl > #1.wcdetail }%
   \verbatiminput{#1.wcdetail}%
 }
 
@@ -46,8 +46,15 @@
 Measles is a highly infectious viral disease that can have serious complications and fatality \cite{WHO_measles_topic}. 
 In high-income countries, complications occur in around 10-20\% of cases and the case fatality ratio is around 0.05\% in  \cite{wolfson2009estimates, NICE2024MeaslesComplications}. Clinically vulnerable groups, such as immunosuppressed individuals, infants under one year, and pregnant people, are more likely to develop complications \cite{NHSEngland2024MeaslesGuidance}. 
 
-A measles vaccine has existed since... It is estimated that the introduction of this vaccine has prevented... England vaccine schedule... However, vaccine coverage is now falling globally and in England... 
+The first measles vaccine was licensed in the US in 1963\cite{MOSS20172490}. The measles vaccine was first introduced in the UK in 1968, later replaced by the combined measles, mumps, and rubella (MMR) vaccine in 1988 \cite{ukhsa_vaccination_timeline_1796_present}. As of 1 January 2026, varicella has been added to make the MMRV vaccine. In the UK all children are offered a first dose of MMRV when they turn 12 months and a second dose at 18 months \cite{UKHSA2023MeaslesRubellaElimination}. The World Health Organisation (WHO) estimates that between 2000 and 2024, the measles vaccine has prevented  59 million deaths \cite{mondiale2025weekly}. 
 
+The UK achieved measles elimination in 2016 \cite{UKHSA2023MeaslesRubellaElimination}. However, measles outbreaks are again becoming increasing common in the UK as well as globally due to falling vaccine coverage rates \cite{minta2023progress}. Figure...
+
+
+
+% Nearly 59 million lives have been saved by the measles vaccine since 2000
+
+England vaccine schedule... However, vaccine coverage is now falling globally and in England... 
 
 
 \begin{itemize}
@@ -57,7 +64,7 @@ A measles vaccine has existed since... It is estimated that the introduction of 
     \item Why this matters in Birmingham
     \item System dynamics - values determined from the literature and expert 
     \item Participatory modelling
-    \item Governance context (measles elimination strategy, UKHSA Immunisation Equity Strategy, all six regions of the World Health Organization (WHO) have declared measles elimination goals \cite{WHO_measles_topic})
+    \item Governance context (measles elimination strategy, UKHSA Immunisation Equity Strategy, all six regions of the World Health Organization (WHO) have declared measles elimination goals \cite{WHO_measles_topic}, Millennium Development Goal 4 to reduce child mortality, The European Immunization Agenda 2030.)
 \end{itemize}
 
 % What is measles?
@@ -114,7 +121,7 @@ PubMed - 16 results (specifically filtered for systematic reviews and meta analy
 ProQuest - 35 results
 
 One study excluded since it related specifically to conflict setting.
-
+% https://link.springer.com/article/10.1007/s10900-014-9956-1
 Papers included are presented in Table.~\ref{tab:vaccine-hesitancy-papers}.
 
 %\tkDE{Prisma flow diagram (optional extra)}
