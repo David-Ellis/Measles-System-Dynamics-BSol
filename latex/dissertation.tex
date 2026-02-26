@@ -10,15 +10,12 @@
 \usepackage{amssymb}
 \usepackage[dvipsnames]{xcolor}
 \usepackage[english]{babel}
-
+\usepackage{biblatex}
+\bibliography{latex/bibliography}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
 \usepackage{verbatim}
 
-\newcommand{\detailtexcount}[1]{%
-  \immediate\write18{texcount -merge -sum -q #1.tex output.bbl > #1.wcdetail }%
-  \verbatiminput{#1.wcdetail}%
-}
 
 % Change font
 \usepackage{helvet}
@@ -61,9 +58,6 @@ Following approach from \cite{van2020explaining} using Stella Architect.
 
 \section{Discussion}
 
-
-\bibliographystyle{unsrt}
-\bibliography{bibliography}
 
 
 \end{document}
