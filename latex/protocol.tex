@@ -48,24 +48,28 @@ In high-income countries, complications occur in around 10-20\% of cases and the
 
 The first measles vaccine was licensed in the US in 1963\cite{MOSS20172490}. The measles vaccine was first introduced in the UK in 1968, later replaced by the combined measles, mumps, and rubella (MMR) vaccine in 1988 \cite{ukhsa_vaccination_timeline_1796_present}. As of 1 January 2026, varicella has been added to make the MMRV vaccine. In the UK all children are offered a first dose of MMRV when they turn 12 months and a second dose at 18 months \cite{UKHSA2023MeaslesRubellaElimination}. The World Health Organisation (WHO) estimates that between 2000 and 2024, the measles vaccine has prevented  59 million deaths \cite{mondiale2025weekly}. 
 
-The UK achieved measles elimination in 2016 \cite{UKHSA2023MeaslesRubellaElimination}. However, measles outbreaks are again becoming increasing common in the UK as well as globally due to falling vaccine coverage rates \cite{minta2023progress}. Figure...
+The UK achieved measles elimination in 2016 \cite{UKHSA2023MeaslesRubellaElimination}. However, measles outbreaks are again becoming increasing common in the UK as well as globally due to falling vaccine coverage rates \cite{minta2023progress}. The top half of Figure.~\ref{fig:measles-background} shows the that there has been a series of measles outbreaks in England since January 2012. 
 
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/background/measles-background.pdf}
-    \caption{Caption}
+    \includegraphics[width=0.7\linewidth]{figures/background/measles-background.pdf}
+    \caption{ (Top) Monthly lab-confirmed cases of measles in England \cite{UKHSA2025MMRLabConfirmedCasesQ3}. (Bottom) Yearly MMR coverage for one dose at two years old \cite{FTips}.}
     \label{fig:measles-background}
 \end{figure}
 
+The bottom half of Figure.~\ref{fig:measles-background} shows that these outbreaks have occurred in a context of falling vaccination coverage nationally from a peak of 92.7\% in 2013 down to 88.9\% in 2024. However, in Birmingham and Solihull, the  coverage started lower and has fallen further than the England average from a peak of 89.7\% in 2014 down to 81.3\% in 2024 \cite{FTips}. This has contributed to the region suffering large measles outbreaks \cite{jary2025sociodemographic}.
 
-% Nearly 59 million lives have been saved by the measles vaccine since 2000
+Part of the reason for the falling MMR coverage is the growing scepticism in vaccines \citethis. While this is a trend for most vaccines, there has been particular public concern about the MMR vaccine due to the infamous, since retracted, claim by one research group that the MMR vaccine might cause autism \cite{wakefield1998retracted, godlee2011wakefield}. However, there many factors leading to vaccine hesitancy that impact different groups differently. As a result, there is significant ethnic and socioeconomic inequality in MMR coverage \citethis.
 
-England vaccine schedule... However, vaccine coverage is now falling globally and in England... 
+\tkDE{Ethnicity, religion, deprivation and vaccine hesitancy.}
 
+\tkDE{Birmingham is the most ethnically diverse core city in England and Wales \footnote{England and Wales Core Cities include Birmingham, Bristol, Cardiff, Leeds, Liverpool, Manchester, Newcastle, Nottingham, and Sheffield.}. In the 2021 census, 51.5\% of BSol residents described themselves as something other than "White British". After the White British group (48.5\%), the largest groups were Pakistani (14.9\%), Indian (5.7\%), Black African (5.0\%), and Other White (3.8\%) \cite{ONS2021census}.}
+
+\cite{Tabacchi02072016} Finds that 78\% of the cases in Birmingham between 13 October 2023 and 12 April 2024 occurred in the most deprived areas (quntile 1).
+
+\tkDE{Give MMR coverage by ethnicity graph.}
 
 \begin{itemize}
-    \item What is measles?
-    \item Measles vaccinations 
     \item Variations in vaccination with focus on ethnicity \cite{Tabacchi02072016}
     \item Why this matters in Birmingham
     \item System dynamics - values determined from the literature and expert 
@@ -130,6 +134,14 @@ One study excluded since it related specifically to conflict setting.
 % https://link.springer.com/article/10.1007/s10900-014-9956-1
 Papers included are presented in Table.~\ref{tab:vaccine-hesitancy-papers}.
 
+Breakdown according to COM-B pillars?
+
+\subsubsection{Capability}
+
+\subsubsection{Opportunity}
+
+\subsubsection{Motivation}
+
 %\tkDE{Prisma flow diagram (optional extra)}
 
 \subsection{MMR uptake interventions}
@@ -155,7 +167,7 @@ Long term, the aim is to develop a dashboard for health protection teams working
 
 \section{Methods}
 
-\subsection{System Dynamics}
+\subsection{Introduction to System Dynamics}
 Following approach from \cite{van2020explaining} using Stella Architect. Stocks and flows. \tkDE{Include example diagram?}
 
 \begin{itemize}
@@ -168,16 +180,46 @@ Following approach from \cite{van2020explaining} using Stella Architect. Stocks 
 
 Following approach from Michail et. al \cite{michail2025evaluation}. 
 
-Currently (\tkDE{24/02/2026}), \tkDE{five}, stakeholders have agreed to participate in the modelling workshop. Stakeholder organisations include BCC, Solihull Metropolitan Council, and BSol NHS ICB.
+Currently (\tkDE{26/02/2026}), \tkDE{eight}, stakeholders have agreed to participate in the modelling workshop. Stakeholder organisations include BCC (5), Solihull Metropolitan Council (1), and BSol NHS ICB (2). To help promote full participation, stakeholders will be separated into \tkDE{two} groups. The make-up of each group will be chosen to create the best spread of background and expertise. For example, two of the participants from the BSol ICB have prior experience in system dynamics and will therefore be split up to maximise the conceptual support given to each group. 
 
-\tkDE{Agenda dynamics}
+Participants will be sent an evidence pack outlining the rational behind using a system dynamics approach rather than a more traditional outbreak simulation technique as well as published and local evidence on the systemic, sociological, and psychological barriers that prevent parents from vaccinating their children. 
+
+Input from the participants will be collected on paper and sticky notes. At the end of the session, all materials will be photographed and later transcribed. For transparency, the photos and transcriptions will be made publicly available via the GitHub repository. The session will be facilitated with the help of the BCC Governance Team. 
+
+\subsubsection{Part 1 - Introduction}
+\begin{itemize}
+    \item High-level overview of the evidence pack
+    \item Practical model building task to help participants understand the basics behind system dynamics using an an normal-life example that everyone can equally relate to and engage with (probably the banking example)
+    \end{itemize}
+
+\subsubsection{Part 2 - Model building}
+\begin{itemize}
+    \item Stakeholders will be presented with a simplified measles "model" showing the main stocks (states) in the system (\tkDE{Outline and probably include a diagram}). For each of the key flows between stocks, participants will be asked to use sticky notes to give factors that facilitate and block the flow. Once the factors are listed, participants will be given a limited number of stickers each to vote on the factors for each flow that they think are dominant. While all factors are important, this will help to focus the model on the factors with the biggest influence on the model's behaviour.
+\end{itemize}
+
+\subsubsection{Part 3 - Interventions}
+\begin{itemize}
+    \item Participants will be asked to identify which flows they think are problematic (Assuming given model is complex enough to justify this step).
+    \item Participants will then be asked to identify policies and interventions that could change this behaviour and, for each to identify clearly who will be doing what, where in the system this will occur, and what the expected direction of change is.
+    \item This information will also be collected on sticky notes. 
+    \item Each group will then choose two or three interventions to share with the group. Once all the interventions are collected, Menti will then be used to allow every participant to rank each intervention by preference. This will help to focus the project on the interventions that stakeholders think are the most worth focusing on based on their feasibility and impracticability. 
+\end{itemize}
+
+\subsection{Model Development}
+\begin{itemize}
+    \item Basic model development
+    \item Take back to stakeholders for validation
+    \item Calibration
+    \item Intervention implementation
+    \item Feed back to stakeholders as required
+\end{itemize}
 
 \subsection{Data Sources}
 
 \begin{itemize}
     \item Population data (GP registrations) – BSol ICB
     \item Child MMR vaccinations – Federated data platform
-    \item Measles nonfictions – UKHSA (FOI)
+    \item Measles lab-confirmed notifications – UKHSA (FOI)
     \item Hospitalisation data – BSol ICB
 \end{itemize}
 
@@ -198,10 +240,12 @@ GP registration and SUS data will be extracted using SQL. All data analysis and 
 \section{Timeline}
 
 % include thesis
-\include{latex/gantt.tex}
+\include{latex/gantt}
 
 %\bibliographystyle{unsrt}
 %\bibliography{bibliography}
+
+%TC:ignore
 \printbibliography
 
 \newpage
