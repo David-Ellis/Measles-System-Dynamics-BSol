@@ -102,12 +102,18 @@ mmr_by_eth <- read.csv("data/background/mmr-by-ethnicity-bsol.csv") %>%
         )
       )
     ) %>%
-  arrange(desc(group))
+  arrange(desc(group)) %>%
+  mutate(
+    p_hat = vaccinated_perc,
+    Z = qnorm(0.975),
+    LowerCI95 =  (p_hat + Z^2/(2*patients) - Z * sqrt((p_hat*(1-p_hat)/patients) + Z^2/(4*patients^2))) / (1 + Z^2/patients),
+    UpperCI95 = (p_hat + Z^2/(2*patients) + Z * sqrt((p_hat*(1-p_hat)/patients) + Z^2/(4*patients^2))) / (1 + Z^2/patients)
+  )
 
 mmr_by_eth$ethnicity <- factor(
   mmr_by_eth$ethnicity,
   levels = unique(mmr_by_eth$ethnicity)
-)
+) 
 
 bsol_average <- mmr_by_eth %>%
   summarise(
@@ -120,6 +126,8 @@ ggplot(
   aes(y = ethnicity, x = vaccinated_perc)
 ) +
   geom_col(fill = "#2B6298") +
+  geom_errorbar(aes(xmin = LowerCI95, xmax = UpperCI95),
+                width = 0.4, lwd = 0.8) +
   geom_vline(
     aes(
       xintercept = bsol_average,
@@ -133,7 +141,9 @@ ggplot(
     fill = ""
   ) +
   theme(
-    legend.position = "top"
+    legend.position = "top",
+    plot.margin = margin(, 0.5, , , "cm"),
+    legend.box.margin = margin(0,0,-10,0)
   ) + 
   scale_x_continuous(
     labels = scales::percent,
@@ -145,5 +155,5 @@ ggplot(
     name = NULL
   )
 
-ggsave("figures/background/mmr-background.svg")
-ggsave("figures/background/mmr-background.png")
+ggsave("figures/background/mmr-background.svg", width = 6.5, height = 4)
+ggsave("figures/background/mmr-background.pdf", width = 6.5, height = 4)
