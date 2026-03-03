@@ -33,7 +33,7 @@
 
 \newcommand{\diff}{\mathrm{d}}  
 
-\title{Research Protocol: Ethnicity-based System Dynamics Model of Measles Vaccinations in Birmingham and Solihull}
+\title{Protocol: Ethnicity-based System Dynamics Model of Measles Vaccinations in Birmingham and Solihull}
 \author{David Ellis}
 
 \date{}
@@ -46,7 +46,7 @@
 Measles is a highly infectious viral disease that can have serious complications and fatality \cite{WHO_measles_topic}. 
 In high-income countries, complications occur in around 10-20\% of cases and the case fatality ratio is around 0.05\% in  \cite{wolfson2009estimates, NICE2024MeaslesComplications}. Clinically vulnerable groups, such as immunosuppressed individuals, infants under one year, and pregnant people, are more likely to develop complications \cite{NHSEngland2024MeaslesGuidance}. 
 
-The first measles vaccine was licensed in the US in 1963\cite{MOSS20172490}. The measles vaccine was first introduced in the UK in 1968, later replaced by the combined measles, mumps, and rubella (MMR) vaccine in 1988 \cite{ukhsa_vaccination_timeline_1796_present}. As of 1 January 2026, varicella has been added to make the MMRV vaccine. In the UK all children are offered a first dose of MMRV when they turn 12 months and a second dose at 18 months \cite{UKHSA2023MeaslesRubellaElimination}. The World Health Organisation (WHO) estimates that between 2000 and 2024, the measles vaccine has prevented  59 million deaths \cite{mondiale2025weekly}. 
+The first measles vaccine was licensed in the US in 1963 \cite{MOSS20172490}. The measles vaccine was first introduced in the UK in 1968, later replaced by the combined measles, mumps, and rubella (MMR) vaccine in 1988 \cite{ukhsa_vaccination_timeline_1796_present}. As of 1 January 2026, varicella has been added to make the MMRV vaccine. In the UK all children are offered a first dose of MMRV when they turn 12 months and a second dose at 18 months \cite{UKHSA2023MeaslesRubellaElimination}. The World Health Organisation (WHO) estimates that between 2000 and 2024, the measles vaccine has prevented  59 million deaths \cite{mondiale2025weekly}. 
 
 The UK achieved measles elimination in 2016 \cite{UKHSA2023MeaslesRubellaElimination}. However, measles outbreaks are again becoming increasing common in the UK as well as globally due to falling vaccine coverage rates \cite{minta2023progress}. The top half of Figure.~\ref{fig:measles-background} shows the that there has been a series of measles outbreaks in England since January 2012. 
 
@@ -57,48 +57,26 @@ The UK achieved measles elimination in 2016 \cite{UKHSA2023MeaslesRubellaElimina
     \label{fig:measles-background}
 \end{figure}
 
-The bottom half of Figure.~\ref{fig:measles-background} shows that these outbreaks have occurred in a context of falling vaccination coverage nationally from a peak of 92.7\% in 2013 down to 88.9\% in 2024. However, in Birmingham and Solihull, the  coverage started lower and has fallen further than the England average from a peak of 89.7\% in 2014 down to 81.3\% in 2024 \cite{FTips}. This has contributed to the region suffering large measles outbreaks \cite{jary2025sociodemographic}.
 
-Part of the reason for the falling MMR coverage is the growing scepticism in vaccines \citethis. While this is a trend for most vaccines, there has been particular public concern about the MMR vaccine due to the infamous, since retracted, claim by one research group that the MMR vaccine might cause autism \cite{wakefield1998retracted, godlee2011wakefield}. However, there many factors leading to vaccine hesitancy that impact different groups differently. As a result, there is significant ethnic and socioeconomic inequality in MMR coverage \citethis.
+The bottom half of Figure.~\ref{fig:measles-background} shows that these outbreaks have occurred in a context of falling vaccination coverage nationally from a peak of 92.7\% in 2013 down to 88.9\% in 2024.  However, in Birmingham and Solihull, the  coverage started lower and has fallen further than the England average from a peak of 89.7\% in 2014 down to 81.3\% in 2024 \cite{FTips}. This has contributed to the region suffering large measles outbreaks \cite{jary2025sociodemographic}. 
 
-\tkDE{Ethnicity, religion, deprivation and vaccine hesitancy.}
+Part of the reason for the falling MMR coverage is the growing scepticism in vaccines \citethis. While this is a trend for most vaccines, there has been particular public concern about the MMR vaccine due to the infamous, since retracted, claim by one research group that the MMR vaccine might cause autism \cite{novilla2023parents, wakefield1998retracted, godlee2011wakefield}. However, there many factors leading to vaccine hesitancy that impact different groups differently including misinformation, health literacy, and lack of trust in the healthcare system \cite{cagnotta2025parental}. Some groups, such as Gypsy, Roma, and Traveller populations, also face additional barriers to accessing the vaccine \cite{wilder2020resurgence}. As a result, significant ethnic and socioeconomic inequality has been observed in MMR coverage \cite{Flatte079550, zhang2023ethnic}. 
 
-\tkDE{Birmingham is the most ethnically diverse core city in England and Wales \footnote{England and Wales Core Cities include Birmingham, Bristol, Cardiff, Leeds, Liverpool, Manchester, Newcastle, Nottingham, and Sheffield.}. In the 2021 census, 51.5\% of BSol residents described themselves as something other than "White British". After the White British group (48.5\%), the largest groups were Pakistani (14.9\%), Indian (5.7\%), Black African (5.0\%), and Other White (3.8\%) \cite{ONS2021census}.}
+During the outbreak in Birmingham from 13 October 2023 the measles infection rate was 3.4 times higher for those living in the most deprived quintile compared to those living in the third most deprived quintile. No infections occurred in the least deprived quintile. Additionally, the infection rate for Black African residents was eight times greater than the white British population \cite{Tabacchi02072016}. Figure.~\ref{fig:BSol-mmr-eth} shows that, except for those of Indian heritage, children off all ethnic groups have lower MMR coverage at one dose than the White British cohort. The Black African and Black Caribbean have particularly low coverage at 74.2\% and 64.0\% respectively compared to 92.9\% for Whit British \cite{NHSEngland2026FDP}. 
 
-\cite{Tabacchi02072016} Finds that 78\% of the cases in Birmingham between 13 October 2023 and 12 April 2024 occurred in the most deprived areas (quntile 1).
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.91\linewidth]{figures/background/mmr-background.pdf}
+    \caption{Percentage of children aged less than six years old living in Birmingham and Solihull who have received at least one dose of MMR or MMRV as of 04/02/2026 \cite{NHSEngland2026FDP}. The error bars indicate the 95\% CI calculated using the Wilson method.}
+    \label{fig:BSol-mmr-eth}
+\end{figure}
 
-\tkDE{Give MMR coverage by ethnicity graph.}
-
-\begin{itemize}
-    \item Variations in vaccination with focus on ethnicity \cite{Tabacchi02072016}
-    \item Why this matters in Birmingham
-    \item System dynamics - values determined from the literature and expert 
-    \item Participatory modelling
-    \item Governance context (measles elimination strategy, UKHSA Immunisation Equity Strategy, all six regions of the World Health Organization (WHO) have declared measles elimination goals \cite{WHO_measles_topic}, Millennium Development Goal 4 to reduce child mortality, The European Immunization Agenda 2030.)
-\end{itemize}
-
-% What is measles?
-%Measles is a highly-contagious airborne virus
-
-% measles vaccination
-%Vaccine available since 1971 (Now the MMR vaccine)
-%NHS MMR vaccine schedule.
-%New MMRV vaccine.
-
-%UK declared measles free in 2017
-
-%Due to falling vaccination rates, measles outbreaks are becoming increasingly common
-
-% Ethnic variations in vaccination
-%There are significant differences in vaccination coverage across ethnicity
-
-% System dynamics
-
-% Participatory modelling
+Among the Core Cities of England and Wales\footnote{England and Wales Core Cities include Birmingham, Bristol, Cardiff, Leeds, Liverpool, Manchester, Newcastle, Nottingham, and Sheffield.}, Birmingham has the highest level of ethnic diversity. Data from the 2021 Census show that just under half (48.5\%) of Birmingham and Solihull residents identified as White British, meaning that a majority (51.5\%) reported a different ethnic background. This is almost double the England average of 26.5\%. The largest ethnic minority groups were Pakistani (14.9\%), Indian (5.7\%), Black African (5.0\%), and Other White (3.8\%) \cite{ONS2021census}.
 
 
+All six regions of the World Health Organization (WHO) have declared measles elimination goals \cite{WHO_measles_topic}. The UK Measles and Rubella elimination strategy 2019 set the MMR vaccination target, based on WHO recommendation, to 95\% of two doses by 5 years of age in order to achieve and maintain measles elimination \cite{public2019uk}. The Public Health England (PHE) immunisation inequalities local action plan template outlines that factors responsible for inequitable vaccine uptake are context specific \cite{PHE2021ImmunisationInequalities}. Therefore, in order to reverse the falling measles vaccine coverage and growing health inequalities, it is therefore imperative that we understand the range of factors influencing parent's decision to vaccinate their children and how these factors are influenced by ethnicity. 
 
-%Factors influencing parental vaccine hesitancy \cite{Williams02092014}. MMR hesitancy in Europe meta analysis \cite{Tabacchi02072016}.
+This project aims to build a decision-support system in collaboration with a range of local health protection experts working in Birmingham and Solihull. An interactive workshop will be hosted to identify behavioural and epidemiological factors that facilitate and block flows in the system and to identify potential interventions to improve these flows. This model, including selected interventions, will be built using a system dynamics approach.
 
 \section{Literature Review}
 
@@ -125,22 +103,14 @@ Specifically related to parental decisions to vaccinate their children.
 
 (vaccine or vaccination or immunisation) AND (barrier OR hesitancy) AND (child OR parent) AND (measles OR MMR)
 
-(noft(vaccine) or noft(vaccination) or noft(immunisation)) AND (noft(barrier) OR noft(hesitancy)) AND (noft(child) OR noft(parent)) AND (noft(measles) OR noft(MMR))
-
 PubMed - 16 results (specifically filtered for systematic reviews and meta analyses)
 ProQuest - 35 results
 
 One study excluded since it related specifically to conflict setting.
 % https://link.springer.com/article/10.1007/s10900-014-9956-1
+%  PHE immunisation health equity audit includes an evidence-based model which describes the factors influencing inequality in vaccination uptake in high income settings
 Papers included are presented in Table.~\ref{tab:vaccine-hesitancy-papers}.
 
-Breakdown according to COM-B pillars?
-
-\subsubsection{Capability}
-
-\subsubsection{Opportunity}
-
-\subsubsection{Motivation}
 
 %\tkDE{Prisma flow diagram (optional extra)}
 
@@ -149,7 +119,7 @@ What are the barriers to vaccinations?
 
 intervention AND vaccination AND MMR
 
-\tkDE{Prisma flow diagram (optional extra)}
+% Evaluating the impact of national and regional measles catch-up activity on MMR vaccine coverage in England, 2023 to 2024 https://www.gov.uk/government/publications/evaluation-of-vaccine-uptake-during-the-2023-to-2024-mmr-catch-up-campaigns-in-england/evaluating-the-impact-of-national-and-regional-measles-catch-up-activity-on-mmr-vaccine-coverage-in-england-2023-to-2024
 
 \section{Research Objectives}
 
