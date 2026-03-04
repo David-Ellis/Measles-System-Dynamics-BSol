@@ -15,9 +15,10 @@
 \bibliography{latex/bibliography}
 \newcommand{\mycitethis}{\tkDE{[?]}}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{lscape}
 
 \usepackage{verbatim}
-
+\usepackage{geometry}
 \newcommand{\detailtexcount}[1]{%
   \immediate\write18{texcount -merge -sum -q main.tex output.bbl > #1.wcdetail }%
   \verbatiminput{#1.wcdetail}%
@@ -80,28 +81,48 @@ This project aims to build a decision-support system in collaboration with a ran
 
 \section{Literature Review}
 
-This project requires a three pronged literature review:
-\begin{itemize}
-    \item Modelling measles epidemics including vaccination (in UK/Europe?)
-    \item Factors influencing parents decisions to vaccinate their children
-    \item Interventions used to increase child vaccinations
-\end{itemize}
+This project requires a three pronged literature review. Firstly, a surface-level review will be conducted into the primary computational methods that have used to simulate epidemics including vaccinations. This review will assess the strengths and weaknesses of each method and to what extent they have been applied to address inequalities in measles vaccination. Reviews will be also be conducted on the factors that influence parents decisions to vaccinate their children as well as a review of interventions that have been conducted to increase childhood vaccinations. These last two reviews will compiled into an evidence pack that will be provided to stakeholders to support the participatory modelling workshop. 
 
-We will adopt a semi-structured approach finding literature. We will use Medline and Proquest and supplement with additional papers found through other means. Local intelligence will also be identified through consultation with health protection leads at BCC and Solihull Metropolitan Council. English language papers published in the last 10 years (2016 or more recent).
+A semi-structured approach will be adopted to finding literature. Literature will be sourced from PubMed and Proquest and supplemented with additional papers found through other means. Local intelligence will also be identified through consultation with health protection leads at BCC and Solihull Metropolitan Council. All three reviews will consider only English language papers published in the last 5 years for simulation methods and the last 10 years for vaccination barriers and interventions (2016 or more recent).
 
 \subsection{Modelling Measles Epidemics}
-(vaccine OR vaccination) AND measles AND simulation
+\label{sec:modelling-papers}
+The following search equation was used to identify methods-focused papers on the simulation of measles including vaccination:
+\vspace{-5px}
+\begin{verbatim}
+("measles") 
+AND ("mathematical model*" OR "transmission model*" OR 
+     "compartmental model*" OR "SEIR" OR "System dynamics")
+AND (vaccin*) 
+AND ("model structure" OR parameter* OR calibration OR validation)
+\end{verbatim}
 
-\tkDE{Focus on why not other methods.}
+There were 26 and 48 papers identified by PubMed and ProQuest respectively. After removing duplicates and screening the titles and abstracts for relevance there where 26 papers remaining. Due to their relevance, two papers outside the given scope were also included. The papers included are presented in Table.~\ref{tab:modelling-papers}.
 
-We see that, to date, there has not been a attempt to simulate a measles vaccination system that considers the interaction between epidemiological and behavioural factors including the variation in these factors across ethnicity.
+\subsubsection{SEIR Models}
 
-\tkDE{Prisma flow diagram (optional extra)}
+As shown in Table.~\ref{tab:modelling-papers}, the majority of the identified measles simulations used a susceptible, exposed, infectious, recovered (SEIR) model or some variant thereof.   
+
+\subsubsection{System Dynamics}
+
+To the author's knowledge, there has not been a attempt to simulate a measles vaccination system that considers the interaction between epidemiological and behavioural factors including the variation in these factors across ethnicity.
+
+\subsubsection{Other Methods}
+
+
+
 
 \subsection{Factors influencing vaccine decisions}
 Specifically related to parental decisions to vaccinate their children. 
 
-(vaccine or vaccination or immunisation) AND (barrier OR hesitancy) AND (child OR parent) AND (measles OR MMR)
+\begin{verbatim}
+(vaccine OR vaccination OR immunisation)
+AND (barrier OR hesitancy)
+AND (child OR parent) 
+AND (measles OR MMR)
+\end{verbatim}
+
+There were 16 and 35 papers identified by PubMed and ProQuest respectively. 
 
 PubMed - 16 results (specifically filtered for systematic reviews and meta analyses)
 ProQuest - 35 results
@@ -220,21 +241,61 @@ GP registration and SUS data will be extracted using SQL. All data analysis and 
 
 \newpage
 \appendix
+%\begin{landscape}
+\newgeometry{left=1.5cm,right=1.5cm, top=1.5cm}
 \section{Literature Search}
 
-\begin{table}[ht!]
-    \centering
-    \begin{tabular}{c|c}
-         &  \\
-         & 
+\begin{table*}[ht!]
+    \begin{tabular}{p{0.5\linewidth} | p{0.15\linewidth} | p{0.06\linewidth} |p{0.11\linewidth} | p{0.09\linewidth}}
+    \toprule
+    \textbf{Title} & \textbf{Authors} & \textbf{Year} & \textbf{Simulation Type} & \textbf{Citation} \\ \midrule
+
+\citetitle{peter2026assessing} & \citeauthor*{peter2026assessing} & \citeyear{peter2026assessing} & SEIR & \cite{peter2026assessing} \\ \midrule
+\citetitle{chukwu2026forecasting} & \citeauthor*{chukwu2026forecasting} & \citeyear{chukwu2026forecasting} & SEIR + seasonality & \cite{chukwu2026forecasting} \\ \midrule
+\citetitle{peter2025modelling} & \citeauthor*{peter2025modelling} & \citeyear{peter2025modelling} & SEIR & \cite{peter2025modelling} \\ \midrule
+\citetitle{liu2025modelling} & \citeauthor*{liu2025modelling} & \citeyear{liu2025modelling} & SEIR & \cite{liu2025modelling} \\ \midrule
+\citetitle{sinigirira2025assessing} & \citeauthor*{sinigirira2025assessing} & \citeyear{sinigirira2025assessing} & SEIR & \cite{sinigirira2025assessing} \\ \midrule
+\citetitle{rodriguez2025heuristic} & \citeauthor*{rodriguez2025heuristic} & \citeyear{rodriguez2025heuristic} & Heuristic optimisation model & \cite{rodriguez2025heuristic} \\ \midrule
+\citetitle{anwar2025stochastic} & \citeauthor*{anwar2025stochastic} & \citeyear{anwar2025stochastic} & Stochastic  model with AI emulation & \cite{anwar2025stochastic} \\ \midrule
+\citetitle{farhan2025fractional} & \citeauthor*{farhan2025fractional} & \citeyear{farhan2025fractional} & SEIR & \cite{farhan2025fractional} \\ \midrule
+\citetitle{fahimi2025mathematical} & \citeauthor*{fahimi2025mathematical} & \citeyear{fahimi2025mathematical} & SEIR & \cite{fahimi2025mathematical} \\ \midrule
+\citetitle{khan2025deterministic} & \citeauthor*{khan2025deterministic} & \citeyear{khan2025deterministic} & SEIR + memory effects & \cite{khan2025deterministic} \\ \midrule
+\citetitle{sbarra2025fitting} & \citeauthor*{sbarra2025fitting} & \citeyear{sbarra2025fitting} & SEIR & \cite{sbarra2025fitting} \\ \midrule
+\citetitle{zadeh2025public} & \citeauthor*{zadeh2025public} & \citeyear{zadeh2025public} & System Dynamics & \cite{zadeh2025public} \\ \midrule
+\citetitle{robert2024long} & \citeauthor*{robert2024long} & \citeyear{robert2024long} & SEIR & \cite{robert2024long} \\ \midrule
+\citetitle{rasit2024mathematical} & \citeauthor*{rasit2024mathematical} & \citeyear{rasit2024mathematical} & SEIR & \cite{rasit2024mathematical} \\ \midrule
+\citetitle{berhe2024modelling} & \citeauthor*{berhe2024modelling} & \citeyear{berhe2024modelling} & SEIR & \cite{berhe2024modelling} \\ \midrule
+    \citetitle{ibrahim2024threshold} & \citeauthor*{ibrahim2024threshold} & \citeyear{ibrahim2024threshold} & SEIR & \cite{ibrahim2024threshold} \\ \midrule
+
     \end{tabular}
-    \caption{Papers on epidemic modelling.}
-    \label{tab:placeholder}
+    \caption{Method-focused research identified on simulations of measles transmission including vaccination as outlined in Sec.~\ref{sec:modelling-papers} (Continued on next page).}
+    \label{tab:modelling-papers}
+\end{table*}
+
+\addtocounter{table}{-1}
+\begin{table}[ht!]
+    \begin{tabular}{p{0.5\linewidth} | p{0.15\linewidth} | p{0.06\linewidth} |p{0.11\linewidth} | p{0.09\linewidth}}
+    \toprule
+
+\citetitle{chatterjee2024compartmental} & \citeauthor*{chatterjee2024compartmental} & \citeyear{chatterjee2024compartmental} & SEIR & \cite{chatterjee2024compartmental} \\ \midrule
+\citetitle{kuddus2023analysis} & \citeauthor*{kuddus2023analysis} & \citeyear{kuddus2023analysis} & SEIR & \cite{kuddus2023analysis} \\ \midrule
+    \citetitle{ibrahim2023stability} & \citeauthor*{ibrahim2023stability} & \citeyear{ibrahim2023stability} & SEIR & \cite{ibrahim2023stability} \\ \midrule
+    \citetitle{farman2023modelling} & \citeauthor*{farman2023modelling} & \citeyear{farman2023modelling} & SEIR + memory & \cite{farman2023modelling} \\ \midrule
+\citetitle{alemneh2023modelling} & \citeauthor*{alemneh2023modelling} & \citeyear{alemneh2023modelling} & SEIR & \cite{alemneh2023modelling} \\ \midrule
+\citetitle{pokharel2022modeling} & \citeauthor*{pokharel2022modeling} & \citeyear{pokharel2022modeling} & SEIR & \cite{pokharel2022modeling} \\ \midrule
+\citetitle{el2022mathematical} & \citeauthor*{el2022mathematical} & \citeyear{el2022mathematical} & SEIR & \cite{el2022mathematical} \\ \midrule
+\citetitle{shen2022impact} & \citeauthor*{shen2022impact} & \citeyear{shen2022impact} & SEIR & \cite{shen2022impact} \\ \midrule
+\citetitle{Kuddus2021} & \citeauthor*{Kuddus2021} & \citeyear{Kuddus2021} & SEIR & \cite{Kuddus2021} \\ \midrule
+\citetitle{MENKIR20212894} & \citeauthor*{MENKIR20212894} & \citeyear{MENKIR20212894} & SEIR + Income-stratification & \cite{MENKIR20212894} \\ \midrule
+\citetitle{Decouttere2021} & \citeauthor*{Decouttere2021} & \citeyear{Decouttere2021} & System Dynamics & \cite{Decouttere2021} \\ \midrule
+\citetitle{van2020explaining} & \citeauthor*{van2020explaining} & \citeyear{van2020explaining} & System Dynamics & \cite{van2020explaining} \\ \midrule
+    \end{tabular}
+    \caption{(continued) Method-focused research identified on simulations of measles transmission including vaccination as outlined in Sec.~\ref{sec:modelling-papers}.}
 \end{table}
 
 
-\begin{table}[ht!]
-\begin{tabular}{p{0.6\linewidth} | p{0.15\linewidth} | p{0.06\linewidth} | p{0.1\linewidth}}
+\begin{table}[t!]
+\begin{tabular}{p{0.61\linewidth} | p{0.15\linewidth} | p{0.06\linewidth} | p{0.09\linewidth}}
 \toprule
 \textbf{Title} & \textbf{Authors} & \textbf{Year} & \textbf{Citation} \\ \midrule
 
@@ -264,7 +325,10 @@ GP registration and SUS data will be extracted using SQL. All data analysis and 
 
 \citetitle{torracinta2021mmr} & \citeauthor*{torracinta2021mmr} & \citeyear{torracinta2021mmr}  & \cite{torracinta2021mmr} \\ \midrule
 
-\citetitle{Tabacchi02072016} & \citeauthor*{Tabacchi02072016} & \citeyear{Tabacchi02072016}  & \cite{Tabacchi02072016} \\ 
+\citetitle{Tabacchi02072016} & \citeauthor*{Tabacchi02072016} & \citeyear{Tabacchi02072016}  & \cite{Tabacchi02072016} \\ \midrule
+
+\citetitle{PHE2021ImmunisationEquityAudit} & \citeauthor*{PHE2021ImmunisationEquityAudit} & \citeyear{PHE2021ImmunisationEquityAudit}  & \cite{PHE2021ImmunisationEquityAudit} \\ 
+
 
 \bottomrule
 \end{tabular}
@@ -281,5 +345,6 @@ GP registration and SUS data will be extracted using SQL. All data analysis and 
     \caption{Papers on child-vaccine interventions.}
     \label{tab:placeholder}
 \end{table}
+%\end{landscape}
 
 \end{document}
