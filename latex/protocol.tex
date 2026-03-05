@@ -11,18 +11,22 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage[english]{babel}
 \usepackage{pgfgantt}
-\usepackage{biblatex}
+
+\usepackage[    
+    style=numeric-comp,
+    sorting=none,
+    sortcites=true
+    ]{biblatex}
+
 \bibliography{latex/bibliography}
+
 \newcommand{\mycitethis}{\tkDE{[?]}}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \usepackage{lscape}
 
 \usepackage{verbatim}
 \usepackage{geometry}
-\newcommand{\detailtexcount}[1]{%
-  \immediate\write18{texcount -merge -sum -q main.tex output.bbl > #1.wcdetail }%
-  \verbatiminput{#1.wcdetail}%
-}
+
 
 % Change font
 \usepackage{helvet}
@@ -43,8 +47,8 @@
 \maketitle
 
 \section{Background}
-
-Measles is a highly infectious viral disease that can have serious complications and fatality \cite{WHO_measles_topic}. 
+\label{sec:intro}
+\tkDE{Measles is a highly infectious viral disease} that can have serious complications and fatality \cite{WHO_measles_topic}. 
 In high-income countries, complications occur in around 10-20\% of cases and the case fatality ratio is around 0.05\% in  \cite{wolfson2009estimates, NICE2024MeaslesComplications}. Clinically vulnerable groups, such as immunosuppressed individuals, infants under one year, and pregnant people, are more likely to develop complications \cite{NHSEngland2024MeaslesGuidance}. 
 
 The first measles vaccine was licensed in the US in 1963 \cite{MOSS20172490}. The measles vaccine was first introduced in the UK in 1968, later replaced by the combined measles, mumps, and rubella (MMR) vaccine in 1988 \cite{ukhsa_vaccination_timeline_1796_present}. As of 1 January 2026, varicella has been added to make the MMRV vaccine. In the UK all children are offered a first dose of MMRV when they turn 12 months and a second dose at 18 months \cite{UKHSA2023MeaslesRubellaElimination}. The World Health Organisation (WHO) estimates that between 2000 and 2024, the measles vaccine has prevented  59 million deaths \cite{mondiale2025weekly}. 
@@ -59,7 +63,7 @@ The UK achieved measles elimination in 2016 \cite{UKHSA2023MeaslesRubellaElimina
 \end{figure}
 
 
-The bottom half of Figure.~\ref{fig:measles-background} shows that these outbreaks have occurred in a context of falling vaccination coverage nationally from a peak of 92.7\% in 2013 down to 88.9\% in 2024.  However, in Birmingham and Solihull, the  coverage started lower and has fallen further than the England average from a peak of 89.7\% in 2014 down to 81.3\% in 2024 \cite{FTips}. This has contributed to the region suffering large measles outbreaks \cite{jary2025sociodemographic}. 
+The bottom half of Figure.~\ref{fig:measles-background} shows that these outbreaks have occurred in a context of falling vaccination coverage nationally from a peak of 92.7\% in 2013 down to 88.9\% in 2024.  However, in Birmingham and Solihull, the  coverage started lower and has fallen further than the England average from a peak of 89.7\% in 2014 down to 81.3\% in 2024 \cite{FTips}. This has contributed to the region suffering large measles outbreaks \cite{jary2025sociodemographic}. \tkDE{Info from Carol Chatt.}
 
 Part of the reason for the falling MMR coverage is the growing scepticism in vaccines \citethis. While this is a trend for most vaccines, there has been particular public concern about the MMR vaccine due to the infamous, since retracted, claim by one research group that the MMR vaccine might cause autism \cite{novilla2023parents, wakefield1998retracted, godlee2011wakefield}. However, there many factors leading to vaccine hesitancy that impact different groups differently including misinformation, health literacy, and lack of trust in the healthcare system \cite{cagnotta2025parental}. Some groups, such as Gypsy, Roma, and Traveller populations, also face additional barriers to accessing the vaccine \cite{wilder2020resurgence}. As a result, significant ethnic and socioeconomic inequality has been observed in MMR coverage \cite{Flatte079550, zhang2023ethnic}. 
 
@@ -87,46 +91,51 @@ A semi-structured approach will be adopted to finding literature. Literature wil
 
 \subsection{Modelling Measles Epidemics}
 \label{sec:modelling-papers}
-The following search equation was used to identify methods-focused papers on the simulation of measles including vaccination:
+The following literature search string was used to identify methods-focused papers on the simulation of measles including vaccination:
 \vspace{-5px}
 \begin{verbatim}
-("measles") 
-AND ("mathematical model*" OR "transmission model*" OR 
-     "compartmental model*" OR "SEIR" OR "System dynamics")
-AND (vaccin*) 
-AND ("model structure" OR parameter* OR calibration OR validation)
+      ("measles") 
+      AND ("mathematical model*" OR "transmission model*" OR 
+           "compartmental model*" OR "SEIR" OR "System dynamics")
+      AND (vaccin*) 
+      AND ("model structure" OR parameter* OR calibration OR validation)
 \end{verbatim}
 
 There were 26 and 48 papers identified by PubMed and ProQuest respectively. After removing duplicates and screening the titles and abstracts for relevance there where 26 papers remaining. Due to their relevance, two papers outside the given scope were also included. The papers included are presented in Table.~\ref{tab:modelling-papers}.
 
 \subsubsection{SEIR Models}
 
-As shown in Table.~\ref{tab:modelling-papers}, the majority of the identified measles simulations used a susceptible, exposed, infectious, recovered (SEIR) model or some variant thereof.   
+As shown in Table.~\ref{tab:modelling-papers}, the majority of the identified measles simulations used a susceptible, exposed, infectious, recovered (SEIR) model or some variant thereof \cite{peter2026assessing, chukwu2026forecasting, peter2025modelling, liu2025modelling, sinigirira2025assessing,  farhan2025fractional, fahimi2025mathematical, khan2025deterministic, sbarra2025fitting, robert2024long, rasit2024mathematical, berhe2024modelling, ibrahim2024threshold, chatterjee2024compartmental, kuddus2023analysis, ibrahim2023stability, farman2023modelling, alemneh2023modelling, pokharel2022modeling, el2022mathematical, shen2022impact, Kuddus2021, MENKIR20212894}. These models compartmentalise a population into distinct states with defined rates of transition from one state to another as outlined in a simple example in Figure.~\ref{fig:SEIR-diagram}. The dynamics of this model can be described by a series by ordinary differential equations (ODEs). The ODEs for the system shown in Figure.~\ref{fig:SEIR-diagram} are outlined in Appendix.~\ref{app:seir-details} including an explanation of basic approaches to solving the equations computationally to calculate the change in population in each state over time. Model parameters such as the infection rate $\beta$, transition rate $\sigma$, and recovery rate $\gamma$, can be estimated by fitting the model to historic data as done by \citeauthor{liu2025modelling} and \citeauthor{chukwu2026forecasting} with strong agreement to the historical data \cite{liu2025modelling, chukwu2026forecasting}.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/background/SEIR_model.png}
+    \caption{Example of a basic susceptible, exposed, infectious, recovered (SEIR) model, adapted from \cite{bjornstad2020seirs}. The ODEs for the system are outlined in Appendix.~\ref{app:seir-details}.}
+    \label{fig:SEIR-diagram}
+\end{figure}
+
+Most of the SEIR-type simulations identified include at least one vaccinated state. Doing so, enables future measles infection rates to be estimated for different vaccination scenarios. For example, \citeauthor{sinigirira2025assessing} consider the impact of varying the proportion of people being vaccinated as part of both the routine vaccination programme and an additional vaccination campaign on the number of measles infections in Nigeria \cite{sinigirira2025assessing}.
+
+One weakness of SEIR-type simulations is the inherent assumption of an idealised susceptible population with perfect population mixing \cite{bjornstad2020seirs}. This can be partially overcome by introducing additional states so that different parts of the population can be modelled with different behaviour and parameters. For example, influenza has the biggest health impact on older adults while younger people play a more significant role in spreading the infection \cite{InfluenzaGreenBook2023}. These, age groups therefore need to be modelled separately as done by \citeauthor{NextGenFluModelling} \cite{NextGenFluModelling}. While measles affects people of all ages, it is most dangerous for small children \cite{bassetti2025epidemiology}. Therefore SEIR models of measles often do not model age groups separately. However, as outlined in Section.~\ref{sec:intro}, infection rates can vary significantly across social deprivation. For that reason, \citeauthor{MENKIR20212894} built a transmission model stratified by income \cite{MENKIR20212894}. This enabled the equity of different vaccination coverage strategies to be studied. One of the most challenging aspects of modelling different population groups is estimating the level of epidemiological mixing between each group.
 
 \subsubsection{System Dynamics}
 
 To the author's knowledge, there has not been a attempt to simulate a measles vaccination system that considers the interaction between epidemiological and behavioural factors including the variation in these factors across ethnicity.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{}
-    \caption{Caption}
-    \label{fig:placeholder}
-\end{figure}
+
 
 \subsubsection{Other Methods}
 
-
-
+Stochastic + AI-enhanced epidemiological model and heuristics  \tkDE{Also, while not identified in the outlined literature search, Agent-Based Models, and Network Models.}
 
 \subsection{Factors influencing vaccine decisions}
 Specifically related to parental decisions to vaccinate their children. 
 
 \begin{verbatim}
-(vaccine OR vaccination OR immunisation)
-AND (barrier OR hesitancy)
-AND (child OR parent) 
-AND (measles OR MMR)
+      (vaccine OR vaccination OR immunisation)
+      AND (barrier OR hesitancy)
+      AND (child OR parent) 
+      AND (measles OR MMR)
 \end{verbatim}
 
 There were 16 and 35 papers identified by PubMed and ProQuest respectively. 
@@ -178,7 +187,7 @@ Following approach from \cite{van2020explaining} using Stella Architect. Stocks 
 
 Following approach from Michail et. al \cite{michail2025evaluation}. 
 
-Currently (\tkDE{26/02/2026}), \tkDE{eight}, stakeholders have agreed to participate in the modelling workshop. Stakeholder organisations include BCC (5), Solihull Metropolitan Council (1), and BSol NHS ICB (2). To help promote full participation, stakeholders will be separated into \tkDE{two} groups. The make-up of each group will be chosen to create the best spread of background and expertise. For example, two of the participants from the BSol ICB have prior experience in system dynamics and will therefore be split up to maximise the conceptual support given to each group. 
+Currently (\tkDE{26/02/2026}), \tkDE{ten}, stakeholders have agreed to participate in the modelling workshop. Stakeholder organisations include BCC (6), Solihull Metropolitan Council (1), and BSol NHS ICB (2), UKHSA (1). To help promote full participation, stakeholders will be separated into \tkDE{two} groups. The make-up of each group will be chosen to create the best spread of background and expertise. For example, two of the participants from the BSol ICB have prior experience in system dynamics and will therefore be split up to maximise the conceptual support given to each group. 
 
 Participants will be sent an evidence pack outlining the rational behind using a system dynamics approach rather than a more traditional outbreak simulation technique as well as published and local evidence on the systemic, sociological, and psychological barriers that prevent parents from vaccinating their children. 
 
@@ -221,8 +230,8 @@ Input from the participants will be collected on paper and sticky notes. At the 
     \item Hospitalisation data – BSol ICB
 \end{itemize}
 
-\subsection{Data Analysis}
-GP registration and SUS data will be extracted using SQL. All data analysis and visualisation will be completed in R.
+\subsection{Data Analysis and Visualisation}
+GP registration and SUS data will be extracted using SQL. All data analysis and visualisation will be completed in R. All code and Stella Architect models will be publicly available on GitHub\footnote{\href{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}}.
 
 \subsection{Sensitivity Analysis}
 
@@ -244,10 +253,47 @@ GP registration and SUS data will be extracted using SQL. All data analysis and 
 %\bibliography{bibliography}
 
 %TC:ignore
+%\bibliographystyle{unsrt}
 \printbibliography
 
 \newpage
 \appendix
+
+\section{SEIR Example}
+\label{app:seir-details}
+
+Let S(t), E(t), I(t), A(t) and R(t) be the number of individuals at time t who are susceptible, exposed, infective, and recovered respectively. Since the total population is not fixed, we have \( S(t) + E(t) + I(t) + A(t)+ R(t) = N(t) \) for \( t = \{t_1, \ldots, t_k\} \). 
+
+Individuals in the Susceptible (S) compartment can become Exposed (E) through contact with Infectious (I) individuals at a constant rate $\beta$. Susceptible individuals can also die from all-cause mortality at a constant rate $\mu_d$, become immune through vaccination at a rate $\nu$, or revert to susceptibility from the Recovered (R) state at a rate 
+$\omega$. The birth rate $mu_b$ contributes to the influx of new Susceptible individuals into the population. Exposed individuals move to the Infectious state at a rate of $\sigma$ ,which represents the latency period of the infection. Exposed individuals can also die from all-cause mortality at a constant rate $\mu_d$. Infectious individuals recover and move to the Recovered state at a rate $\gamma$, or they may die due to the infection at a rate $\alpha$, in addition to the all-cause mortality $\mu_d$. Infectious individuals can develop acute poliomyelitis which leads to hospital admission at a rate $\eta$. Since hospital admission is not hospitalisation, for simplicity, we assume these individuals leave the compartment immediately in the subsequent time to the recovered compartment.
+Recovered individuals can lose their immunity and move back to the Susceptible state at a rate $\omega$, or they may die from all-cause mortality $\mu_d$. Vaccinated individuals (transitioned from Susceptible to Recovered due to vaccination at a rate $\nu$) also follow these dynamics. The model outlines the changes in different state-spaces of the population over time \( t \). In this model, deaths are  depicted as transitions from the \( S \), \( E \), \( I \), or \( R \) compartments to an external state out of the system. 
+
+These movements between states at time $t$ can be expressed by the following differential equations:
+
+\begin{equation}
+    \frac{\diff S}{\diff t} = \mu_b N - \frac{\beta I S}{N} - \mu_d S + \omega R  - \nu S
+    \end{equation}
+\begin{equation}
+\frac{\diff E}{\diff t} = \frac{\beta I S}{N} - \sigma E - \mu_d E
+\end{equation}
+
+\begin{equation}
+\frac{\diff I}{\diff t} = \sigma E - \gamma I - (\mu_d + \alpha) I - \eta I
+\end{equation}
+
+\begin{equation}
+\frac{\diff A}{\diff t} = \eta I - A
+\end{equation}
+
+\begin{equation}
+\frac{\diff R}{\diff t} = \gamma I - \mu_d R - \omega R + \nu S + A
+\end{equation}
+
+These equations can then be solved computationally to calculate the change in population in each state over time. The simplest technique is the Euler Method. This method assumes that derivatives can be approximated as constant over small time periods \cite{Butcher2008}. From this a value $Y$ at time step $t + \Delta t$ can be approximated as
+\begin{equation}
+    Y(t+\Delta t) = Y(t) + \frac{\diff Y(t)}{\diff t}\Delta t.
+\end{equation}
+
 %\begin{landscape}
 \newgeometry{left=1.5cm,right=1.5cm, top=1.5cm}
 \section{Literature Search}
