@@ -129,7 +129,7 @@ System dynamics has been often used in the planning of primary and secondary hea
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{figures/background/SD_model.png}
-    \caption{Minimal system dynamics model for infectious disease transmission modified from \cite{van2020explaining}. }
+    \caption{Minimal system dynamics model for infectious disease transmission modified from \cite{van2020explaining}. \tkDE{Add loop labels if time.}}
     \label{fig:SD-model-example}
 \end{figure}
 
@@ -164,20 +164,32 @@ There were 16 and 35 papers identified by PubMed and ProQuest respectively.
 PubMed - 16 results (specifically filtered for systematic reviews and meta analyses)
 ProQuest - 35 results
 
-One study excluded since it related specifically to conflict setting.
+\tkDE{Overall vaccine hesitancy study \cite{maamor2024prevalence}}. Only one small (n = 1792 participants) English study of parental attitudes on MMR was included. This 2015 survey found that 1\% of parents refused the MMR vaccine for their children \cite{CAMPBELL20172979}. Welsh study, 3 times reduced odds for asylum seekers \cite{perry2020inequalities}.
+
+While some of the declining trust in government-run institutions has been attributed to the Trump administration in the US \cite{woolhandler2021public}, a lack of trust in the healthcare system has also been found to be a barrier to vaccination in the UK \cite{torracinta2021mmr}.
+
 % https://link.springer.com/article/10.1007/s10900-014-9956-1
 %  PHE immunisation health equity audit includes an evidence-based model which describes the factors influencing inequality in vaccination uptake in high income settings
 Papers included are presented in Table.~\ref{tab:vaccine-hesitancy-papers}.
 
+A 2025 cross-sectional study in Türkiye found parents were 2.5 times more likely to exhibit vaccine hesitancy if one of their children had already experienced adverse effects \cite{komurluouglu2025vaccine}.
 
-%\tkDE{Prisma flow diagram (optional extra)}
+All migrants, including those with No Recourse to Public Funds (NRPF) are eligible for free vaccinations on the NHS \cite{nrpf_nhs_treatment_overview, ukhsa_migrant_immunisation_2022}
+
+
 
 \subsection{MMR uptake interventions}
 What are the barriers to vaccinations?
 
 intervention AND vaccination AND MMR
 
+% Where feasible, offering less reactogenic vaccine options may help mitigate concerns
+
+% https://www.nhsconfed.org/case-studies/nhs-birmingham-and-solihull-addressing-mmr-vaccine-hesitancy
+
 % Evaluating the impact of national and regional measles catch-up activity on MMR vaccine coverage in England, 2023 to 2024 https://www.gov.uk/government/publications/evaluation-of-vaccine-uptake-during-the-2023-to-2024-mmr-catch-up-campaigns-in-england/evaluating-the-impact-of-national-and-regional-measles-catch-up-activity-on-mmr-vaccine-coverage-in-england-2023-to-2024
+
+"parents want clear, timely and balanced information, but that they ofen find this information to be lacking" \cite{ames2017parents}.
 
 \section{Research Objectives}
 
@@ -358,7 +370,7 @@ Following this approach, Eqs.~\ref{eq:ODE1}-\ref{eq:ODE5} can be combined into a
     \citetitle{ibrahim2024threshold} & \citeauthor*{ibrahim2024threshold} & \citeyear{ibrahim2024threshold} & SEIR & \cite{ibrahim2024threshold} \\ \midrule
 
     \end{tabular}
-    \caption{Method-focused research identified on simulations of measles transmission including vaccination as outlined in Sec.~\ref{sec:modelling-papers} (Continued on next page).}
+    \caption{Method-focused publications identified on simulations of measles transmission including vaccination as outlined in Sec.~\ref{sec:modelling-papers} (Continued on next page).}
     \label{tab:modelling-papers}
 \end{table*}
 
@@ -380,7 +392,7 @@ Following this approach, Eqs.~\ref{eq:ODE1}-\ref{eq:ODE5} can be combined into a
 \citetitle{Decouttere2021} & \citeauthor*{Decouttere2021} & \citeyear{Decouttere2021} & System Dynamics & \cite{Decouttere2021} \\ \midrule
 \citetitle{van2020explaining} & \citeauthor*{van2020explaining} & \citeyear{van2020explaining} & System Dynamics & \cite{van2020explaining} \\ \midrule
     \end{tabular}
-    \caption{(continued) Method-focused research identified on simulations of measles transmission including vaccination as outlined in Sec.~\ref{sec:modelling-papers}.}
+    \caption{(continued) Method-focused publications identified on simulations of measles transmission including vaccination as outlined in Sec.~\ref{sec:modelling-papers}.}
 \end{table}
 
 
@@ -389,40 +401,29 @@ Following this approach, Eqs.~\ref{eq:ODE1}-\ref{eq:ODE5} can be combined into a
 \toprule
 \textbf{Title} & \textbf{Authors} & \textbf{Year} & \textbf{Citation} \\ \midrule
 
-\citetitle{novilla2023parents} & \citeauthor*{novilla2023parents} & \citeyear{novilla2023parents}  & \cite{novilla2023parents} \\ \midrule
-
-\citetitle{essa2024understanding} & \citeauthor*{essa2024understanding} & \citeyear{essa2024understanding}  & \cite{essa2024understanding} \\ \midrule
-
-\citetitle{maamor2024prevalence} & \citeauthor*{maamor2024prevalence} & \citeyear{maamor2024prevalence}  & \cite{maamor2024prevalence} \\ \midrule
-
-\citetitle{wilder2020resurgence} & \citeauthor*{wilder2020resurgence} & \citeyear{wilder2020resurgence}  & \cite{wilder2020resurgence} \\ \midrule
-
-\citetitle{crawshaw2022defining} & \citeauthor*{crawshaw2022defining} & \citeyear{crawshaw2022defining}  & \cite{crawshaw2022defining} \\ \midrule
-
-\citetitle{ames2017parents} & \citeauthor*{ames2017parents} & \citeyear{ames2017parents}  & \cite{ames2017parents} \\ \midrule
-
-\citetitle{halliday2025vaccine} & \citeauthor*{halliday2025vaccine} & \citeyear{halliday2025vaccine}  & \cite{halliday2025vaccine} \\ \midrule
-
-\citetitle{bocquier2017socioeconomic} & \citeauthor*{bocquier2017socioeconomic} & \citeyear{bocquier2017socioeconomic}  & \cite{bocquier2017socioeconomic} \\ \midrule
-
-\citetitle{baiocchi2025parental} & \citeauthor*{baiocchi2025parental} & \citeyear{baiocchi2025parental}  & \cite{baiocchi2025parental} \\ \midrule
-
-\citetitle{gschwend2026shadow} & \citeauthor*{gschwend2026shadow} & \citeyear{gschwend2026shadow}  & \cite{gschwend2026shadow} \\ \midrule
-
-\citetitle{cagnotta2025parental} & \citeauthor*{cagnotta2025parental} & \citeyear{cagnotta2025parental}  & \cite{cagnotta2025parental} \\ \midrule
-
-\citetitle{tankwanchi2021vaccine} & \citeauthor*{tankwanchi2021vaccine} & \citeyear{tankwanchi2021vaccine}  & \cite{tankwanchi2021vaccine} \\ \midrule
-
-\citetitle{torracinta2021mmr} & \citeauthor*{torracinta2021mmr} & \citeyear{torracinta2021mmr}  & \cite{torracinta2021mmr} \\ \midrule
-
-\citetitle{Tabacchi02072016} & \citeauthor*{Tabacchi02072016} & \citeyear{Tabacchi02072016}  & \cite{Tabacchi02072016} \\ \midrule
-
-\citetitle{PHE2021ImmunisationEquityAudit} & \citeauthor*{PHE2021ImmunisationEquityAudit} & \citeyear{PHE2021ImmunisationEquityAudit}  & \cite{PHE2021ImmunisationEquityAudit} \\ 
+\citetitle{gschwend2026shadow} & \citeauthor*{gschwend2026shadow} & \citeyear{gschwend2026shadow} & \cite{gschwend2026shadow} \\ \midrule
+\citetitle{wombwell2015religious} & \citeauthor*{wombwell2015religious} & \citeyear{wombwell2015religious} & \cite{wombwell2015religious} \\ \midrule
+\citetitle{smbc_community_engagement_learning_2025} & \citeauthor*{smbc_community_engagement_learning_2025} & \citeyear{smbc_community_engagement_learning_2025} & \cite{smbc_community_engagement_learning_2025} \\ \midrule
+\citetitle{kemishi_uasc_health_wellbeing_2025} & \citeauthor*{kemishi_uasc_health_wellbeing_2025} & \citeyear{kemishi_uasc_health_wellbeing_2025} & \cite{kemishi_uasc_health_wellbeing_2025} \\ \midrule
+\citetitle{cagnotta2025parental} & \citeauthor*{cagnotta2025parental} & \citeyear{cagnotta2025parental} & \cite{cagnotta2025parental} \\ \midrule
+\citetitle{halliday2025vaccine} & \citeauthor*{halliday2025vaccine} & \citeyear{halliday2025vaccine} & \cite{halliday2025vaccine} \\ \midrule
+\citetitle{baiocchi2025parental} & \citeauthor*{baiocchi2025parental} & \citeyear{baiocchi2025parental} & \cite{baiocchi2025parental} \\ \midrule
+\citetitle{palmer_birmingham_measles_engagement_2024} & \citeauthor*{palmer_birmingham_measles_engagement_2024} & \citeyear{palmer_birmingham_measles_engagement_2024} & \cite{palmer_birmingham_measles_engagement_2024} \\ \midrule
+\citetitle{bissett_measles_soft_intelligence_2024} & \citeauthor*{bissett_measles_soft_intelligence_2024} & \citeyear{bissett_measles_soft_intelligence_2024} & \cite{bissett_measles_soft_intelligence_2024} \\ \midrule
+\citetitle{essa2024understanding} & \citeauthor*{essa2024understanding} & \citeyear{essa2024understanding} & \cite{essa2024understanding} \\ \midrule
+\citetitle{maamor2024prevalence} & \citeauthor*{maamor2024prevalence} & \citeyear{maamor2024prevalence} & \cite{maamor2024prevalence} \\ \midrule
+\citetitle{novilla2023parents} & \citeauthor*{novilla2023parents} & \citeyear{novilla2023parents} & \cite{novilla2023parents} \\ \midrule
+\citetitle{tankwanchi2021vaccine} & \citeauthor*{tankwanchi2021vaccine} & \citeyear{tankwanchi2021vaccine} & \cite{tankwanchi2021vaccine} \\ \midrule
+\citetitle{torracinta2021mmr} & \citeauthor*{torracinta2021mmr} & \citeyear{torracinta2021mmr} & \cite{torracinta2021mmr} \\ \midrule
+\citetitle{wilder2020resurgence} & \citeauthor*{wilder2020resurgence} & \citeyear{wilder2020resurgence} & \cite{wilder2020resurgence} \\ \midrule
+\citetitle{ames2017parents} & \citeauthor*{ames2017parents} & \citeyear{ames2017parents} & \cite{ames2017parents} \\ \midrule
+\citetitle{bocquier2017socioeconomic} & \citeauthor*{bocquier2017socioeconomic} & \citeyear{bocquier2017socioeconomic} & \cite{bocquier2017socioeconomic} \\ \midrule
+\citetitle{Tabacchi02072016} & \citeauthor*{Tabacchi02072016} & \citeyear{Tabacchi02072016} & \cite{Tabacchi02072016} \\ 
 
 
 \bottomrule
 \end{tabular}
-    \caption{Papers on vaccine hesitancy.}
+    \caption{Publications on vaccine hesitancy.}
     \label{tab:vaccine-hesitancy-papers}
 \end{table}
 
