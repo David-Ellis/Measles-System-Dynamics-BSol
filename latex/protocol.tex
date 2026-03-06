@@ -81,7 +81,7 @@ Among the Core Cities of England and Wales\footnote{England and Wales Core Citie
 
 All six regions of the World Health Organization (WHO) have declared measles elimination goals \cite{WHO_measles_topic}. The UK Measles and Rubella elimination strategy 2019 set the MMR vaccination target, based on WHO recommendation, to 95\% of two doses by 5 years of age in order to achieve and maintain measles elimination \cite{public2019uk}. The Public Health England (PHE) immunisation inequalities local action plan template outlines that factors responsible for inequitable vaccine uptake are context specific \cite{PHE2021ImmunisationInequalities}. Therefore, in order to reverse the falling measles vaccine coverage and growing health inequalities, it is therefore imperative that we understand the range of factors influencing parent's decision to vaccinate their children and how these factors are influenced by ethnicity. 
 
-This project aims to build a decision-support system in collaboration with a range of local health protection experts working in Birmingham and Solihull. An interactive workshop will be hosted to identify behavioural and epidemiological factors that facilitate and block flows in the system and to identify potential interventions to improve these flows. This model, including selected interventions, will be built using a system dynamics approach.
+This project aims to build a decision-support system in collaboration with a range of local health protection experts working in Birmingham and Solihull. An interactive workshop will be hosted to identify behavioural and epidemiological factors that facilitate and block flows in the system and to identify potential interventions to improve these flows. This model, including selected interventions, will be built using a system dynamics approach. A full timeline for the project is presented in Appendix.~\ref{app:timeline}.
 
 \section{Literature Review}
 
@@ -105,7 +105,7 @@ There were 26 and 48 papers identified by PubMed and ProQuest respectively. Afte
 
 \subsubsection{SEIR Models}
 
-As shown in Table.~\ref{tab:modelling-papers}, the majority of the identified measles simulations used a susceptible, exposed, infectious, recovered (SEIR) model or some variant thereof \cite{peter2026assessing, chukwu2026forecasting, peter2025modelling, liu2025modelling, sinigirira2025assessing,  farhan2025fractional, fahimi2025mathematical, khan2025deterministic, sbarra2025fitting, robert2024long, rasit2024mathematical, berhe2024modelling, ibrahim2024threshold, chatterjee2024compartmental, kuddus2023analysis, ibrahim2023stability, farman2023modelling, alemneh2023modelling, pokharel2022modeling, el2022mathematical, shen2022impact, Kuddus2021, MENKIR20212894}. These models compartmentalise a population into distinct states with defined rates of transition from one state to another as outlined in a simple example in Figure.~\ref{fig:SEIR-diagram}. The dynamics of this model can be described by a series by ordinary differential equations (ODEs). The ODEs for the system shown in Figure.~\ref{fig:SEIR-diagram} are outlined in Appendix.~\ref{app:seir-details} including an explanation of basic approaches to solving the equations computationally to calculate the change in population in each state over time. Model parameters such as the infection rate $\beta$, transition rate $\sigma$, and recovery rate $\gamma$, can be estimated by fitting the model to historic data as done by \citeauthor{liu2025modelling} and \citeauthor{chukwu2026forecasting} with strong agreement to the historical data \cite{liu2025modelling, chukwu2026forecasting}.
+As shown in Table.~\ref{tab:modelling-papers}, the majority of the identified measles simulations used a susceptible, exposed, infectious, recovered (SEIR) model or some variant thereof \cite{peter2026assessing, chukwu2026forecasting, peter2025modelling, liu2025modelling, sinigirira2025assessing,  farhan2025fractional, fahimi2025mathematical, khan2025deterministic, sbarra2025fitting, robert2024long, rasit2024mathematical, berhe2024modelling, ibrahim2024threshold, chatterjee2024compartmental, kuddus2023analysis, ibrahim2023stability, farman2023modelling, alemneh2023modelling, pokharel2022modeling, el2022mathematical, shen2022impact, Kuddus2021, MENKIR20212894}. These models compartmentalise a population into distinct states with defined rates of transition from one state to another as outlined in a simple example in Figure.~\ref{fig:SEIR-diagram}. The dynamics of this model can be described by a series by ordinary differential equations (ODEs). The ODEs for the system shown in Figure.~\ref{fig:SEIR-diagram} are outlined in Appendix.~\ref{app:seir-details} including an explanation of basic approaches to solving the equations computationally to calculate the change in population in each state over time. Model parameters such as the infection rate $\beta$, transition rate $\sigma$, and recovery rate $\gamma$, can be drawn from existing literature or estimated by fitting the model to historic data as done by \citeauthor{liu2025modelling} and \citeauthor{chukwu2026forecasting} with strong agreement to the historical data \cite{liu2025modelling, chukwu2026forecasting}.
 
 \begin{figure}[ht!]
     \centering
@@ -120,19 +120,34 @@ One weakness of SEIR-type simulations is the inherent assumption of an idealised
 
 \subsubsection{System Dynamics}
 
-To the author's knowledge, there has not been a attempt to simulate a measles vaccination system that considers the interaction between epidemiological and behavioural factors including the variation in these factors across ethnicity.
+Two of the identified papers published in the last five years used a system dynamics approach \cite{zadeh2025public, Decouttere2021} as well as additional paper outside the given publication window \cite{van2020explaining}. 
+
+Like standard SEIR models, system dynamics modelling is used to model the behaviour of complex non-linear systems. In system dynamics terminology, these systems are represented using stocks, flows, and feedback loops \cite{bala2017system}. The primary difference between these approaches is in the modelling philosophy. While SEIR systems are used to describe disease transmission dynamics, system dynamics is used to understand how the interactions between different system components generate behaviour over time. As such, system dynamics modelling often includes more abstract and difficult-to-quantify factors, including information flows and decision processes.
+
+System dynamics has been often used in the planning of primary and secondary healthcare systems but typically been used less often for modelling infectious disease transmission \cite{davahli2020system}. A minimal system dynamics model for infectious disease transmission modified from \cite{van2020explaining} is presented in Figure.~\ref{fig:SD-model-example}. The boxes indicates the \textit{stocks} (segments of the population), connected by \textit{flows} in solid gray. The red lines indicate the flow of information. The clouds indicates points where the population enters (births) or leaves (deaths) the system being modelled.
 
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{figures/background/SD_model.png}
-    \caption{Minimal measles system dynamics model modified from \cite{van2020explaining}.}
+    \caption{Minimal system dynamics model for infectious disease transmission modified from \cite{van2020explaining}. }
     \label{fig:SD-model-example}
 \end{figure}
 
+The earliest identified paper on simulating measles vaccinations and infections using system dynamics by \citeauthor{van2020explaining} presents a "stylised" model of the measles system including epidemic/medical and behavioural factors. This model is developed as to capture the key dynamics of the system and to facilitate a conceptual understanding of the system and the interactions between different factors, rather than to produce accurate epidemiological predictions of future infection numbers \cite{van2020explaining}. Much like the SEIR models discussed, \citeauthor{van2020explaining} segment the population into those who are susceptible, infected, recovered and vaccinated, as well as those who experienced severe side effects of vaccination and those who recovered from measles but with severe long-term impacts. These population states are connected by epidemiological factors such as infection rate and recovery rate, and behavioural science factors such perceived risk of the disease and, conversely, the perceived risk of the vaccine. These factors, both influenced by the number of people infected and vaccinated with side effects, as well as the impact of external information, influence parents willingness to vaccinate and therefore the overall vaccination rate \cite{van2020explaining}. Doing so, \citeauthor{van2020explaining} simulate the long-term (80 years) impact of a series of 10 scenarios relating to different vaccination campaigns and minor and major vaccine scares like the 1998 Wakefield scandal \cite{wakefield1998retracted}. 
+
+Although not directly referencing \citeauthor{van2020explaining}, \citeauthor{Decouttere2021} build on this work to include additional factors including outreach campaigns, community health workers, and physical access to vaccination tailored specifically to the context of Rwanda \cite{Decouttere2021}. However, this was only a conceptual model and not developed into a computational simulation. 
+
+\citeauthor{zadeh2025public}, in the most recent of the identified papers, attempt to create a much more complete disease transmission model including the time from exposure to being infectious, the quarantine of exposed and infected individuals, and international travel \cite{zadeh2025public}. While the authors developed this model to be applicable to any infectious disease, they demonstrated the capabilities of the model for the test case of measles, fitting to data from WHO and Centers for Disease Control to predict the impact of a series of different interventions. 
+
+To the author's knowledge, there has not been a attempt to simulate a measles vaccination system that considers the interaction between epidemiological and behavioural factors including the variation in these factors across ethnicity.  
 
 \subsubsection{Other Methods}
 
-Stochastic + AI-enhanced epidemiological model and heuristics  \tkDE{Also, while not identified in the outlined literature search, Agent-Based Models, and Network Models.}
+System dynamics and SEIR models are deterministic - given the same input parameters, the outputs will be the same. In contrast, \citeauthor{anwar2025stochastic} implemented a stochastic (probabilistic) model. The resulting data were used to train a neural network to approximate the dynamics of the system \cite{anwar2025stochastic}. Such networks are typically black-box models making the internal relationships between variables difficult to interpret, thus reducing the conceptual transparency and therefore its usefulness as a decision support tool \cite{burkart2021survey}.
+
+The methods considered above all model non-linear behaviour, however, it is also possible to develop linear models. \citeauthor{rodriguez2025heuristic}, present a such a model to optimise the location of vaccination sites, the schedules of medical teams, and the routes taken between sites \cite{rodriguez2025heuristic}. The authors implement a heuristic algorithm to reduce the computational cost of performing the optimisation. Due to its focus on operational systems, this approach is not appropriate for the current project. 
+
+Other important modelling approaches used to simulate the transmission of infectious disease, although not identified in this search include Agent-Based Models  \cite{willem2017lessons} Network Models  \cite{keeling2005networks}. These approaches focus on individual interactions and contact networks, whereas the present study focuses on population-level vaccination dynamics.
 
 \subsection{Factors influencing vaccine decisions}
 Specifically related to parental decisions to vaccinate their children. 
@@ -181,13 +196,26 @@ Long term, the aim is to develop a dashboard for health protection teams working
 \section{Methods}
 
 \subsection{Introduction to System Dynamics}
-Following approach from \cite{van2020explaining} using Stella Architect. Stocks and flows. \tkDE{Include example diagram?}
+
+\tkDE{Briefly WHY SD with some of the specifics.}
+
+Therefore, due to its increased ability to study abstract behavioural science...
+
+
+Both \citeauthor{van2020explaining} and \cite{zadeh2025public} both provide the values used for the variables in their models which can be used as starting points for this project.
+
+\tkDE{The whole point is to build the model with stakeholders, so only a minimal model is shared here.}
+
+Stella Architect. Stocks and flows. 
+\tkDE{Include example diagram?}
 
 \begin{itemize}
     \item Clear explanation of what SD and Stella Architect are. 
     \item Assumptions
     \item Limitations
 \end{itemize}
+
+The structure of the system and values for various factors can be drawn from the literature, however, one of the strengths of system dynamics is in it's very visual nature and the ability to build models in collaboration with stakeholders including both practitioners and service users. This is was done by \citeauthor{michail2025evaluation} \cite{michail2025evaluation}. A scaled-down version of the approach used by \citeauthor{michail2025evaluation} will be employed for this project.
 
 \subsection{Stakeholder Engagement}
 
@@ -250,11 +278,6 @@ GP registration and SUS data will be extracted using SQL. All data analysis and 
 \end{itemize}
 
 
-\section{Timeline}
-
-% include thesis
-\include{latex/gantt}
-
 %\bibliographystyle{unsrt}
 %\bibliography{bibliography}
 
@@ -277,28 +300,36 @@ Recovered individuals can lose their immunity and move back to the Susceptible s
 These movements between states at time $t$ can be expressed by the following differential equations:
 
 \begin{equation}
-    \frac{\diff S}{\diff t} = \mu_b N - \frac{\beta I S}{N} - \mu_d S + \omega R  - \nu S
-    \end{equation}
-\begin{equation}
-\frac{\diff E}{\diff t} = \frac{\beta I S}{N} - \sigma E - \mu_d E
+    \frac{\diff S}{\diff t} = \mu_b N - \frac{\beta I S}{N} - \mu_d S + \omega R  - \nu S,
+    \label{eq:ODE1}
 \end{equation}
 
 \begin{equation}
-\frac{\diff I}{\diff t} = \sigma E - \gamma I - (\mu_d + \alpha) I - \eta I
+    \frac{\diff E}{\diff t} = \frac{\beta I S}{N} - \sigma E - \mu_d E,
+    \label{eq:ODE2}
 \end{equation}
 
 \begin{equation}
-\frac{\diff A}{\diff t} = \eta I - A
+    \frac{\diff I}{\diff t} = \sigma E - \gamma I - (\mu_d + \alpha) I - \eta I,
+    \label{eq:ODE3}
 \end{equation}
 
 \begin{equation}
-\frac{\diff R}{\diff t} = \gamma I - \mu_d R - \omega R + \nu S + A
+    \frac{\diff A}{\diff t} = \eta I - A,
+    \label{eq:ODE4}
+\end{equation}
+
+\begin{equation}
+    \frac{\diff R}{\diff t} = \gamma I - \mu_d R - \omega R + \nu S + A,
+    \label{eq:ODE5}
 \end{equation}
 
 These equations can then be solved computationally to calculate the change in population in each state over time. The simplest technique is the Euler Method. This method assumes that derivatives can be approximated as constant over small time periods \cite{Butcher2008}. From this a value $Y$ at time step $t + \Delta t$ can be approximated as
 \begin{equation}
     Y(t+\Delta t) = Y(t) + \frac{\diff Y(t)}{\diff t}\Delta t.
 \end{equation}
+%
+Following this approach, Eqs.~\ref{eq:ODE1}-\ref{eq:ODE5} can be combined into a single matrix multiplication equation.
 
 %\begin{landscape}
 \newgeometry{left=1.5cm,right=1.5cm, top=1.5cm}
@@ -353,7 +384,7 @@ These equations can then be solved computationally to calculate the change in po
 \end{table}
 
 
-\begin{table}[t!]
+\begin{table}[ht!]
 \begin{tabular}{p{0.61\linewidth} | p{0.15\linewidth} | p{0.06\linewidth} | p{0.09\linewidth}}
 \toprule
 \textbf{Title} & \textbf{Authors} & \textbf{Year} & \textbf{Citation} \\ \midrule
@@ -404,6 +435,11 @@ These equations can then be solved computationally to calculate the change in po
     \caption{Papers on child-vaccine interventions.}
     \label{tab:placeholder}
 \end{table}
-%\end{landscape}
+
+\restoregeometry
+\section{Timeline}
+\label{app:timeline}
+% include gantt chart
+\input{latex/gantt}
 
 \end{document}
