@@ -11,6 +11,10 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage[english]{babel}
 \usepackage{pgfgantt}
+\usepackage{csquotes}
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\hypersetup{colorlinks=true,breaklinks=true}
 
 \usepackage[    
     style=numeric-comp,
@@ -21,7 +25,7 @@
 \bibliography{latex/bibliography}
 
 \newcommand{\mycitethis}{\tkDE{[?]}}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
 \usepackage{lscape}
 
 \usepackage{verbatim}
@@ -85,9 +89,9 @@ This project aims to build a decision-support system in collaboration with a ran
 
 \section{Literature Review}
 
-This project requires a three pronged literature review. Firstly, a surface-level review will be conducted into the primary computational methods that have used to simulate epidemics including vaccinations. This review will assess the strengths and weaknesses of each method and to what extent they have been applied to address inequalities in measles vaccination. Reviews will be also be conducted on the factors that influence parents decisions to vaccinate their children as well as a review of interventions that have been conducted to increase childhood vaccinations. These last two reviews will compiled into an evidence pack that will be provided to stakeholders to support the participatory modelling workshop. 
+This project requires a two-part literature review. Firstly, a surface-level review was conducted into the primary computational methods that have used to simulate epidemics including vaccinations. This review assessed the strengths and weaknesses of each method and to what extent they have been applied to address inequalities in measles vaccination. A second review was be conducted on the factors that influence parents decisions to vaccinate their children. These reviews will be compiled into an evidence pack that will be provided to stakeholders to support the participatory modelling workshop. 
 
-A semi-structured approach will be adopted to finding literature. Literature will be sourced from PubMed and Proquest and supplemented with additional papers found through other means. Local intelligence will also be identified through consultation with health protection leads at BCC and Solihull Metropolitan Council. All three reviews will consider only English language papers published in the last 5 years for simulation methods and the last 10 years for vaccination barriers and interventions (2016 or more recent).
+A semi-structured approach was be adopted to finding literature. Literature was be sourced from PubMed and Proquest and supplemented with additional publications and gray literature found through other means. Only English language publications were considered. For simulation methods publication must have been released in the last 5 years for and the last 10 years for vaccination barriers.
 
 \subsection{Modelling Measles Epidemics}
 \label{sec:modelling-papers}
@@ -119,17 +123,17 @@ Most of the SEIR-type simulations identified include at least one vaccinated sta
 One weakness of SEIR-type simulations is the inherent assumption of an idealised susceptible population with perfect population mixing \cite{bjornstad2020seirs}. This can be partially overcome by introducing additional states so that different parts of the population can be modelled with different behaviour and parameters. For example, influenza has the biggest health impact on older adults while younger people play a more significant role in spreading the infection \cite{InfluenzaGreenBook2023}. These, age groups therefore need to be modelled separately as done by \citeauthor{NextGenFluModelling} \cite{NextGenFluModelling}. While measles affects people of all ages, it is most dangerous for small children \cite{bassetti2025epidemiology}. Therefore SEIR models of measles often do not model age groups separately. However, as outlined in Section.~\ref{sec:intro}, infection rates can vary significantly across social deprivation. For that reason, \citeauthor{MENKIR20212894} built a transmission model stratified by income \cite{MENKIR20212894}. This enabled the equity of different vaccination coverage strategies to be studied. One of the most challenging aspects of modelling different population groups is estimating the level of epidemiological mixing between each group.
 
 \subsubsection{System Dynamics}
-
+\label{sec:sys-dyn}
 Two of the identified papers published in the last five years used a system dynamics approach \cite{zadeh2025public, Decouttere2021} as well as additional paper outside the given publication window \cite{van2020explaining}. 
 
 Like standard SEIR models, system dynamics modelling is used to model the behaviour of complex non-linear systems. In system dynamics terminology, these systems are represented using stocks, flows, and feedback loops \cite{bala2017system}. The primary difference between these approaches is in the modelling philosophy. While SEIR systems are used to describe disease transmission dynamics, system dynamics is used to understand how the interactions between different system components generate behaviour over time. As such, system dynamics modelling often includes more abstract and difficult-to-quantify factors, including information flows and decision processes.
 
-System dynamics has been often used in the planning of primary and secondary healthcare systems but typically been used less often for modelling infectious disease transmission \cite{davahli2020system}. A minimal system dynamics model for infectious disease transmission modified from \cite{van2020explaining} is presented in Figure.~\ref{fig:SD-model-example}. The boxes indicates the \textit{stocks} (segments of the population), connected by \textit{flows} in solid gray. The red lines indicate the flow of information. The clouds indicates points where the population enters (births) or leaves (deaths) the system being modelled.
+System dynamics has been often used in the planning of primary and secondary healthcare systems but typically been used less often for modelling infectious disease transmission \cite{davahli2020system}. A minimal system dynamics model for infectious disease transmission modified from \citeauthor{van2020explaining} is presented in Figure.~\ref{fig:SD-model-example} \cite{van2020explaining}. The boxes indicates the \textit{stocks} (segments of the population), connected by \textit{flows} in solid gray. The red lines indicate the flow of information. The clouds indicates points where the population enters (births) or leaves (deaths) the system being modelled.
 
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{figures/background/SD_model.png}
-    \caption{Minimal system dynamics model for infectious disease transmission modified from \cite{van2020explaining}. \tkDE{Add loop labels if time.}}
+    \caption{Minimal system dynamics model for infectious disease transmission modified from \cite{van2020explaining}.}
     \label{fig:SD-model-example}
 \end{figure}
 
@@ -139,7 +143,7 @@ Although not directly referencing \citeauthor{van2020explaining}, \citeauthor{De
 
 \citeauthor{zadeh2025public}, in the most recent of the identified papers, attempt to create a much more complete disease transmission model including the time from exposure to being infectious, the quarantine of exposed and infected individuals, and international travel \cite{zadeh2025public}. While the authors developed this model to be applicable to any infectious disease, they demonstrated the capabilities of the model for the test case of measles, fitting to data from WHO and Centers for Disease Control to predict the impact of a series of different interventions. 
 
-To the author's knowledge, there has not been a attempt to simulate a measles vaccination system that considers the interaction between epidemiological and behavioural factors including the variation in these factors across ethnicity.  
+The focus of this project is to model the ethnicity-dependent interactions between different epidemiological and behavioural factors on the uptake of the MMR vaccine and the implications on measles outcomes. Therefore, due to its increased flexibility and ability to study abstract behavioural science factors, a system dynamics approach will be used.  To the author's knowledge, there has not been a attempt to simulate a measles vaccination system that considers the interaction between epidemiological and behavioural factors including the variation in these factors across ethnicity.  
 
 \subsubsection{Other Methods}
 
@@ -149,7 +153,8 @@ The methods considered above all model non-linear behaviour, however, it is also
 
 Other important modelling approaches used to simulate the transmission of infectious disease, although not identified in this search include Agent-Based Models  \cite{willem2017lessons} Network Models  \cite{keeling2005networks}. These approaches focus on individual interactions and contact networks, whereas the present study focuses on population-level vaccination dynamics.
 
-\subsection{Factors influencing vaccine decisions}
+\subsection{Barriers to Vaccination}
+\label{sec:vaccine-barriers}
 
 The following literature search string was used to identify publications on barriers experienced by parents or carers to have vaccinate their child with the MMR vaccine:
 
@@ -181,18 +186,19 @@ Participants in the Birmingham engagement workshops also raised the issue of tru
 
 Other general reasons for vaccine hesitancy include a belief that children are given too many vaccines too soon, and a low perceived benefit of vaccination \cite{novilla2023parents}. A 2025 cross-sectional study in Türkiye found parents were 2.5 times more likely to exhibit vaccine hesitancy if one of their children had already experienced adverse effects \cite{komurluouglu2025vaccine}.
 
-\subsection{MMR uptake interventions}
-What are the barriers to vaccinations?
+\tkDE{Need to mention more explicitly the service barriers for GRT people.}
 
-intervention AND vaccination AND MMR
+%\subsection{MMR uptake interventions}
+%What are the barriers to vaccinations?
+
+%intervention AND vaccination AND MMR
 
 % Where feasible, offering less reactogenic vaccine options may help mitigate concerns
 
 % https://www.nhsconfed.org/case-studies/nhs-birmingham-and-solihull-addressing-mmr-vaccine-hesitancy
 
 % Evaluating the impact of national and regional measles catch-up activity on MMR vaccine coverage in England, 2023 to 2024 https://www.gov.uk/government/publications/evaluation-of-vaccine-uptake-during-the-2023-to-2024-mmr-catch-up-campaigns-in-england/evaluating-the-impact-of-national-and-regional-measles-catch-up-activity-on-mmr-vaccine-coverage-in-england-2023-to-2024
-
-"parents want clear, timely and balanced information, but that they ofen find this information to be lacking" \cite{ames2017parents}.
+%"parents want clear, timely and balanced information, but that they ofen find this information to be lacking" \cite{ames2017parents}.
 
 \section{Research Objectives}
 
@@ -200,104 +206,71 @@ This project will aim to answer the following research question: How can a syste
 
 The research aims are as follows:
 \begin{itemize}
-    \item Conduct a participatory modelling workshop with expert stakeholders to design a theoretical model for measles vaccinations and outcomes in Birmingham and Solihull.
-    \item Identify and prioritise key interventions to be modelled
+    \item Conduct a participatory modelling workshop with expert stakeholders to design a theoretical model for measles vaccinations and outcomes in Birmingham and Solihull and to identify and prioritise key interventions to be modelled
     \item Develop a functional model and calibrate using historical vaccination, notification, and hospitalisation data
     \item Integrate most highly prioritised interventions to simulate the expected impact on the modelled behavioural science factors, vaccination rates, and health outcomes
 \end{itemize}
 
-Long term, the aim is to develop a dashboard for health protection teams working in the system to be able to dynamically plan and test interventions using variable model assumptions. However, this is beyond the scope of the thesis. 
+In the long term, the aim is to develop a dashboard for health protection teams working in the system to be able to dynamically plan and test interventions using variable model assumptions. However, this is beyond the scope of the thesis. 
 
 \section{Methods}
 
-\subsection{Introduction to System Dynamics}
-
-\tkDE{Briefly WHY SD with some of the specifics.}
-
-Therefore, due to its increased ability to study abstract behavioural science...
-
-
-Both \citeauthor{van2020explaining} and \cite{zadeh2025public} both provide the values used for the variables in their models which can be used as starting points for this project.
-
-\tkDE{The whole point is to build the model with stakeholders, so only a minimal model is shared here.}
-
-Stella Architect. Stocks and flows. 
-\tkDE{Include example diagram?}
-
-\begin{itemize}
-    \item Clear explanation of what SD and Stella Architect are. 
-    \item Assumptions
-    \item Limitations
-\end{itemize}
-
-The structure of the system and values for various factors can be drawn from the literature, however, one of the strengths of system dynamics is in it's very visual nature and the ability to build models in collaboration with stakeholders including both practitioners and service users. This is was done by \citeauthor{michail2025evaluation} \cite{michail2025evaluation}. A scaled-down version of the approach used by \citeauthor{michail2025evaluation} will be employed for this project.
-
 \subsection{Stakeholder Engagement}
+\label{sec:engagement}
+At the time of writing (10th March 2026), ten stakeholders from Birmingham City Council (BCC) (6), Solihull Metropolitan Council (1), and BSol NHS ICB (2), UKHSA (1). To help promote full participation, stakeholders will be separated into two groups. Of these, nine have also agreed to be part of a longer-term advisory board for this project. The make-up of each group will be chosen to create the best spread of background and expertise. A simplified version of the approach to stakeholder engagement used by \citeauthor{michail2025evaluation} will be employed for this project \cite{michail2025evaluation}.
 
-Following approach from Michail et. al \cite{michail2025evaluation}. 
+Before the workshop, participants will be sent an evidence pack outlining the rational behind using a system dynamics and local evidence on the systemic, sociological, and psychological barriers that prevent parents from vaccinating their children as outlined in Section.~\ref{sec:vaccine-barriers}. 
 
-Currently (\tkDE{26/02/2026}), \tkDE{ten}, stakeholders have agreed to participate in the modelling workshop. Stakeholder organisations include BCC (6), Solihull Metropolitan Council (1), and BSol NHS ICB (2), UKHSA (1). To help promote full participation, stakeholders will be separated into \tkDE{two} groups. The make-up of each group will be chosen to create the best spread of background and expertise. For example, two of the participants from the BSol ICB have prior experience in system dynamics and will therefore be split up to maximise the conceptual support given to each group. 
-
-Participants will be sent an evidence pack outlining the rational behind using a system dynamics approach rather than a more traditional outbreak simulation technique as well as published and local evidence on the systemic, sociological, and psychological barriers that prevent parents from vaccinating their children. 
-
-Input from the participants will be collected on paper and sticky notes. At the end of the session, all materials will be photographed and later transcribed. For transparency, the photos and transcriptions will be made publicly available via the GitHub repository. The session will be facilitated with the help of the BCC Governance Team. 
+Throughout the workshop, input from the participants will be collected on paper and sticky notes. At the end of the session, all materials will be photographed and later transcribed. For transparency, the photos and transcriptions will be made publicly available. Due to its geographical centrality and public transport connections, the workshop will be hosted at the Birmingham City Council House. The session will be broken into three parts and be facilitated with the help of the BCC Governance Team. 
 
 \subsubsection{Part 1 - Introduction}
-\begin{itemize}
-    \item High-level overview of the evidence pack
-    \item Practical model building task to help participants understand the basics behind system dynamics using an an normal-life example that everyone can equally relate to and engage with (probably the banking example)
-    \end{itemize}
+
+To ensure all participants are aware of the key issues being discussed, high-level overview of the evidence pack will be presented. This will include a recent epidemiological update from the UKHSA and a brief overview of system dynamics.
+
+Secondly, to help everyone to conceptually understand system dynamics, there will be a short practical model building task. To ensure all participants can participate in this task, an everyday example relating to flows of money in and out of a bank account will be used.
 
 \subsubsection{Part 2 - Model building}
-\begin{itemize}
-    \item Stakeholders will be presented with a simplified measles "model" showing the main stocks (states) in the system (\tkDE{Outline and probably include a diagram}). For each of the key flows between stocks, participants will be asked to use sticky notes to give factors that facilitate and block the flow. Once the factors are listed, participants will be given a limited number of stickers each to vote on the factors for each flow that they think are dominant. While all factors are important, this will help to focus the model on the factors with the biggest influence on the model's behaviour.
-\end{itemize}
+
+Stakeholders will be presented with a simplified measles "model" showing the main stocks (population states) and flows in the system. For each of the key flows between stocks, participants will be asked to use sticky notes to give factors that facilitate and block the flow. Once the factors are listed, participants will be given a limited number of stickers each to vote on the factors for each flow that they think are dominant. While all factors are important, this will help to focus the model on the factors with the biggest influence on the model's behaviour.
 
 \subsubsection{Part 3 - Interventions}
-\begin{itemize}
-    \item Participants will be asked to identify which flows they think are problematic (Assuming given model is complex enough to justify this step).
-    \item Participants will then be asked to identify policies and interventions that could change this behaviour and, for each to identify clearly who will be doing what, where in the system this will occur, and what the expected direction of change is.
-    \item This information will also be collected on sticky notes. 
-    \item Each group will then choose two or three interventions to share with the group. Once all the interventions are collected, Menti will then be used to allow every participant to rank each intervention by preference. This will help to focus the project on the interventions that stakeholders think are the most worth focusing on based on their feasibility and impracticability. 
-\end{itemize}
+
+Participants will be asked to identify which flows they think think could be improved to make the system work better. They will be asked to identify potential policies and interventions that could change this behaviour. Importantly, for each change they will be asked to identify clearly who will be responsible for which actions and where within the system this action will occur. They will also be asked to predict in which direction this will change the flow. This information will also be collected on sticky notes. 
+
+Each group will then choose two or three interventions to share with the group. Once all the interventions are collected, an anonymous online voting platform will then be used to allow every participant to rank each intervention by preference. This will help to focus the project on the interventions that stakeholders think are the most worth focusing on based on their feasibility and impracticability. 
 
 \subsection{Model Development}
-\begin{itemize}
-    \item Basic model development
-    \item Take back to stakeholders for validation
-    \item Calibration
-    \item Intervention implementation
-    \item Feed back to stakeholders as required
-\end{itemize}
 
-\subsection{Data Sources}
+This will expand on the work done by \citeauthor{van2020explaining} with the aim of explicitly including the role of ethnicity and by building the model using a participatory approach with local system experts, behavioural scientists, and local authority health protection leads. Since this model is to be built collaboratively, it is not known yet what it will look like. However, the basic components included in the minimal model shown in Figure.~\ref{fig:SD-model-example} will likely be included. All system dynamics modelling will be completed using Stella Architect \cite{StellaArchitect}. This propriety software includes a graphical user interface that allows for models to be built visually similar to that shown in Figure.~\ref{fig:SD-model-example}. This helps to engage stakeholders without technical expertise in the model building process. Both \citeauthor{van2020explaining} and \citeauthor{zadeh2025public} both provide the values used for the variables in their models which can be used as starting points for this project \cite{van2020explaining, zadeh2025public}.
 
-\begin{itemize}
-    \item Population data (GP registrations) – BSol ICB
-    \item Child MMR vaccinations – Federated data platform
-    \item Measles lab-confirmed notifications – UKHSA (FOI)
-    \item Hospitalisation data – BSol ICB
-\end{itemize}
+%\subsubsection{Base model development and validation}
 
-\subsection{Data Analysis and Visualisation}
-GP registration and SUS data will be extracted using SQL. All data analysis and visualisation will be completed in R. All code and Stella Architect models will be publicly available on GitHub\footnote{\href{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}}.
+First, a basic version of the model outlined in the development workshop will be built. This will include all stocks and flows vectorised by broad ethnic categories (Asian, Black, Mixed, Other, and White). While this will not capture the full variation in vaccine attitudes by ethnicity, this will serve as an important first step towards building a more complete model. This will also help to avoid the impact limited data for some of the smaller ethnic groups. Where they are known, variable values will be included in the model. This model will be presented back to the project advisory group for validation and, where necessary, estimation of variable values. 
 
-\subsection{Sensitivity Analysis}
+Assume perfect mixing between ethnic groups? %Empirical evidence on epidemiological mixing between ethnic groups in the UK is limited. A small number of studies using molecular epidemiology and behavioural network data suggest some degree of assortative mixing within ethnic groups, but transmission between groups remains common and detailed ethnicity-specific contact matrices are largely unavailable 
+% Only children?
+
+This validated model will then be calibrated to fit historic data. The data used for calibration will include Child MMR vaccinations from the NHS Federated Data Platform \cite{NHSEngland2026FDP}, Primary Care registration data and hospitalisation data from the BSol ICB SQL server, and lab-confirmed measles notifications from West Midlands UKHSA (to be obtained via a freedom of information request). Some of the model variables will be left as "free" variables which can be tuned such that the model produces the expected output. As an infectious disease, measles cases occur in "outbreaks". Therefore, it will be necessary to artificially perturb the system by introducing a small number of infected individuals to start an outbreak. 
+
+Once a functional model of the BSol measles system has been built, the different interventions will be implemented into the model such that they can be turned on and off, if necessary with varying "intensity". To use the project time as efficiently as possible, interventions will be implemented in the order of prioritisation given by stakeholders at the workshop. For each intervention, the population MMR coverage, number of measles notifications, and measles hospitalisations over time will be compared to the system without the intervention. 
+
+Interventions may be preventative or reactive and will have to be evaluated separately. For preventative interventions, the system will be "perturbed" with infectious people to cause a system outbreak at fixed points in time following the intervention. Reactive interventions, however, will be activated only after the number of confirmed infections in the system has reached some threshold value.
+
+Sensitivity analysis will also be performed. Some of the system variables will have significant uncertainty, particularly those drawn from expert opinion. For each of these values, the simulation will be re-run using plausible maximum and minimum values to assess the impact of this uncertainty on the model outputs. 
+
+All data will be exported from Stella Architect and analysed and visualised using R Studio (version 2023.12.1, R version 4.3.3). All code and Stella Architect models will be publicly available on GitHub\footnote{\href{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}}. 
 
 \section{Feasibility}
 
-\begin{itemize}
-    \item Data completeness
-    \item Ethical approval is not required since the data used is pseudonymised and routinely collected and the purpose of this project is for service improvement so this will not impact the project feasibility. 
-    \item Talk about training and experience with R, SQL, and Stella?
-\end{itemize}
+There are several factors that impact the feasibility of this project. Time is a significant constraint on what can be achieved. For this reason, effort has been taken to prioritise modelling efforts on aspects that are deemed to be most important by the system stakeholders (see Section.~\ref{sec:engagement}). A full timeline of the project, including key deadlines, is shown in Appendix.~\ref{app:timeline}.
 
+One of the biggest issues is data completeness. The vaccination data coverage data from the NHS federated data platform is central to this project. However, 26.5\% of BSol residents in the dataset have an unknown ethnicity and, as seen from Figure.~\ref{fig:BSol-mmr-eth}, this cohort has the lowest MMR coverage at just 32.0\%. As a first order correction, the value for these patients will be redistributed proportionally amongst the other ethnic groups. However, since some ethnic groups are more likely than others to not have their ethnicity recorded, this redistribution will be biased \cite{mathur2014completeness}. Similar issues are also observed in the hospitalisation and measles notifications data. 
 
-%\bibliographystyle{unsrt}
-%\bibliography{bibliography}
+Another challenge relates to the novel simulation method being used. The author has completed training in building system dynamics models in Stella Architect with the BSol ICB. An academic partner at the University of Birmingham with significant experience in system dynamics and Stella Architect has also agreed to support the project. The author also has an academic background in the use of other simulation methods and uses R Studio and SQL daily as a senior data analyst at BCC \cite{ellis2021axion, Ellis_2022, EllisThesis2022, marsh2024dark}. 
+
+Ethical approval is not required since the data used is pseudonymised and routinely collected and the purpose of this project is for service improvement so this will not impact the project feasibility. The decision tool created by the NHS Health Research Authority also confirmed that a review by the NHS Research Ethics Committee is not required for this project. The results from this decision tool are also publicly available on the project's GitHub repository.
 
 %TC:ignore
-%\bibliographystyle{unsrt}
 \printbibliography
 
 \newpage
@@ -427,16 +400,6 @@ Following this approach, Eqs.~\ref{eq:ODE1}-\ref{eq:ODE5} can be combined into a
 \end{tabular}
     \caption{Publications on vaccine hesitancy.}
     \label{tab:vaccine-hesitancy-papers}
-\end{table}
-
-\begin{table}[ht!]
-    \centering
-    \begin{tabular}{c|c}
-         &  \\
-         & 
-    \end{tabular}
-    \caption{Papers on child-vaccine interventions.}
-    \label{tab:placeholder}
 \end{table}
 
 \restoregeometry
