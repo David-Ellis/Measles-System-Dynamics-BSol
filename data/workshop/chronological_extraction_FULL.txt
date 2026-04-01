@@ -1,0 +1,277 @@
+CHRONOLOGICAL EXTRACTION – FULL
+
+==================================================
+PART 1 – INTRODUCTION SECTION
+==================================================
+
+--------------------------------------------------
+Introduction
+--------------------------------------------------
+- The facilitator outlined the purpose of the workshop as supporting system dynamics modelling related to measles vaccination uptake and transmission.
+- Participants were informed that the session would combine evidence review, interactive modelling exercises, and group discussion.
+- The importance of capturing complexity without over‑complicating the model was emphasised.
+- The session was framed as supporting both academic work and practical system decision‑making.
+
+--------------------------------------------------
+10:00 Arrival
+--------------------------------------------------
+- Participants arrived and settled into the room.
+- Informal conversation took place as people found seats and materials.
+- [UNCLEAR] General background noise and side conversation during arrival.
+
+--------------------------------------------------
+10:10 Welcome and project overview
+--------------------------------------------------
+- The facilitator welcomed participants and thanked them for attending.
+- The overall project aim was described as developing a system dynamics model of measles transmission and vaccination uptake.
+- The model was described as a tool to explore how different factors interact rather than a precise forecasting model.
+- Participants were informed that the focus would be on understanding drivers, feedback loops, and leverage points in the system.
+- The agenda for the day was briefly outlined.
+- The importance of participant expertise and open discussion was highlighted.
+
+--------------------------------------------------
+10:20 Local epidemiology update (UKHSA)
+--------------------------------------------------
+- An overview of recent measles vaccination uptake was presented, focusing on first‑dose MMR coverage.
+- It was noted that first‑dose uptake data are more robust than second‑dose data.
+- Participants discussed that having a long gap between first and second doses reduces effectiveness.
+- It was stated that, for modelling simplicity, the initial model would focus on single‑dose uptake.
+- Recent trends showed a temporary increase in vaccination activity followed by stabilisation.
+- Birmingham was described as having a younger population than the national average, increasing vaccination demand.
+- Population diversity and high birth rates were highlighted as important contextual factors.
+- Participants noted that Birmingham requires proportionally more vaccinations per practice than many other areas.
+- [UNCLEAR] Brief side comments related to data sources and confidence intervals.
+
+--------------------------------------------------
+10:30 Summary of key evidence on vaccination barriers
+--------------------------------------------------
+- A summary of barriers to MMR vaccination was presented based on local qualitative intelligence.
+- Language barriers were identified as a major issue, including limited English literacy and low literacy in any language.
+- Difficulties accessing and understanding written communications were highlighted.
+- Concerns about vaccine ingredients, particularly pork gelatine, were discussed.
+- It was noted that awareness of pork‑free vaccine options varies across communities.
+- Fears linking MMR vaccination to autism were described as persistent despite being discredited.
+- Differences in concerns between ethnic and community groups were highlighted.
+- Migrant and asylum‑seeking populations were described as facing barriers related to access, eligibility awareness, and missing records.
+- Fear of cost and immigration enforcement was identified as an unnecessary but persistent barrier.
+- Gypsy, Roma and Traveller communities were described as facing unique access challenges and historical mistrust.
+- General mistrust of government and institutions was discussed as a background factor.
+- Participants noted that reasons for vaccine hesitancy are highly individual and rarely explained by a single factor.
+- It was suggested that reducing the need for individual decision‑making could increase uptake.
+- [UNCLEAR] Partial discussion referencing national‑level trust and inequality.
+
+--------------------------------------------------
+11:00 Brief introduction to system dynamics modelling
+--------------------------------------------------
+- System dynamics was introduced as a method for modelling complex systems over time.
+- Key concepts of stocks, flows, and feedback loops were explained.
+- Stocks were described as accumulations, such as populations or quantities.
+- Flows were described as rates of change between stocks.
+- Information flows and abstract variables such as trust were described as model‑able.
+- The concept of system boundaries and exclusions was explained.
+- Participants were reminded that models simplify reality and rely on assumptions.
+- The idea of tuning model parameters to reproduce observed patterns was introduced.
+
+--------------------------------------------------
+11:10 System dynamics interactive example (group task)
+--------------------------------------------------
+- A simple example using population dynamics was presented to illustrate stocks and flows.
+- The example demonstrated how feedback loops can create unintended behaviour.
+- Participants discussed how missing feedback can lead to unrealistic model behaviour.
+- The importance of bidirectional relationships was emphasised.
+- Visual cues such as reinforcing and balancing loops were explained.
+- Participants were reassured that perfection was not required for the exercise.
+- Groups were instructed to work together on a simple illustrative task.
+- [UNCLEAR] Light‑hearted comments and informal discussion during the exercise.
+
+--------------------------------------------------
+11:30 Break
+--------------------------------------------------
+- Participants were invited to take a short break.
+- Refreshments and facilities were made available.
+- Informal discussion continued during the break.
+- [UNCLEAR] Background conversation during the break period.
+
+
+==================================================
+PART 2 – MODEL BUILDING SECTION
+==================================================
+
+--------------------------------------------------
+11:45 Base model introduction
+--------------------------------------------------
+- The facilitator presented the simplified base model for measles dynamics consisting of five key stocks: susceptible, vaccinated, infected, hospitalised, and recovered.
+- It was explained that deaths from measles would be included, but other deaths or age transitions would not be modelled for simplicity.
+- The facilitator noted that although ethnicity was not shown visually, each stock would be broken down by broad ethnic categories to reflect differential uptake and risk.
+- Participants were invited to add additional stocks if they believed essential system components were missing.
+- The facilitator highlighted that vaccinated individuals could still, in rare cases, become infected and instructed participants to add that relationship to their diagrams.
+- Migration‑related factors were discussed, with participants noting that some individuals may enter the system already vaccinated or unvaccinated.
+- The facilitator encouraged inclusion of new inflows for vaccinated and unvaccinated migrants as needed.
+- Participants raised questions about recovery categories, including long‑term complications, and how these might be represented.
+- The facilitator suggested that complication pathways could be included by splitting outflows or by adding abstract indicators linked to recovery.
+- Participants were reminded that the model should balance simplicity with capturing key system behaviour.
+
+--------------------------------------------------
+11:55 Identify factors that influence key flows in the system (group task)
+--------------------------------------------------
+- Participants were instructed to identify all factors influencing vaccination rate, infection rate, recovery rate, and hospitalisation rate.
+- Groups were encouraged to write each factor on sticky notes and draw arrows showing causal relations.
+- The facilitator emphasised capturing abstract drivers, such as trust, perceived risk, and misinformation.
+- Participants discussed parental willingness to vaccinate as a central factor influencing vaccination rate.
+- Accessibility of vaccination services was identified as equally critical, including appointment availability, opening hours, and location.
+- Participants noted that willingness and accessibility act as parallel necessities: both must be present for vaccination to occur.
+- Groups identified GP motivation and practice‑level prioritisation as influential factors.
+- Workforce capacity was highlighted, including staffing levels, availability of vaccinators, and competing pressures.
+- Participants discussed cost‑effectiveness considerations within practices, influencing how actively staff promote vaccination.
+- Family influence was identified as a major factor, particularly when relatives have experienced negative side effects or misinformation.
+- Perceived disease risk was highlighted, with participants noting that fear of outbreaks can both increase and decrease uptake depending on how risk is interpreted.
+- Social and community norms were identified as important determinants of willingness.
+- Socioeconomic conditions and deprivation were discussed as constraints on time, transport, and access.
+- National‑level policy and messaging were noted as background influences outside local control.
+- Participants discussed the influence of media exposure, including positive messaging, negative messaging, and misinformation spread.
+- Health literacy was identified as a key determinant affecting understanding of eligibility, safety, and access pathways.
+- Participants discussed that some communities experience mistrust of institutions, which reduces willingness to engage.
+- The number of infectious individuals in the community was linked to perceived risk and thus willingness.
+- The presence of hospitalised cases was noted as potentially influencing population risk perception.
+- Participants reviewed stock‑and‑flow relationships to ensure each factor pointed to a measurable rate or mechanism.
+- [UNCLEAR] Partial discussion referencing perceived community risk and outbreak triggers.
+
+--------------------------------------------------
+12:20 Discussion
+--------------------------------------------------
+- The whole group reconvened to share the factors identified during the group task.
+- Participants agreed that accessibility emerged as one of the most influential drivers across groups.
+- Willingness or intent to vaccinate was identified as the other dominant driver.
+- It was noted that almost all secondary factors could be linked to one of these two overarching domains.
+- Participants discussed the relationship between GP incentives and vaccination activity, including how payment structures influence motivation.
+- It was suggested that practices sometimes deprioritise vaccination if targets appear unattainable.
+- Participants emphasised that socioeconomic pressures strongly influence both access and willingness.
+- Several participants highlighted that national messages, policy decisions, or negative media activity influence local behaviour.
+- Participants raised the issue of cultural and linguistic barriers affecting understanding of vaccine options, especially pork‑free alternatives.
+- It was noted that fear of side effects, both real and perceived, continues to shape parental decisions.
+- Participants discussed the significant role of family members and peer networks in shaping beliefs about vaccines.
+- Some participants observed that fear of disease spread can prompt increased vaccination, while excessive fear may cause avoidance.
+- Participants noted that schools, community centres, and trusted local figures can influence uptake through advocacy.
+- It was recognised that time constraints, transport limitations, and clinic scheduling create structural barriers to accessing vaccination.
+- Participants identified misinformation as a key influence, including the volume and perceived credibility of misleading content.
+- Data limitations were discussed, including limited visibility of ethnicity‑specific patterns for childhood vaccinations.
+- Participants noted that uptake disparities reflect both structural inequities and differing community experiences with healthcare.
+- Several participants discussed that health literacy influences correct interpretation of side effects versus disease symptoms.
+- Participants affirmed that the model should remain usable rather than overly complex, even if many factors appear relevant.
+- [UNCLEAR] Fragmented comments about grouping factors and removing duplicates.
+
+--------------------------------------------------
+12:30 Vote on most influential factors
+--------------------------------------------------
+- Participants were given stickers to vote on the three factors they believed most strongly drive system behaviour.
+- The facilitator encouraged people to review all groups’ notes before voting.
+- Participants were reminded that multiple votes could be allocated to a single factor if desired.
+- Accessibility received substantial interest, reflecting strong group agreement on its importance.
+- Willingness or intention to vaccinate also attracted many votes, confirming its central role.
+- GP motivation and prioritisation received discussion, though fewer votes than accessibility or willingness.
+- Health literacy received mixed but notable attention as a moderating factor.
+- Misinformation and negative messaging were highlighted as widespread influences with system‑wide effects.
+- Socioeconomic constraints received votes due to their pervasive influence on both access and willingness.
+- Participants discussed whether risk perception should be treated as a distinct factor or a composite of multiple influences.
+- Some participants expressed concern about under‑representing structural issues such as transport and clinic placement.
+- The facilitator recorded which factors received the highest vote totals to inform later modelling prioritisation.
+- [UNCLEAR] Light side conversation during voting.
+
+--------------------------------------------------
+12:45 Lunch Break
+--------------------------------------------------
+- Participants broke for lunch.
+- Informal discussions continued at tables regarding model simplification and potential interventions.
+- Several participants discussed the difficulty of capturing local inequalities within a simplified system model.
+- [UNCLEAR] Background chatter without intelligible content.
+
+
+==================================================
+PART 3 – INTERVENTIONS SECTION
+==================================================
+
+--------------------------------------------------
+13:30 Identify problematic flows in the system
+--------------------------------------------------
+- Participants reviewed the system diagram and discussed which flows appeared most vulnerable or constrained.
+- Accessibility to vaccination services was identified as a flow with major structural bottlenecks, including limited clinic hours, inflexible appointment systems, and lack of alternative delivery sites.
+- Parental willingness to vaccinate was highlighted as a problematic flow due to persistent misinformation, fear of side effects, and general mistrust of institutions.
+- Participants noted that misinformation spreads rapidly and influences perceptions of risk, which then impacts vaccination uptake.
+- GP motivation and prioritisation were identified as inconsistent, with some practices actively engaging families and others deprioritising vaccination due to workload or perceived low return on effort.
+- Participants recognised that cultural norms within certain communities can reduce the flow of individuals choosing vaccination.
+- Low health literacy was discussed as a barrier that slows down or prevents transitions from “susceptible” to “vaccinated.”
+- Socioeconomic conditions were identified as constraints affecting multiple flows, especially where transport, employment demands, or childcare responsibilities limit access.
+- Participants discussed that communication flows between the health system and communities are often insufficient or poorly targeted.
+- [UNCLEAR] Brief fragmented comment referencing recent outbreaks and responsiveness of different groups.
+
+--------------------------------------------------
+13:40 Identify potential interventions to improve system behaviour (group task)
+--------------------------------------------------
+- Groups began brainstorming interventions intended to improve vaccination uptake and reduce susceptibility.
+- Participants proposed increasing availability of community‑based vaccination sites, including pharmacies, health centres, and pop‑up locations.
+- It was suggested that expanding access points would reduce reliance on GP practices as the sole delivery channel.
+- Some participants recommended enabling health visitors or other frontline staff to provide vaccinations directly, reducing pressure on GPs.
+- Participants discussed implementing supplementary vaccination offers, such as home visits or mobile clinics, to reach families with significant access barriers.
+- Introducing longer‑term, sustained community engagement programmes was proposed to build trust rather than relying on crisis‑driven outreach.
+- Participants recommended developing campaigns delivered by independent marketing agencies rather than local government, with messaging tailored to community norms.
+- Using local influencers and trusted messengers, including community leaders, was proposed to counter misinformation and shape positive norms.
+- Participants suggested creating a large‑scale communication effort that is humorous, relatable, and tailored for social media rather than purely factual or formal.
+- The idea of making pork‑gelatine‑free vaccine formulations the default across Birmingham was proposed to simplify communication and reduce confusion.
+- Some participants noted that supply caps on gelatine‑free vaccines present operational challenges and may require regional or national policy changes.
+- Participants proposed training staff across health and social care settings in how to hold difficult conversations about vaccination.
+- It was noted that motivation and beliefs of healthcare workers themselves influence their ability to advocate for vaccination.
+- Participants suggested conducting fact‑finding work to better understand why some frontline staff decline vaccines, before designing interventions targeting staff beliefs.
+- Several participants discussed co‑designing interventions with communities to ensure relevance and cultural acceptability.
+- The idea of creating a network of community “vaccine ambassadors” or champions was proposed to promote vaccination through everyday interactions.
+- Participants discussed linking vaccination appointments to other services, such as nursery enrolment or early‑years visits, to streamline the process.
+- Increased use of reminder systems (texts, letters, outreach calls) was proposed to maintain contact with families.
+- Participants noted that existing communication often does not reach families effectively due to language differences or low literacy.
+- [UNCLEAR] Short discussion about feasibility of integrating vaccination with school‑based programmes.
+
+--------------------------------------------------
+14:10 Discussion
+--------------------------------------------------
+- The whole group reconvened to review the proposed interventions.
+- Community‑based supplementary vaccination offers were widely supported due to strong evidence of convenience improving uptake.
+- Participants emphasised that pharmacies and health visitors could play especially impactful roles if appropriately resourced.
+- Concerns were raised about the feasibility of making gelatine‑free vaccines the default without policy changes or increased supply.
+- Participants agreed that simplifying the message—removing the need for families to request gelatine‑free options—could significantly reduce confusion.
+- There was strong support for using independent marketing agencies to deliver culturally relevant, engaging campaigns separate from formal government branding.
+- Participants noted that humorous or relatable social media content tends to outperform formal health messages in countering misinformation.
+- It was highlighted that long‑term consistency in engagement is critical; short‑term campaigns during outbreaks are less effective.
+- The group reaffirmed the importance of vaccine ambassadors and community champions in addressing trust issues within specific communities.
+- Participants also noted that empowering champions requires careful vetting, support, and collaboration rather than imposing messages.
+- A discussion took place on training staff in difficult conversations, recognising that many staff feel unprepared to address concerns.
+- Participants noted that some staff themselves hold doubts or misunderstandings about vaccines, limiting their ability to advocate.
+- Fact‑finding was encouraged to better understand these sceptical staff segments before designing behaviour‑change interventions.
+- Concerns were raised about avoiding approaches that could stigmatise staff or communities.
+- Participants identified structural interventions—such as improved appointment systems and more flexible service hours—as essential for sustained improvement.
+- Socioeconomic barriers, including transport and time pressure, were highlighted as needing integrated solutions.
+- Participants concluded that a combined package of interventions, rather than isolated measures, would likely yield the greatest system impact.
+- [UNCLEAR] Fragment referencing political constraints around mandatory measures.
+
+--------------------------------------------------
+14:30 Rank proposed interventions using an anonymous online vote
+--------------------------------------------------
+- Participants were asked to scan a QR code linking to an online voting tool.
+- The facilitator instructed participants to rank all interventions from highest to lowest priority.
+- The ranking was to reflect the APPEASE criteria, including acceptability, practicability, effectiveness, affordability, spillover effects, and equity.
+- Participants were encouraged to consider who would “own” each intervention and what system level it would operate at.
+- Interventions involving gelatine‑free default vaccines, communication with local influencers, and training staff in difficult conversations received substantial discussion.
+- Participants completed their rankings individually while reviewing displayed options.
+- The facilitator monitored incoming results and displayed the emerging order.
+- The top‑ranked interventions included shifting to gelatine‑free default vaccines, improving communication through culturally relevant messaging, and strengthening community leader engagement.
+- Training health and social care staff in supportive conversations ranked lower but remained important.
+- Participants noted that even lower‑ranked interventions were still valuable and should not be dismissed.
+- [UNCLEAR] Brief comments about aligning interventions with upcoming deadlines.
+
+--------------------------------------------------
+15:00 Finish
+--------------------------------------------------
+- The facilitator thanked participants for attending and contributing to the workshop.
+- Participants were thanked for supporting both the modelling work and the wider public health effort.
+- The session formally concluded.
+- Informal conversation continued as participants packed away materials and prepared to leave.
+- [UNCLEAR] Background noise and general farewells.
+
+END OF FULL CHRONOLOGICAL EXTRACTION
