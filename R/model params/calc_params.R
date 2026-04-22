@@ -81,7 +81,7 @@ bsol_migrant_plus <- read_excel("data/model params/BSol-Ages-and-Birth-Country-P
   mutate(
     age_group = case_when(
       age_86_categories_code == 0 ~ "Age < 1",
-      age_86_categories_code < 6 ~ "Age 1 to 5",
+      age_86_categories_code < 5 ~ "Age 1 to 4",
       TRUE ~ NA
     )
   ) %>%
@@ -109,12 +109,12 @@ bsol_migrant_plus <- read_excel("data/model params/BSol-Ages-and-Birth-Country-P
   mutate(
     observation = case_when(
       age_group == "Age < 1" ~ observation,
-      age_group == "Age 1 to 5" ~ observation / 5
+      age_group == "Age 1 to 4" ~ observation / 4
     ),
     # Assume zero coverage for those aged less than 1
     coverage = case_when(
       age_group == "Age < 1" ~ 0,
-      age_group == "Age 1 to 5" ~ coverage
+      age_group == "Age 1 to 4" ~ coverage
     ),
     # convert to decimal
     coverage = coverage / 100,
@@ -153,7 +153,7 @@ ggsave("figures/model-params/migration-estimates.pdf", width = 6.5, height = 5)
 # Print overall vaccinated child migration percentage
 
 bsol_migrant_plus %>%
-  filter(age_group == "Age 1 to 5") %>%
+  filter(age_group == "Age 1 to 4") %>%
   summarise(
     Vaccinated = sum(Vaccinated),
     Unvaccinated = sum(Unvaccinated)
@@ -161,3 +161,51 @@ bsol_migrant_plus %>%
   mutate(
     overall_perc = Vaccinated / (Vaccinated + Unvaccinated)
   )
+
+################################################################################
+#                        Yearly Vaccination Averages                           #
+################################################################################
+
+vaccinations <- read_excel(
+  "data/model params/bsol-vaccinations.xlsx",
+  sheet = "daily_vaccinations"
+  ) %>%
+  clean_names() %>%
+  mutate(
+    year = lubridate::year(vaccination_date)
+  ) %>%
+  filter(
+    year >= 2021,
+    year <= 2025,
+    !(age_bracket_activity %in% c("<1 year", "Unknown"))
+  ) %>%
+  group_by(year, age_bracket_activity) %>%
+  summarise(
+    valid_dose = sum(valid_dose),
+    .groups = "drop"
+  )
+
+ggplot(vaccinations, 
+       aes(x = year, y = valid_dose, fill = age_bracket_activity)) +
+  geom_col() +
+  theme_bw() +
+  labs(
+    y = "Valid MMR or MMRV Doses",
+    fill = "",
+    x = "Year"
+  ) +
+  theme(
+    legend.position = "top",
+    legend.box.margin = margin(0,0,-10,0)
+  ) +
+  scale_fill_brewer()
+
+ggsave("figures/model-params/yearly-vaccinations.pdf", 
+       width = 6.5, height = 4)
+
+yearly_vacc_average <- vaccinations %>%
+  group_by(age_bracket_activity) %>%
+  summarise(
+    year_av_dose = sum(valid_dose) / n()
+  )
+yearly_vacc_average
