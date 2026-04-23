@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{authblk}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[english]{babel}
+\usepackage{pgfgantt}
+\usepackage{csquotes}
+\usepackage{multirow}
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\hypersetup{colorlinks=true, breaklinks=true}
+
+\usepackage[    
+    style=numeric-comp,
+    sorting=none,
+    sortcites=true
+    ]{biblatex}
+
+\bibliography{latex/bibliography}
+
+\newcommand{\mycitethis}{\tkDE{[?]}}
+
+\usepackage{lscape}
+
+\usepackage{verbatim}
+\usepackage{geometry}
+
+
+% Change font
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{xcolor}
+\newcommand{\tkDE}[1]{\textcolor{magenta}{#1}} 
+\newcommand{\citethis}{\tkDE{[?]}}
+
+\newcommand{\diff}{\mathrm{d}}  
+
+\title{BSol Measles Participatory System Modelling Workshop (April Update)}
+\author{David Ellis}
+\date{30/04/2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{table}[ht!]
+    \begin{tabular}{p{0.5\linewidth} | p{0.25\linewidth} | p{0.15\linewidth}}
+    \toprule
+    \textbf{Variable} & \textbf{Value} & \textbf{Source(s)}\\ \midrule
+    
+    Initial number of babies ($<$1 yrs) & 16,346 & \cite{ONS2021census} \\
+    
+    Initial number of children vaccinated (1 to 4 yrs) & 4,745&  \cite{ONS2021census, NHSEngland2026FDP}  \\
+    
+    Initial number of children unvaccinated (1 to 4 yrs) & 14,620 & \cite{ONS2021census, NHSEngland2026FDP} \\
+    
+    Birth rate & 16,346 yr$^{-1}$ & \cite{ONS2021census} \\
+    
+    Baby ($<$1 yrs) migration rate & 196 yr$^{-1}$ & \cite{ONS2021census} \\
+    
+    Vaccinated child (1 to 4 yrs) migration rate & 801.7 yr$^{-1}$ & \cite{ONS2021census, WHO_measles_coverage} \\
+    
+    Unvaccinated child (1 to 4 yrs) migration rate & 80.1 yr$^{-1}$ & \cite{ONS2021census, WHO_measles_coverage} \\
+
+    MMR/MMRV vaccination rate (1 to 4 yrs) & 15,360 yr$^{-1}$ & \cite{NHSEngland2026FDP} \\
+
+    Measles basic reproduction number, $R_0$ & 13.5 & \cite{https://doi.org/10.1111/risa.12637} \\
+
+    Measles infectious period, $1/\gamma$ & 1.25 weeks & \cite{WHO2025MeaslesFactsheet} \\
+
+    Measles transmission rate, $\beta = R_0\gamma$ & 1.54 day$^{-1}$ &  \cite{WHO2025MeaslesFactsheet, https://doi.org/10.1111/risa.12637}  \\
+
+    Hospitalisation rate & 0.0021 day$^{-1}$ & \cite{NICE2024MeaslesComplications} \\
+
+    Median hospital stay & 2 days & Locally calculated \\
+    
+    \end{tabular}
+    \caption{Model parameter values for a basic measles system model (No ethnicity or behavioural factors).}
+    \label{tab:modelling-papers} 
+\end{table}
+
+
+\printbibliography
+
+
+\end{document}
