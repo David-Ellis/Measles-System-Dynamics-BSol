@@ -47,6 +47,8 @@
 
 Factors influencing parental vaccine hesitancy \cite{Williams02092014}. MMR hesitancy in Europe meta analysis \cite{Tabacchi02072016}.
 
+Trends in vaccine hesitancy can be politically motivated, however, these trends cannot be described by a simple left/right divide \cite{Babinska2026}.
+
 \section{Methods}
 \subsection{Stakeholder Engagement}
 Following approach from Michail et. al \cite{michail2025evaluation}.
@@ -59,5 +61,60 @@ Following approach from \cite{van2020explaining} using Stella Architect.
 \section{Discussion}
 
 
+\appendix
+\section{Contribution Extraction from Workshop Transcript}
+
+Due to the length of the workshop, copilot was used to extract vocal contributions to supplement the written materials transcribed in Appendix.\ref{app:workshop-materials}. The full prompt given to Copilot was as follows:
+
+\begin{verbatim}
+I will upload two MS Teams transcript files (Part 1 and Part 2).
+
+I need you to produce a full chronological extraction of contributions from both transcripts, 
+ordered strictly by agenda items. The extractions should not include any names or otherwise 
+identifiable information. Use the following agenda headings, in this order:
+
+Introduction
+10:00 Arrival
+10:10 Welcome and project overview
+10:20 Local epidemiology update (UKHSA)
+10:30 Summary of key evidence on vaccination barriers
+11:00 Brief introduction to system dynamics modelling
+11:10 System dynamics interactive example (group task)
+11:30 Break
+
+Model Building
+11:45 Base model introduction
+11:55 Identify factors that influence key flows in the system (group task)
+12:20 Discussion
+12:30 Vote on most influential factors
+12:45 Lunch Break
+
+Interventions
+13:30 Identify problematic flows in the system
+13:40 Identify potential interventions to improve system behaviour (group task)
+14:10 Discussion
+14:30 Rank proposed interventions using an anonymous online vote
+15:00 Finish
+
+Instructions:
+
+1. Go through both transcript files and extract *all* contributions in *chronological order*, 
+rewriting them cleanly in full sentences.
+2. Place each contribution under the correct agenda heading.
+3. If the transcript text is unclear, truncated, or garbled, insert "[UNCLEAR]" at that 
+point and summarise what is recoverable.
+4. Do not omit any substantive content—include all contributions, group discussions, side 
+comments, and facilitator guidance.
+5. Produce the final output as a set of .txt files:
+   - Part 0 (header/explanation)
+   - Part 1 (Introduction section)
+   - Part 2 (Model Building section)
+   - Part 3 (Interventions section)
+6. After generating Parts 1–3, compile them into a single combined file called 
+"chronological_extraction_FULL.txt".
+
+Please ask me if you need confirmation about formatting, but otherwise proceed without 
+repeatedly checking after each step. Proceed without citations for transcript processing.
+\end{verbatim}
 
 \end{document}

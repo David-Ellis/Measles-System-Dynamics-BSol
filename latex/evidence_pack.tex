@@ -1,0 +1,180 @@
+\documentclass{article}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage{graphicx} % Required for inserting images
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{authblk}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[english]{babel}
+\usepackage{pgfgantt}
+\usepackage{csquotes}
+\usepackage{multirow}
+
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\hypersetup{colorlinks=true, breaklinks=true}
+
+\usepackage[    
+    style=numeric-comp,
+    sorting=none,
+    sortcites=true
+    ]{biblatex}
+
+\bibliography{latex/bibliography}
+
+\newcommand{\mycitethis}{\tkDE{[?]}}
+
+\usepackage{lscape}
+
+\usepackage{verbatim}
+\usepackage{geometry}
+
+
+% Change font
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{xcolor}
+\newcommand{\tkDE}[1]{\textcolor{magenta}{#1}} 
+\newcommand{\citethis}{\tkDE{[?]}}
+
+\newcommand{\diff}{\mathrm{d}}  
+
+\title{BSol Measles Participatory System Modelling Workshop}
+\author{}
+\date{}
+
+\begin{document}
+
+\begin{titlepage}
+
+\maketitle
+
+\vspace{-50px}
+\begin{center}
+    \begin{Large}
+        David Ellis | Birmingham City Council \vspace{10px}
+        
+        Tuesday 10th March 2026 \vspace{10px}
+    
+        Birmingham City Council House | Room 2
+    \end{Large}
+\end{center}
+
+\section*{Agenda}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Section} & \textbf{Time} & \textbf{Activity} \\
+\midrule
+
+\multirow{6}{*}{Introduction}
+& 10:00 & Welcome and project overview \\
+& 10:10 & Local Epidemiology Update (UKHSA) \\
+& 10:20 & Summary of key evidence on vaccination barriers \\
+& 10:40 & Brief introduction to system dynamics modelling \\
+& 10:50 & System dynamics interactive example (group task) \\
+& 11:30 & Break \\
+
+\addlinespace
+\midrule
+
+\multirow{5}{*}{Model Building}
+& 11:45 & Base model introduction \\
+& 11:55 & Identify factors that influence key flows in the system (group task) \\
+& 12:20 & Discussion \\
+& 12:30 & Vote on most influential factors \\
+& 12:45 & Lunch Break \\
+
+\addlinespace
+\midrule
+
+\multirow{4}{*}{Interventions}
+& 13:30 & Identify problematic flows in the system \\
+& 13:40 & Identify potential interventions to improve system behaviour (group task) \\
+& 14:00 & Discussion \\
+& 14:20 & Rank proposed interventions using an anonymous online vote \\
+
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{40px}
+
+\noindent
+Google Maps link: \href{https://maps.app.goo.gl/zjSfVn21AeYBYxs48}{https://maps.app.goo.gl/zjSfVn21AeYBYxs48}
+
+\end{titlepage}
+
+\begin{center}
+    \begin{LARGE}
+        Evidence Pack
+    \end{LARGE}
+\end{center}
+
+\section{Background}
+\label{sec:intro}
+Measles is a highly infectious viral disease that can cause serious complications and death \cite{WHO_measles_topic}.
+In high-income countries, complications occur in around 10-20\% of cases, and the case-fatality ratio is around 0.05\% \cite{wolfson2009estimates, NICE2024MeaslesComplications}. Clinically vulnerable groups, such as immunosuppressed individuals, infants under one year, and pregnant people, are more likely to develop complications \cite{NHSEngland2024MeaslesGuidance}.
+
+The first measles vaccine was licensed in the US in 1963 \cite{MOSS20172490}. The measles vaccine was first introduced in the UK in 1968 and later replaced by the combined measles, mumps, and rubella (MMR) vaccine in 1988 \cite{ukhsa_vaccination_timeline_1796_present}. As of 1 January 2026, varicella has been added to make the MMRV vaccine\footnote{For brevity, MMR and MMRV will simply be referred to as MMR.}. In the UK, all children are offered a first dose of MMR when they turn 12 months and a second dose at 18 months \cite{UKHSA2023MeaslesRubellaElimination}. The World Health Organisation (WHO) estimates that between 2000 and 2024, the measles vaccine has prevented  59 million deaths \cite{mondiale2025weekly}.
+
+The UK achieved measles elimination in 2016 \cite{UKHSA2023MeaslesRubellaElimination}. However, measles outbreaks are becoming increasingly common in the UK and globally due to falling vaccine coverage \cite{minta2023progress}. The top half of Figure~\ref{fig:measles-background} shows that there has been a series of measles outbreaks in England since January 2012.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/background/measles-background.pdf}
+    \caption{ (Top) Monthly lab-confirmed cases of measles in England \cite{UKHSA2025MMRLabConfirmedCasesQ3}. (Bottom) Yearly MMR coverage for one dose at two years old \cite{FTips}.}
+    \label{fig:measles-background}
+\end{figure}
+
+The bottom half of Figure~\ref{fig:measles-background} shows these outbreaks occurring alongside falling national vaccination coverage from a peak of 92.7\% in 2013 down to 88.9\% in 2024.  However, in Birmingham and Solihull (BSol), the  coverage started lower and has fallen further than the England average from a peak of 89.7\% in 2014 down to 81.3\% in 2024 \cite{FTips}. This has contributed to the region suffering large measles outbreaks \cite{jary2025sociodemographic}.
+
+Part of the reason for the falling MMR coverage is the growing scepticism in vaccines \cite{gschwend2026shadow, torracinta2021mmr}. While this is a trend for most vaccines, there has been particular public concern about the MMR vaccine due to the infamous, since retracted, claim by one research group that the MMR vaccine might cause autism \cite{novilla2023parents, wakefield1998retracted, godlee2011wakefield}. However, there are driving vaccine hesitancy that vary across population groups, including misinformation, health literacy, and lack of trust in the healthcare system \cite{cagnotta2025parental}. Some groups, such as Gypsy, Roma, and Traveller populations, also face additional barriers to accessing the vaccine \cite{wilder2020resurgence}. As a result, significant ethnic and socioeconomic inequality has been observed in MMR coverage \cite{Flatte079550, zhang2023ethnic}.
+
+During the outbreak in Birmingham from 13 October 2023, the measles infection rate was 3.4 times higher for those living in the most deprived quintile compared to those living in the third most deprived quintile. No infections occurred in the least deprived quintile. Additionally, the infection rate for Black African residents was eight times greater than the White British population \cite{jary2025sociodemographic}. Figure~\ref{fig:BSol-mmr-eth} shows that, except for those of Indian and Chinese heritage, children of all ethnic groups have lower MMR coverage at one dose than the White British cohort. The Black African and Black Caribbean have particularly low coverage at 74.2\% and 64.0\% respectively compared to 92.9\% for Whit British \cite{NHSEngland2026FDP}.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.91\linewidth]{figures/background/mmr-background.pdf}
+    \caption{Percentage of children aged less than six years old living in BSol who have received at least one dose of MMR or MMRV as of 04/02/2026 \cite{NHSEngland2026FDP}. The error bars indicate the 95\% CI calculated using the Wilson method.}
+    \label{fig:BSol-mmr-eth}
+\end{figure}
+Among the Core Cities of England and Wales\footnote{England and Wales Core Cities include Birmingham, Bristol, Cardiff, Leeds, Liverpool, Manchester, Newcastle, Nottingham, and Sheffield.}, Birmingham has the highest level of ethnic diversity. Data from the 2021 Census show that just under half (48.5\%) of BSol residents identified as White British, meaning that a majority (51.5\%) reported a different ethnic background. This is almost double the England average of 26.5\%. The largest ethnic minority groups were Pakistani (14.9\%), Indian (5.7\%), Black African (5.0\%), and Other White (3.8\%) \cite{ONS2021census}.
+
+All six WHO regions have declared measles elimination goals \cite{WHO_measles_topic}. The UK Measles and Rubella elimination strategy 2019 set the MMR vaccination target, based on WHO recommendation, to 95\% of two doses by 5 years of age in order to achieve and maintain measles elimination \cite{public2019uk}. The Public Health England (PHE) immunisation inequalities local action plan template outlines that factors responsible for inequitable vaccine uptake are context-specific \cite{PHE2021ImmunisationInequalities}. Therefore, in order to reverse the falling measles vaccine coverage and growing health inequalities, it is essential to understand the range of factors influencing parents’ decisions to vaccinate their children and how these factors are influenced by ethnicity.
+
+This project aims to build a decision-support system in collaboration with a range of local health protection experts working in BSol. An interactive workshop will be hosted to build a conceptual model of the local system, to identify behavioural and epidemiological factors that facilitate and block flows in the system, and to identify potential interventions to improve these flows. This model, including selected interventions, will be built using a system dynamics approach \cite{bala2017system, van2020explaining, michail2025evaluation}.
+
+\section{Barriers to Vaccination}
+
+\subsection{Hesitancy Prevalence}
+A 2024 meta-analysis estimated the global prevalence of caregiver vaccine hesitancy to be 32\% but only 2\% for England \cite{maamor2024prevalence}. This England estimate, based on a small sample taken in 2015, does not seem consistent with the current level of MMR coverage \cite{CAMPBELL20172979}. Another 2017 systematic review of socioeconomic differences in childhood vaccinations found MMR uptake in England to be lower amongst more affluent parents \cite{bocquier2017socioeconomic}. Again, the most recent study this finding was based on was published in 2011. In contrast, ONS data shows that MMR uptake is lowest in the most deprived local authorities \cite{FTips}.
+
+\subsection{Language Barriers}
+Community engagement workshops conducted in Birmingham and Solihull, targeted at low-uptake ethnic groups, found similar overarching themes \cite{bissett_measles_soft_intelligence_2024, palmer_birmingham_measles_engagement_2024, smbc_community_engagement_learning_2025}. Language barriers and low reading ability arose as a key issue. Many parents in BSol speak little English and therefore struggle to benefit from English-only flyers while others are unable to read in any language. This highlights the importance of using multiple media forms, including video, for outreach \cite{palmer_birmingham_measles_engagement_2024, smbc_community_engagement_learning_2025}. Participants also reported that the materials used to promote vaccination lacked diversity and did not represent the communities they were from \cite{palmer_birmingham_measles_engagement_2024}. This finding mirrors that of a 2024 systematic review on the barriers and enablers to MMR uptake among disadvantaged, minority, or underserved populations \cite{essa2024understanding}.
+
+\subsection{Ingredients}
+Concerns about the ingredients and safety of the vaccine varied by community. For example, Muslim participants were very concerned about pork gelatine and the option of a pork-free vaccine \cite{palmer_birmingham_measles_engagement_2024, smbc_community_engagement_learning_2025}. This again mirrors global research where the most commonly cited religiously motivated barriers to measles vaccination were animal-derived gelatins used in the vaccine production and the use of aborted human fetus tissue to make the rubella component of the MMR vaccine \cite{wombwell2015religious}.
+
+\subsection{Autism Links}
+Additionally, for Muslim/Afro-Caribbean communities, fears about possible links to autism were also seen to be important, while these were less important for the Romani traveller community \cite{palmer_birmingham_measles_engagement_2024, smbc_community_engagement_learning_2025}. This local diversity in opinion is important as a 2023 systematic review found the risk of autism to be the most commonly cited concern about the vaccine \cite{novilla2023parents}.
+
+\subsection{Accessibility}
+There were also issues raised about the accessibility of the vaccine services, particularly for migrants and asylum seekers
+\cite{bissett_measles_soft_intelligence_2024}. A survey of support staff working with unaccompanied asylum-seeking children (UASC) living in Birmingham found that UASC often arrive with missing vaccination records, and that there often isn’t enough time within appointments to give the required immunisations \cite{kemishi_uasc_health_wellbeing_2025}. Additionally, a 2025 review found that many migrants living in Europe don’t know how to access vaccine services and don’t know what they’re eligible for, including fears of costs \cite{halliday2025vaccine}. This is a particularly unnecessary barrier since all migrants in the UK, including those with No Recourse to Public Funds (NRPF), are eligible for free vaccinations on the NHS \cite{nrpf_nhs_treatment_overview, ukhsa_migrant_immunisation_2022}. The same review found that first-generation immigrants had low vaccination rates and high levels of unknown vaccination status, reflecting local evidence \cite{halliday2025vaccine}. In particular, one 2020 Welsh study found that asylum-seeking children had a 3 times reduced odds of being vaccinated compared to the general population \cite{perry2020inequalities}. A 2019 systematic review of parental attitudes and beliefs of the measles vaccine also found that parents from Gypsy, Roma, and Traveller populations faced unique accessibility barriers due to their transient residency as well as regular discrimination and exclusion within the healthcare system \cite{wilder2020resurgence}.
+
+\subsection{Trust}
+Participants in the Birmingham engagement workshops also raised the issue of trust \cite{bissett_measles_soft_intelligence_2024, palmer_birmingham_measles_engagement_2024}. Some participants reported a general mistrust of government sources, particularly if associated with the ‘Home Office’ and ‘immigration’. A general preference was raised for information to come from healthcare professionals and local community/faith leaders. A lack of trust in the healthcare system has also been found to be a barrier to vaccination in the UK \cite{torracinta2021mmr}.
+
+\subsection{Other factors}
+Other reasons for vaccine hesitancy include a belief that children are given too many vaccines too soon, and a low perceived benefit of vaccination \cite{novilla2023parents}. A 2025 cross-sectional study in Türkiye also found parents were 2.5 times more likely to exhibit vaccine hesitancy if one of their children had already experienced adverse effects from vaccination \cite{komurluouglu2025vaccine}.
+
+\printbibliography
+
+\end{document}
