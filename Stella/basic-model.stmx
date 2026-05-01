@@ -205,6 +205,7 @@
 				<eqn>9/365</eqn>
 				<units>Years</units>
 			</aux>
+			<aux name="Total infected"/>
 		</variables>
 		<views>
 			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
@@ -254,7 +255,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="2" isee:page_rows="2" isee:scroll_y="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="2" isee:page_rows="2" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -300,7 +301,7 @@
 					</pts>
 				</flow>
 				<aux x="68.8" y="278" name="Birth rate"/>
-				<connector uid="1" angle="22.414">
+				<connector uid="1" color="#B6B6B6" font_color="#B6B6B6" angle="22.414">
 					<from>Birth_rate</from>
 					<to>Births</to>
 				</connector>
@@ -311,8 +312,8 @@
 						<pt x="247.5" y="244"/>
 					</pts>
 				</flow>
-				<aux x="68.8" y="208" name="Baby migration rate"/>
-				<connector uid="2" angle="31.2109">
+				<aux color="blue" x="68.8" y="208" name="Baby migration rate"/>
+				<connector uid="2" color="#B6B6B6" font_color="#B6B6B6" angle="31.2109">
 					<from>Baby_migration_rate</from>
 					<to>Baby_migration</to>
 				</connector>
@@ -327,7 +328,7 @@
 					<to>Aging_past_1_year</to>
 				</connector>
 				<aux x="392.35" y="179.85" name="age to 1 rate"/>
-				<connector uid="4" angle="228.055">
+				<connector uid="4" color="#B6B6B6" font_color="#B6B6B6" angle="228.055">
 					<from>age_to_1_rate</from>
 					<to>Aging_past_1_year</to>
 				</connector>
@@ -352,7 +353,7 @@
 					</pts>
 				</flow>
 				<aux x="378" y="382.4" name="MMR vaccination proportion"/>
-				<connector uid="6" angle="27.2921">
+				<connector uid="6" color="#B6B6B6" font_color="#B6B6B6" angle="27.2921">
 					<from>MMR_vaccination_proportion</from>
 					<to>MMR_vaccination_rate</to>
 				</connector>
@@ -414,11 +415,11 @@
 					<from>Hospitalised</from>
 					<to>Died_from_hospital</to>
 				</connector>
-				<connector uid="15" angle="31.4324">
+				<connector uid="15" color="#B6B6B6" font_color="#B6B6B6" angle="31.4324">
 					<from>Hospital_mortality_rate</from>
 					<to>Died_from_hospital</to>
 				</connector>
-				<connector uid="16" angle="228.596">
+				<connector uid="16" color="#B6B6B6" font_color="#B6B6B6" angle="228.596">
 					<from>Recovery_from_hospital_rate</from>
 					<to>Sent_home</to>
 				</connector>
@@ -430,12 +431,12 @@
 					<from>Unvaccinated_Infected</from>
 					<to>Hospitalisation</to>
 				</connector>
-				<connector uid="21" angle="13.0602">
+				<connector uid="21" color="#B6B6B6" font_color="#B6B6B6" angle="13.0602">
 					<from>Hospitalisation_rate</from>
 					<to>Hospitalisation</to>
 				</connector>
 				<aux x="521.6" y="101.4" name="age to 5 rate"/>
-				<connector uid="23" angle="303.496">
+				<connector uid="23" color="#B6B6B6" font_color="#B6B6B6" angle="303.496">
 					<from>age_to_5_rate</from>
 					<to>Age_out_of_system</to>
 				</connector>
@@ -443,7 +444,7 @@
 					<from>Unvaccinated_Child</from>
 					<to>Age_out_of_system</to>
 				</connector>
-				<connector uid="25" angle="313.636">
+				<connector uid="25" color="#B6B6B6" font_color="#B6B6B6" angle="313.636">
 					<from>
 						<alias uid="26"/>
 					</from>
@@ -470,12 +471,12 @@
 					</pts>
 				</flow>
 				<aux x="406" y="96.7" name="Unvaccinated child migration rate"/>
-				<connector uid="31" angle="347.683">
+				<connector uid="31" color="#B6B6B6" font_color="#B6B6B6" angle="347.683">
 					<from>Unvaccinated_child_migration_rate</from>
 					<to>Unvaccinated_child_migration</to>
 				</connector>
 				<aux x="366" y="511.2" name="vaccinated child migration rate"/>
-				<connector uid="32" angle="22.6808">
+				<connector uid="32" color="#B6B6B6" font_color="#B6B6B6" angle="22.6808">
 					<from>vaccinated_child_migration_rate</from>
 					<to>Vaccinated_child_migration</to>
 				</connector>
@@ -489,7 +490,7 @@
 						</plot>
 					</graph>
 				</stacked_container>
-				<connector uid="28" angle="65.9168">
+				<connector uid="28" color="#B6B6B6" font_color="#B6B6B6" angle="65.9168">
 					<from>
 						<alias uid="29"/>
 					</from>
@@ -500,21 +501,21 @@
 					<to>unvacc_infection</to>
 				</connector>
 				<aux x="655.2" y="164.8" name="BSol total pop"/>
-				<connector uid="44" angle="285.255">
+				<connector uid="44" color="#B6B6B6" font_color="#B6B6B6" angle="285.255">
 					<from>BSol_total_pop</from>
 					<to>unvacc_infection</to>
 				</connector>
 				<aux x="716.1" y="164.8" name="R0"/>
 				<aux x="805.5" y="177.15" name="infection period"/>
-				<connector uid="47" angle="269.821">
+				<connector uid="47" color="#B6B6B6" font_color="#B6B6B6" angle="269.821">
 					<from>R0</from>
 					<to>unvacc_infection</to>
 				</connector>
-				<connector uid="48" angle="174.622">
+				<connector uid="48" color="#B6B6B6" font_color="#B6B6B6" angle="174.622">
 					<from>infection_period</from>
 					<to>unvacc_infection</to>
 				</connector>
-				<connector uid="49" angle="8.58784">
+				<connector uid="49" color="#B6B6B6" font_color="#B6B6B6" angle="8.58784">
 					<from>infection_period</from>
 					<to>Recovery</to>
 				</connector>
@@ -525,11 +526,21 @@
 						</plot>
 					</graph>
 				</stacked_container>
+				<aux x="123.2" y="78.7" name="Total infected"/>
+				<connector uid="51" angle="168.115">
+					<from>
+						<alias uid="52"/>
+					</from>
+					<to>Total_infected</to>
+				</connector>
 				<alias font_style="italic" uid="26" x="963" y="118.2" width="18" height="18">
 					<of>age_to_5_rate</of>
 				</alias>
 				<alias font_style="italic" uid="29" x="586.5" y="630.6" width="18" height="18">
 					<of>age_to_5_rate</of>
+				</alias>
+				<alias font_style="italic" uid="52" x="172.85" y="63.8" width="46.6" height="28.6">
+					<of>Unvaccinated_Infected</of>
 				</alias>
 			</view>
 		</views>
