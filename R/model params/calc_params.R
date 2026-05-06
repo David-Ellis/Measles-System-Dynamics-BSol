@@ -48,11 +48,13 @@ bsol_migrant <- read_excel("data/model params/BSol-Ages-and-Birth-Country.xlsx")
   mutate(
     observation = case_when(
       age_group == "Age < 1" ~ observation,
-      age_group == "Age 1 to 5" ~ observation / 5
+      age_group == "Age 1 to 4" ~ observation / 4,
+      age_group == "Age 5+" ~ NA
     )
   )
   
 total_migration <- bsol_migrant %>%
+  filter(age_group != "Age 5+") %>%
   group_by(region=="United Kingdom", age_group) %>%
   summarise(
     observation = sum(observation)
