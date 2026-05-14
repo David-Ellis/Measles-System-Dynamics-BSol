@@ -1,8 +1,8 @@
 -- Measles (B05)
 
-
 SELECT 
-    AdmissionDate,
+    ROW_NUMBER() OVER (PARTITION BY NHSNumber ORDER BY AdmissionDate) AS MeaslesAdmissionNum,
+	AdmissionDate,
 	AgeOnAdmission,
 	SpellDuration,
 	Cost,
@@ -42,10 +42,7 @@ LEFT JOIN
 LEFT JOIN [EAT_Reporting_BSOL].[Demographic].Ethnicity AS E
 	ON [NHSNumber] = E.[Pseudo_NHS_Number]
 WHERE 
-    -- Stroke Diagnosis code I60-64
     A.[DiagnosisCode] LIKE 'B05%'
-    -- First reason for admission
-    AND A.[DiagnosisOrder] = 1
 	AND NHSNumber IS NOT NULL
-	AND IsDominant = 1
-ORDER BY AdmissionDate DESC
+    AND IsDominant = 1
+ORDER BY AdmissionDate
