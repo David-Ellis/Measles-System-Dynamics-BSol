@@ -7,7 +7,7 @@
 		<vendor>isee systems, inc.</vendor>
 		<product version="3.8.1" isee:build_number="3623" isee:saved_by_v1="true" lang="en">Stella Architect</product>
 	</header>
-	<sim_specs isee:sim_duration="10" isee:run_prefix="Run" isee:simulation_delay="10" isee:restore_on_start="false" method="Euler" time_units="Years" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
+	<sim_specs isee:sim_duration="5" isee:run_prefix="Run" isee:simulation_delay="5" isee:restore_on_start="false" method="Euler" time_units="Years" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
 		<start>0</start>
 		<stop>1</stop>
 		<dt reciprocal="true">365</dt>
@@ -19,6 +19,11 @@
 	</isee:time_formats>
 	<isee:number_format_extenders/>
 	<default_format/>
+	<data>
+		<export resource="r../test-output.xlsx" type="Excel" worksheet="Sheet1" interval="DT" precomputed="false" isee:format="numbers">
+			<all/>
+		</export>
+	</data>
 	<model_units>
 		<unit name="People">
 			<eqn/>
@@ -376,7 +381,7 @@
 				<eqn>&quot;Babies_(I)&quot; + &quot;Children_(I)&quot; + &quot;Adults_(I)&quot;</eqn>
 			</aux>
 			<aux name="R0">
-				<eqn>13.5</eqn>
+				<eqn>13.5*0.8</eqn>
 			</aux>
 			<aux name="Total recovered">
 				<eqn>&quot;Babies_(R)&quot; + &quot;Children_(R)&quot; + &quot;Adults_(R)&quot;</eqn>
@@ -467,7 +472,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="2" isee:scroll_x="166.25" isee:scroll_y="98.75" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="2" isee:scroll_x="25" isee:scroll_y="100" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -915,24 +920,6 @@
 					<to>Total_susceptible</to>
 				</connector>
 				<aux x="1842" y="690.5" name="Total hospitalised"/>
-				<connector uid="112" angle="340.657">
-					<from>
-						<alias uid="109"/>
-					</from>
-					<to>Total_hospitalised</to>
-				</connector>
-				<connector uid="113" angle="277.67">
-					<from>
-						<alias uid="110"/>
-					</from>
-					<to>Total_hospitalised</to>
-				</connector>
-				<connector uid="114" angle="215.287">
-					<from>
-						<alias uid="111"/>
-					</from>
-					<to>Total_hospitalised</to>
-				</connector>
 				<aux x="1842" y="804" name="Total population"/>
 				<connector uid="117" angle="305.538">
 					<from>
@@ -1229,10 +1216,10 @@
 						</plot>
 					</graph>
 				</stacked_container>
-				<stacked_container uid="197" x="1376" y="718.75" width="267.667" height="190.75">
+				<stacked_container uid="197" x="1376" y="720.75" width="267.667" height="190.75">
 					<graph width="267.667" height="190.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
-						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
-							<entity name='"Children_(H)"'/>
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Total_hospitalised"/>
 						</plot>
 					</graph>
 				</stacked_container>
@@ -1245,8 +1232,8 @@
 				</stacked_container>
 				<stacked_container uid="199" x="1376" y="97.75" width="267.667" height="190.75">
 					<graph width="267.667" height="190.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
-						<plot color="red" pen_style="dashed" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
-							<entity name="Total_population"/>
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Total_susceptible"/>
 						</plot>
 					</graph>
 				</stacked_container>
@@ -1257,6 +1244,24 @@
 						</plot>
 					</graph>
 				</stacked_container>
+				<connector uid="114" angle="215.287">
+					<from>
+						<alias uid="111"/>
+					</from>
+					<to>Total_hospitalised</to>
+				</connector>
+				<connector uid="113" angle="277.67">
+					<from>
+						<alias uid="110"/>
+					</from>
+					<to>Total_hospitalised</to>
+				</connector>
+				<connector uid="112" angle="340.657">
+					<from>
+						<alias uid="109"/>
+					</from>
+					<to>Total_hospitalised</to>
+				</connector>
 				<alias color="blue" background="white" font_style="italic" uid="69" x="595" y="403" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
@@ -1307,15 +1312,6 @@
 				</alias>
 				<alias font_style="italic" font_size="14pt" uid="105" x="1896.67" y="220.75" width="30" height="30">
 					<of>&quot;Adults_(S)&quot;</of>
-				</alias>
-				<alias font_style="italic" font_size="14pt" uid="109" x="1762" y="637.75" width="30" height="30">
-					<of>&quot;Babies_(H)&quot;</of>
-				</alias>
-				<alias font_style="italic" font_size="14pt" uid="110" x="1828" y="607.75" width="30" height="30">
-					<of>&quot;Children_(H)&quot;</of>
-				</alias>
-				<alias font_style="italic" font_size="14pt" uid="111" x="1896.67" y="641.75" width="30" height="30">
-					<of>&quot;Adults_(H)&quot;</of>
 				</alias>
 				<alias color="blue" background="white" font_style="italic" uid="115" x="1773" y="737" width="18" height="18">
 					<shape type="circle" radius="18"/>
@@ -1402,6 +1398,15 @@
 				</alias>
 				<alias font_style="italic" font_color="red" uid="190" x="1218" y="698" width="18" height="18">
 					<of>General_adult_mortality_rate</of>
+				</alias>
+				<alias font_style="italic" font_size="14pt" uid="111" x="1896.67" y="641.75" width="30" height="30">
+					<of>&quot;Adults_(H)&quot;</of>
+				</alias>
+				<alias font_style="italic" font_size="14pt" uid="110" x="1828" y="607.75" width="30" height="30">
+					<of>&quot;Children_(H)&quot;</of>
+				</alias>
+				<alias font_style="italic" font_size="14pt" uid="109" x="1762" y="637.75" width="30" height="30">
+					<of>&quot;Babies_(H)&quot;</of>
 				</alias>
 			</view>
 		</views>
