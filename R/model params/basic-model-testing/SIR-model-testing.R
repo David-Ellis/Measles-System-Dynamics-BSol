@@ -4,6 +4,10 @@ library(dplyr)
 library(tidyr)
 library(latex2exp)
 
+################################################################################
+#                Varying Initial Proportion Susceptible S(t=0)/N               #
+################################################################################
+
 data <- read_excel(
   "data/stella outputs/basic-model-testing/SIR-initial-susceptible.xlsx"
   ) %>%
@@ -123,3 +127,65 @@ ggplot(Imax, aes(x = `S(t=0)/N`, y = Value)) +
     
 ggsave("figures/model-params/SIR-max-infected.pdf", 
            width = 6, height = 5)
+
+################################################################################
+#            Varying Effective Reproduction Number Reff = alpha * R0           #
+################################################################################
+
+alphas <- c("1.00", "0.95", "0.90", "0.85", "0.80", "0.75")
+t_max <- c()
+outbreak_length <- c()
+infected_proportion <- c()
+
+data_path <- "data/stella outputs/basic-model-testing/SIR-Reff.xlsx"
+
+for (alpha_i in alphas) {
+  data_i <- read_excel(
+    data_path,
+    sheet = alpha_i
+  )
+  
+  Imax_i <- max(data_i$infected)
+  tmax_i <- data_i$Days[data_i$infected  == Imax_i]
+  outbreak_length_i = max(data_i$Days[data_i$infected >= 0.05*Imax_i]) -
+    min(data_i$Days[data_i$infected >= 0.05*Imax_i])
+  Itotal_i <- data_i$susceptible[1] - data_i$susceptible[498]
+  
+  t_max <- c(t_max, tmax_i)
+  outbreak_length <- c(outbreak_length, outbreak_length_i)
+  infected_proportion <- c(infected_proportion, Itotal_i)
+}
+
+Reff_data <- data.frame(
+  alpha = as.numeric(alphas),
+  t_max = t_max,
+  outbreak_length = outbreak_length,
+  infected_proportion = infected_proportion
+) %>%
+  mutate(
+    `Total Number Infected` = infected_proportion * 1300000,
+    `Outbreak Length (Years)` = outbreak_length / 365
+  ) %>%
+  select(c(alpha, `Total Number Infected`, `Outbreak Length (Years)`)) %>%
+  pivot_longer(
+    cols = c("Total Number Infected", "Outbreak Length (Years)")
+  ) 
+
+ggplot(Reff_data, 
+       aes(x = alpha, y = value)) +
+  geom_line() +
+  geom_point() +
+  theme_bw() +
+  facet_wrap(~name, ncol = 1, scale = "free_y") +
+  labs(
+    y = "",
+    x = TeX("Reproduction Number Scaling Factor, $\\alpha$")
+  )+
+  scale_x_continuous(labels =  scales::label_percent()) +
+  theme(
+    strip.background = element_rect(fill="white"),
+    legend.position = "none"
+  )
+
+ggsave("figures/model-params/SIR-Reff.pdf", 
+       width = 6, height = 5)
