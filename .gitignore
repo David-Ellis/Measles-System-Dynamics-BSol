@@ -25,3 +25,6 @@
 *.ppt
 *.pptx
 *.svg
+
+# Exclude Stella data files
+*.isdb
