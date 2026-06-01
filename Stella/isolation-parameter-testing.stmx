@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+	<header>
+		<smile version="1.0" namespace="std, isee"/>
+		<name>isolation-parameter-testing</name>
+		<uuid>eed773d1-f4f7-4725-8d05-452b96d4f2dc</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="3.8.1" isee:build_number="3623" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.006" isee:restore_on_start="false" method="Euler" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="false" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
+		<start>0</start>
+		<stop>250</stop>
+		<dt reciprocal="true">4</dt>
+	</sim_specs>
+	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="false" rifp="true"/>
+	<isee:multiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" max_advance_time_in_ms="0" model_stops_when_players_drop="false" observer_start_page="home_page" enabled="false"/>
+	<isee:time_formats default_format="Builtin">
+		<isee:time_format name="Builtin" type="adaptive"/>
+	</isee:time_formats>
+	<isee:number_format_extenders/>
+	<default_format/>
+	<data>
+		<export resource="r../output.xlsx" type="Excel" worksheet="Sheet1" interval="DT" precomputed="false" isee:format="numbers">
+			<all/>
+		</export>
+	</data>
+	<isee:sensi_specs_list active_index="0">
+		<isee:sensi_specs name="Sensitivity" method="sequential">
+			<isee:variable starting_value="0.05" ending_value="0.5" type="incremental" min="0.05" max="0.5" seed="12345" name="isolation_proportion" num_samples="10"/>
+		</isee:sensi_specs>
+	</isee:sensi_specs_list>
+	<isee:optimizer_specs_list active_index="0">
+		<isee:optimizer_specs name="Optimization" method="Powell" use_additional_starts_file="false" additional_starts="0" report_interval="1" confidence_range="0"/>
+	</isee:optimizer_specs_list>
+	<isee:payoff_specs_list>
+		<isee:payoff_specs name="Payoff"/>
+	</isee:payoff_specs_list>
+	<model_units>
+		<unit name="Days">
+			<eqn/>
+			<alias>day</alias>
+		</unit>
+	</model_units>
+	<model>
+		<variables>
+			<stock name="susceptible 3">
+				<eqn>1.3e5</eqn>
+				<outflow>Flow_9</outflow>
+				<non_negative/>
+			</stock>
+			<stock name="infected 3">
+				<eqn>1</eqn>
+				<inflow>Flow_9</inflow>
+				<outflow>Flow_10</outflow>
+				<outflow>isolation_1</outflow>
+				<non_negative/>
+			</stock>
+			<stock name="recovered 3">
+				<eqn>1.17e6</eqn>
+				<inflow>Flow_10</inflow>
+				<inflow>Flow_12</inflow>
+				<non_negative/>
+			</stock>
+			<flow name="Flow 9">
+				<eqn>IF infected_3 &gt;= 1 THEN R0_3 /infectious_period_3 * susceptible_3 * infected_3 / N2_2 ELSE 0</eqn>
+				<non_negative/>
+			</flow>
+			<flow name="Flow 10">
+				<eqn>infected_3 / infectious_period_3</eqn>
+				<non_negative/>
+			</flow>
+			<aux name="R0 3">
+				<eqn>13.5</eqn>
+			</aux>
+			<aux name="infectious period 3">
+				<eqn>8.75</eqn>
+				<units>Days</units>
+			</aux>
+			<aux name="N2 2">
+				<eqn>1.3e5 + 1.17e6</eqn>
+			</aux>
+			<stock name="isolated 1">
+				<eqn>1/1.3e6</eqn>
+				<inflow>isolation_1</inflow>
+				<outflow>Flow_12</outflow>
+				<non_negative/>
+			</stock>
+			<aux name="isolation switch">
+				<eqn>IF historical_infections_1 &gt; isolation_threshold THEN isolation_proportion ELSE 0</eqn>
+			</aux>
+			<flow name="Flow 12">
+				<eqn>isolated_1 / infectious_period_3</eqn>
+				<non_negative/>
+			</flow>
+			<aux name="Total infected 1">
+				<eqn>infected_3 + isolated_1</eqn>
+			</aux>
+			<aux name="historical infections 1">
+				<eqn>SMTH1(Total_infected_1, 30,  0)</eqn>
+				<isee:delay_aux/>
+			</aux>
+			<flow name="isolation 1">
+				<eqn>infected_3 * isolation_switch</eqn>
+				<non_negative/>
+			</flow>
+			<aux name="Probable testing curve">
+				<eqn>SMTH1(Total_infected_1,  8.75,  0)</eqn>
+				<isee:delay_aux/>
+			</aux>
+			<aux name="isolation threshold">
+				<eqn>10</eqn>
+			</aux>
+			<aux name="isolation proportion">
+				<eqn>0.1</eqn>
+			</aux>
+		</variables>
+		<views>
+			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+				<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:loop_indicator color="black" background="white" vertical_text_align="top" font_size="12pt"/>
+				<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
+				<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
+					<isee:series_styles>
+						<isee:series_style color="blue" thickness="1"/>
+						<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF7F00" thickness="1"/>
+						<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#FF007F" thickness="1"/>
+						<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+						<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+						<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+						<isee:series_style color="#C8C8C8" thickness="1"/>
+					</isee:series_styles>
+				</graph>
+				<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+				<button color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595"/>
+				<isee:annotation color="black" background="#E0E0E0" font_size="12pt" border_width="thin" border_style="solid" transparent="false" corner_radius="0" isee:flat="false" icon_side="top" isee:highlight_on_hover="false" isee:highlight_color="#959595" popup_corner_radius="0" popup_background_color="#FFFECF"/>
+				<slider color="#0075FF" background="#E0E0E0" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" vertical="false" isee:fancy_appearance="false" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
+				<isee:stacked_container color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="0" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
+				<isee:dual_slider color="#66CC66" background="silver" font_size="12pt" num_ticks="3" label_side="top" wrap_title="true" isee:show_hover_tip="when_deciding" input_expands="true" input_width="100"/>
+				<isee:sim_speed_slider color="black" background="white"/>
+				<isee:time_slider color="#E95F74" background="silver"/>
+				<isee:pie_input color="black" background="white" font_size="12pt" legend_position="bottom" isee:transparent="false"/>
+				<knob color="#66CC66" background="#E0E0E0" font_size="12pt" label_side="bottom" wrap_title="true"/>
+				<numeric_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<isee:dropdown_input color="black" background="#E0E0E0" font_size="12pt" label_side="left" wrap_title="true" input_expands="false" input_width="100"/>
+				<switch color="black" background="#E0E0E0" font_size="12pt" label_side="top" wrap_title="true" isee:appearance="switch" isee:on_color="green"/>
+				<options color="black" background="white" appearance="radio-buttons" arrangement="vertical"/>
+				<graphical_input color="black" background="#E0E0E0" font_size="12pt" isee:show_hover_tip="true"/>
+				<group_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<lamp color="black" background="white" font_size="9pt"/>
+				<gauge color="black" background="white" font_size="9pt" needle_color="#F09F72" bar_color="#EEEEEE" bar_progress_color="black" appearance="radial" num_major_ticks="11" num_minor_ticks="1" show_numeric_value="true"/>
+				<isee:spatial_map color="black" background="white" font_size="12pt"/>
+				<isee:animation_object color="black" background="white" font_size="12pt"/>
+				<isee:navigation_widget color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" padding="6 8" border_color="#999999" border_width="thin" border_style="solid" item_spacing="6" appearance="tabs" corner_radius="4" selected_item_color="black" selected_item_background="white" item_background="#DDDDDD" transparent_bg="false"/>
+				<isee:shape color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid" opacity="1" transparent_background="true" corner_radius="1"/>
+				<isee:selector color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
+				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+			</style>
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="2" isee:page_rows="2" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="45" height="35"/>
+					</stock>
+					<flow color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</flow>
+					<isee:placeholder color="#228B22" background="white" font_color="#228B22" font_size="9pt" label_side="bottom"/>
+					<module color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
+						<shape type="rectangle" width="55" height="45"/>
+					</module>
+					<aux color="blue" background="white" font_color="blue" font_size="9pt" label_side="bottom">
+						<shape type="circle" radius="18"/>
+					</aux>
+					<group color="red" background="white" font_color="red" font_size="9pt"/>
+					<connector color="#FF007F" background="white" font_color="#FF007F" font_size="9pt" isee:thickness="1"/>
+					<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<isee:loop_indicator color="black" background="white" vertical_text_align="top" font_size="12pt"/>
+					<numeric_display color="white" background="white" font_size="12pt" border_width="thin" border_style="solid" isee:transparent="false" isee:show_divider="true" isee:show_bounding_box="true" label_side="left"/>
+					<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" isee:graph_area_color="white" legend_position="bottom" isee:transparent="false" isee:hide_border="false" axis_title_font_style="normal" axis_title_font_weight="normal" axis_title_text_decoration="none" axis_title_text_align="center" axis_title_vertical_text_align="center" axis_title_font_color="black" axis_title_font_family="Arial" axis_title_font_size="12pt" axis_title_text_padding="2" axis_title_text_border_color="black" axis_title_text_border_width="thin" axis_title_text_border_style="none" axis_label_font_style="normal" axis_label_font_weight="normal" axis_label_text_decoration="none" axis_label_text_align="center" axis_label_vertical_text_align="center" axis_label_font_color="black" axis_label_font_family="Arial" axis_label_font_size="9pt" axis_label_text_padding="2" axis_label_text_border_color="black" axis_label_text_border_width="thin" axis_label_text_border_style="none">
+						<isee:series_styles>
+							<isee:series_style color="blue" thickness="1"/>
+							<isee:series_style color="red" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="fuchsia" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="#008F44" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF7F00" thickness="1"/>
+							<isee:series_style color="#7F00FF" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#0CA0FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="lime" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#FF007F" thickness="1"/>
+							<isee:series_style color="aqua" thickness="1" pen_style="dot_dashed"/>
+							<isee:series_style color="#F586FF" thickness="1" pen_style="dotted"/>
+							<isee:series_style color="black" thickness="1" pen_style="dashed"/>
+							<isee:series_style color="#C8C8C8" thickness="1"/>
+						</isee:series_styles>
+					</graph>
+					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
+				</style>
+				<stock font_size="12pt" x="44.7" y="136.03" width="121" height="89.4" name="susceptible 3"/>
+				<stock font_size="12pt" x="276.3" y="140.5" width="121" height="89.4" name="infected 3"/>
+				<stock font_size="12pt" x="497.1" y="136.03" width="121" height="89.4" name="recovered 3"/>
+				<flow x="215" y="190" name="Flow 9">
+					<pts>
+						<pt x="165.7" y="190"/>
+						<pt x="276.3" y="190"/>
+					</pts>
+				</flow>
+				<flow x="441.2" y="185.2" name="Flow 10">
+					<pts>
+						<pt x="397.3" y="185.2"/>
+						<pt x="497.1" y="185.2"/>
+					</pts>
+				</flow>
+				<aux x="233" y="103.02" name="R0 3"/>
+				<aux x="434.181" y="55" name="infectious period 3"/>
+				<connector uid="1" angle="185.437">
+					<from>infectious_period_3</from>
+					<to>Flow_9</to>
+				</connector>
+				<connector uid="2" angle="22.4206">
+					<from>susceptible_3</from>
+					<to>Flow_9</to>
+				</connector>
+				<connector uid="3" angle="155.638">
+					<from>infected_3</from>
+					<to>Flow_9</to>
+				</connector>
+				<connector uid="4" angle="273.086">
+					<from>infectious_period_3</from>
+					<to>Flow_10</to>
+				</connector>
+				<connector uid="5" angle="340.925">
+					<from>infected_3</from>
+					<to>Flow_10</to>
+				</connector>
+				<aux x="186.817" y="96.97" name="N2 2"/>
+				<connector uid="6" angle="275.049">
+					<from>N2_2</from>
+					<to>Flow_9</to>
+				</connector>
+				<stock font_size="12pt" x="273.634" y="329.11" width="121" height="89.4" name="isolated 1"/>
+				<aux x="712.1" y="294.72" name="isolation switch"/>
+				<flow x="476.117" y="373.81" name="Flow 12">
+					<pts>
+						<pt x="394.634" y="373.81"/>
+						<pt x="557.6" y="373.81"/>
+						<pt x="557.6" y="225.43"/>
+					</pts>
+				</flow>
+				<connector uid="7" angle="332.883">
+					<from>infectious_period_3</from>
+					<to>Flow_12</to>
+				</connector>
+				<connector uid="8" angle="341.938">
+					<from>isolated_1</from>
+					<to>Flow_12</to>
+				</connector>
+				<aux x="777.5" y="139.33" name="Total infected 1"/>
+				<connector uid="9" angle="351.119">
+					<from>
+						<alias uid="10"/>
+					</from>
+					<to>Total_infected_1</to>
+				</connector>
+				<connector uid="11" angle="192.771">
+					<from>
+						<alias uid="12"/>
+					</from>
+					<to>Total_infected_1</to>
+				</connector>
+				<aux x="777.5" y="203.2" name="historical infections 1"/>
+				<connector uid="14" angle="270">
+					<from>Total_infected_1</from>
+					<to>historical_infections_1</to>
+				</connector>
+				<connector uid="15" angle="252.694">
+					<from>historical_infections_1</from>
+					<to>isolation_switch</to>
+				</connector>
+				<connector uid="16" angle="275.989">
+					<from>R0_3</from>
+					<to>Flow_9</to>
+				</connector>
+				<flow x="334.134" y="273.505" name="isolation 1">
+					<pts>
+						<pt x="334.134" y="229.9"/>
+						<pt x="334.134" y="329.11"/>
+					</pts>
+				</flow>
+				<connector uid="17" angle="163.552">
+					<from>isolation_switch</from>
+					<to>isolation_1</to>
+				</connector>
+				<connector uid="18" angle="292.406">
+					<from>infected_3</from>
+					<to>isolation_1</to>
+				</connector>
+				<aux x="873.5" y="208" name="Probable testing curve"/>
+				<connector uid="19" angle="326.174">
+					<from>Total_infected_1</from>
+					<to>Probable_testing_curve</to>
+				</connector>
+				<aux label_side="bottom" x="808" y="325.72" name="isolation threshold"/>
+				<connector uid="20" angle="146.79">
+					<from>isolation_threshold</from>
+					<to>isolation_switch</to>
+				</connector>
+				<aux x="717" y="366" name="isolation proportion"/>
+				<connector uid="21" angle="82.0928">
+					<from>isolation_proportion</from>
+					<to>isolation_switch</to>
+				</connector>
+				<stacked_container uid="22" x="915" y="358" width="518" height="343">
+					<graph width="518" height="343" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Total_infected_1"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<alias font_style="italic" font_size="12pt" uid="10" x="693.667" y="99.97" width="55.6667" height="36.0667">
+					<of>infected_3</of>
+				</alias>
+				<alias font_style="italic" font_size="12pt" uid="12" x="809" y="99.3" width="46.3333" height="37.4">
+					<of>isolated_1</of>
+				</alias>
+			</view>
+		</views>
+	</model>
+</xmile>
+
