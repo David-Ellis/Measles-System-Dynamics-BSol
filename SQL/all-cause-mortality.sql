@@ -1,6 +1,13 @@
 /*=============================================================
     Calculate age-specific mortality rates for Birmingham and
-    Solihull residents.
+    Solihull residents (2022-2025).
+
+	AgeGroup | 	Population2026	AverageAnnualDeaths	MortalityRate
+	-------------------------------------------------------------
+	Under 1	 |	6184			58.75				0.00950
+	1-4 yrs	 |	68829			68.75				0.00010
+	5+ yrs	 |	1559430			11273.50			0.00723
+
 =============================================================*/
 DECLARE @StartYear INT = 2022;
 DECLARE @EndYear INT = 2025;
@@ -57,3 +64,4 @@ SELECT
 FROM population_counts AS p
 LEFT JOIN average_annual_deaths AS d
     ON p.AgeGroup = d.AgeGroup;
+
