@@ -51,6 +51,7 @@
 				<inflow>&quot;Baby_migration_(S)&quot;</inflow>
 				<outflow>&quot;age_up_to_child_(S)&quot;</outflow>
 				<outflow>Baby_infections</outflow>
+				<outflow>&quot;Baby_ACM_(S)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -61,6 +62,7 @@
 				<outflow>&quot;age_up_to_child_(I)&quot;</outflow>
 				<outflow>Baby_hospitalisation</outflow>
 				<outflow>Baby_isolation</outflow>
+				<outflow>&quot;Baby_ACM_(I)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -71,6 +73,7 @@
 				<outflow>Baby_hospital_recovery</outflow>
 				<outflow>&quot;Age_up_to_child_(H)&quot;</outflow>
 				<outflow>Baby_measles_mortality</outflow>
+				<outflow>&quot;Baby_ACM_(H)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -81,6 +84,7 @@
 				<outflow>Child_vaccination</outflow>
 				<outflow>Child_infections</outflow>
 				<outflow>&quot;age_up_to_\&quot;adult\&quot;_(S)&quot;</outflow>
+				<outflow>&quot;Child_ACM_(S)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -92,6 +96,7 @@
 				<inflow>&quot;Child_migration_(R)&quot;</inflow>
 				<inflow>Child_recovery_X</inflow>
 				<outflow>&quot;age_up_to_\&quot;adult\&quot;_(R)&quot;</outflow>
+				<outflow>&quot;Child_ACM_(R)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -103,6 +108,7 @@
 				<outflow>Child_hospitalisation</outflow>
 				<outflow>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</outflow>
 				<outflow>Child_isolation</outflow>
+				<outflow>&quot;Child_ACM_(I)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -114,6 +120,7 @@
 				<outflow>Child_hospital_recovery</outflow>
 				<outflow>&quot;age_up_to_\&quot;adult\&quot;_(H)&quot;</outflow>
 				<outflow>Child_measles_mortality</outflow>
+				<outflow>&quot;Child_ACM_(H)_1&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -123,7 +130,7 @@
 				<inflow>&quot;Adult_migration_(S)&quot;</inflow>
 				<outflow>Adult_vaccination</outflow>
 				<outflow>Adult_infections</outflow>
-				<outflow>&quot;Adult_(S)_mortality&quot;</outflow>
+				<outflow>&quot;Adult_ACM_(S)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -134,7 +141,7 @@
 				<inflow>Adult_recovery</inflow>
 				<inflow>&quot;Adult_(R)_migration&quot;</inflow>
 				<inflow>&quot;Adult_recovery_(X)&quot;</inflow>
-				<outflow>&quot;Adult_(R)_mortality&quot;</outflow>
+				<outflow>&quot;Adult_ACM_(R)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -145,7 +152,7 @@
 				<inflow>Infected_adults_input</inflow>
 				<outflow>Adult_hospitalisation</outflow>
 				<outflow>Adult_recovery</outflow>
-				<outflow>&quot;Adults_(I)_mortality&quot;</outflow>
+				<outflow>&quot;Adult_ACM_(I)&quot;</outflow>
 				<outflow>Adult_isolation</outflow>
 				<non_negative/>
 				<units>people</units>
@@ -155,14 +162,14 @@
 				<inflow>&quot;age_up_to_\&quot;adult\&quot;_(H)&quot;</inflow>
 				<inflow>Adult_hospitalisation</inflow>
 				<inflow>&quot;Adult_hospitalisation_(X)&quot;</inflow>
-				<outflow>&quot;Adults_(H)_mortality&quot;</outflow>
 				<outflow>Adult_measles_mortality</outflow>
 				<outflow>Adult_hospital_recovery</outflow>
+				<outflow>&quot;Adult_ACM_(H)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
 			<flow name="Births">
-				<eqn>birth_rate * 0</eqn>
+				<eqn>birth_rate</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -212,7 +219,7 @@
 				<units>people/days</units>
 			</flow>
 			<flow name="Child vaccination">
-				<eqn>&quot;Children_(S)&quot; * Child_vaccination_proportion</eqn>
+				<eqn> Child_vaccination_proportion</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -276,23 +283,23 @@
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
-			<flow name="Adult (S) mortality">
-				<eqn>&quot;Adults_(S)&quot; * General_adult_mortality_rate</eqn>
+			<flow name="Adult ACM (S)">
+				<eqn>&quot;Adults_(S)&quot; * ACMR_Adults</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
-			<flow name="Adult (R) mortality">
-				<eqn>&quot;Adults_(R)&quot; * General_adult_mortality_rate</eqn>
+			<flow name="Adult ACM (R)">
+				<eqn>&quot;Adults_(R)&quot; * ACMR_Adults</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
-			<flow name="Adults (I) mortality">
-				<eqn>&quot;Adults_(I)&quot; * General_adult_mortality_rate</eqn>
+			<flow name="Adult ACM (I)">
+				<eqn>&quot;Adults_(I)&quot; * ACMR_Adults</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
-			<flow name="Adults (H) mortality">
-				<eqn>&quot;Adults_(H)&quot; * General_adult_mortality_rate</eqn>
+			<flow name="Adult ACM (H)">
+				<eqn>&quot;Adults_(H)&quot; * ACMR_Adults</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -414,10 +421,10 @@
 				<units>people/days</units>
 			</flow>
 			<aux name="Child vaccination proportion">
-				<eqn>0.789/365</eqn>
+				<eqn>15360/365</eqn>
 			</aux>
-			<aux name="General adult mortality rate">
-				<eqn>0 {0.009/365}</eqn>
+			<aux name="ACMR Adults">
+				<eqn>0.00723/365</eqn>
 				<units>Per Year</units>
 			</aux>
 			<stock name="Babies (X)">
@@ -427,6 +434,7 @@
 				<outflow>Baby_recovery_X</outflow>
 				<outflow>&quot;Age_up_to_child_(X)&quot;</outflow>
 				<outflow>&quot;Baby_hospitalisation_(X)&quot;</outflow>
+				<outflow>&quot;Baby_ACM_(X)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -443,6 +451,7 @@
 				<outflow>Child_recovery_X</outflow>
 				<outflow>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</outflow>
 				<outflow>&quot;Child_hospitalisation_(X)&quot;</outflow>
+				<outflow>&quot;Child_ACM_(R)_1&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -473,6 +482,7 @@
 				<inflow>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</inflow>
 				<outflow>&quot;Adult_recovery_(X)&quot;</outflow>
 				<outflow>&quot;Adult_hospitalisation_(X)&quot;</outflow>
+				<outflow>&quot;Adult_ACM_(X)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -546,9 +556,73 @@
 				<inflow>Baby_recovery</inflow>
 				<inflow>Baby_recovery_X</inflow>
 				<outflow>&quot;age_up_to_child_(R)&quot;</outflow>
+				<outflow>&quot;Baby_ACM_(R)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
+			<aux name="ACMR Children">
+				<eqn>0.00100/365</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="ACMR Babies">
+				<eqn>0.00950/365</eqn>
+				<units>Per Year</units>
+			</aux>
+			<flow name="Baby ACM (S)">
+				<eqn>&quot;Babies_(S)&quot; * ACMR_Babies</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Baby ACM (R)">
+				<eqn>&quot;Babies_(R)&quot; * ACMR_Babies</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Baby ACM (I)">
+				<eqn>&quot;Babies_(I)&quot; * ACMR_Babies</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Baby ACM (H)">
+				<eqn>&quot;Babies_(H)&quot; * ACMR_Babies</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Baby ACM (X)">
+				<eqn>&quot;Babies_(X)&quot; * ACMR_Babies</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Child ACM (S)">
+				<eqn>&quot;Children_(S)&quot; * ACMR_Children</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Child ACM (R)">
+				<eqn>&quot;Children_(R)&quot; * ACMR_Children</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Child ACM (H) 1">
+				<eqn>&quot;Children_(H)&quot; * ACMR_Children</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Child ACM (R) 1">
+				<eqn>&quot;Children_(X)&quot; * ACMR_Children</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Child ACM (I)">
+				<eqn>&quot;Children_(I)&quot; * ACMR_Children</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Adult ACM (X)">
+				<eqn>&quot;Adults_(X)&quot; * ACMR_Adults</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
 		</variables>
 		<views>
 			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
@@ -598,7 +672,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="2" zoom="60" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="2" isee:scroll_y="133.333" zoom="60" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -637,20 +711,20 @@
 					</graph>
 					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 				</style>
-				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="57" x="32" y="421" width="148" height="50">Vaccinated/recovered</text_box>
-				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="58" x="32" y="587.5" width="148" height="29">Infected</text_box>
-				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="59" x="31" y="924.5" width="148" height="29">Hospitalised</text_box>
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="57" x="22" y="505" width="148" height="50">Vaccinated/recovered</text_box>
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="58" x="20.6667" y="736.833" width="148" height="29">Infected</text_box>
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="59" x="21" y="1181.83" width="148" height="29">Hospitalised</text_box>
 				<stock font_size="14pt" x="283.5" y="234.5" width="166" height="92" name="Babies (S)"/>
-				<stock font_size="14pt" x="277.5" y="556" width="166" height="92" name="Babies (I)"/>
-				<stock font_size="14pt" x="282.5" y="893" width="166" height="92" name="Babies (H)"/>
+				<stock font_size="14pt" x="266.167" y="705.333" width="166" height="92" name="Babies (I)"/>
+				<stock font_size="14pt" x="272.5" y="1150.33" width="166" height="92" name="Babies (H)"/>
 				<stock font_size="14pt" x="623.5" y="230.5" width="166" height="92" name="Children (S)"/>
-				<stock font_size="14pt" x="748.5" y="387" width="166" height="92" name="Children (R)"/>
-				<stock font_size="14pt" x="620.5" y="556" width="166" height="92" name="Children (I)"/>
-				<stock font_size="14pt" x="619.5" y="878" width="166" height="92" name="Children (H)"/>
+				<stock font_size="14pt" x="738.5" y="471" width="166" height="92" name="Children (R)"/>
+				<stock font_size="14pt" x="609.167" y="705.333" width="166" height="92" name="Children (I)"/>
+				<stock font_size="14pt" x="609.5" y="1135.33" width="166" height="92" name="Children (H)"/>
 				<stock font_size="14pt" x="954.5" y="230.5" width="166" height="92" name="Adults (S)"/>
-				<stock font_size="14pt" x="1071.5" y="387" width="166" height="92" name="Adults (R)"/>
-				<stock font_size="14pt" x="951.5" y="556" width="166" height="92" name="Adults (I)"/>
-				<stock font_size="14pt" x="948" y="893" width="166" height="92" name="Adults (H)"/>
+				<stock font_size="14pt" x="1061.5" y="471" width="166" height="92" name="Adults (R)"/>
+				<stock font_size="14pt" x="940.167" y="705.333" width="166" height="92" name="Adults (I)"/>
+				<stock font_size="14pt" x="938" y="1150.33" width="166" height="92" name="Adults (H)"/>
 				<flow x="245.75" y="263" name="Births">
 					<pts>
 						<pt x="208" y="263"/>
@@ -663,34 +737,34 @@
 						<pt x="283.5" y="306"/>
 					</pts>
 				</flow>
-				<flow x="309" y="435.25" name="Baby infections">
+				<flow x="309" y="509.917" name="Baby infections">
 					<pts>
 						<pt x="309" y="326.5"/>
-						<pt x="309" y="556"/>
+						<pt x="309" y="705.333"/>
 					</pts>
 				</flow>
-				<flow x="423.75" y="523.5" name="Baby recovery">
+				<flow x="413.75" y="640.167" name="Baby recovery">
 					<pts>
-						<pt x="423.75" y="556"/>
-						<pt x="423.75" y="479"/>
+						<pt x="413.75" y="705.333"/>
+						<pt x="413.75" y="563"/>
 					</pts>
 				</flow>
-				<flow x="296" y="764.5" name="Baby hospitalisation">
+				<flow x="284.667" y="967.833" name="Baby hospitalisation">
 					<pts>
-						<pt x="296" y="648"/>
-						<pt x="296" y="893"/>
+						<pt x="284.667" y="797.333"/>
+						<pt x="284.667" y="1150.33"/>
 					</pts>
 				</flow>
-				<flow x="432.786" y="847.655" name="Baby hospital recovery">
+				<flow x="412.453" y="1060.74" width="18" height="18" name="Baby hospital recovery">
 					<pts>
-						<pt x="432.786" y="893"/>
-						<pt x="432.786" y="790.31"/>
+						<pt x="421.453" y="1150.33"/>
+						<pt x="421.453" y="977.143"/>
 					</pts>
 				</flow>
-				<flow x="649.25" y="451.25" name="age up to child (R)">
+				<flow x="639.25" y="535.25" name="age up to child (R)">
 					<pts>
-						<pt x="562" y="451.25"/>
-						<pt x="748.5" y="451.25"/>
+						<pt x="552" y="535.25"/>
+						<pt x="738.5" y="535.25"/>
 					</pts>
 				</flow>
 				<flow x="530.5" y="297.5" name="age up to child (S)">
@@ -699,70 +773,70 @@
 						<pt x="623.5" y="297.5"/>
 					</pts>
 				</flow>
-				<flow x="526" y="602" name="age up to child (I)">
+				<flow x="514.667" y="751.333" name="age up to child (I)">
 					<pts>
-						<pt x="443.5" y="602"/>
-						<pt x="620.5" y="602"/>
+						<pt x="432.167" y="751.333"/>
+						<pt x="609.167" y="751.333"/>
 					</pts>
 				</flow>
-				<flow x="528" y="907" name="Age up to child (H)">
+				<flow x="518" y="1164.33" name="Age up to child (H)">
 					<pts>
-						<pt x="448.5" y="907"/>
-						<pt x="619.5" y="907"/>
+						<pt x="438.5" y="1164.33"/>
+						<pt x="609.5" y="1164.33"/>
 					</pts>
 				</flow>
-				<flow color="blue" x="759.5" y="348.75" name="Child vaccination">
+				<flow color="blue" x="759.5" y="390.75" name="Child vaccination">
 					<pts>
 						<pt x="759.5" y="322.5"/>
-						<pt x="759.5" y="387"/>
+						<pt x="759.5" y="471"/>
 					</pts>
 				</flow>
-				<flow x="706.5" y="433.25" name="Child infections">
+				<flow x="706.5" y="507.917" name="Child infections">
 					<pts>
 						<pt x="706.5" y="322.5"/>
-						<pt x="706.5" y="556"/>
+						<pt x="706.5" y="705.333"/>
 					</pts>
 				</flow>
-				<flow x="759.5" y="523.5" name="Child recovery">
+				<flow x="749.5" y="640.167" name="Child recovery">
 					<pts>
-						<pt x="759.5" y="556"/>
-						<pt x="759.5" y="479"/>
+						<pt x="749.5" y="705.333"/>
+						<pt x="749.5" y="563"/>
 					</pts>
 				</flow>
-				<flow x="655.5" y="757" name="Child hospitalisation">
+				<flow x="644.167" y="960.333" name="Child hospitalisation">
 					<pts>
-						<pt x="655.5" y="648"/>
-						<pt x="655.5" y="878"/>
+						<pt x="644.167" y="797.333"/>
+						<pt x="644.167" y="1135.33"/>
 					</pts>
 				</flow>
-				<flow x="773.9" y="839.821" name="Child hospital recovery">
+				<flow x="762.567" y="1056.49" name="Child hospital recovery">
 					<pts>
-						<pt x="773.9" y="878"/>
-						<pt x="773.9" y="789.643"/>
+						<pt x="762.567" y="1135.33"/>
+						<pt x="762.567" y="965.643"/>
 					</pts>
 				</flow>
-				<flow x="860.75" y="907" name='age up to "adult" (H)'>
+				<flow x="850.75" y="1164.33" name='age up to "adult" (H)'>
 					<pts>
-						<pt x="785.5" y="907"/>
-						<pt x="948" y="907"/>
+						<pt x="775.5" y="1164.33"/>
+						<pt x="938" y="1164.33"/>
 					</pts>
 				</flow>
-				<flow x="863" y="602" name='age up to "adult" (I)'>
+				<flow x="851.667" y="751.333" name='age up to "adult" (I)'>
 					<pts>
-						<pt x="786.5" y="602"/>
-						<pt x="951.5" y="602"/>
+						<pt x="775.167" y="751.333"/>
+						<pt x="940.167" y="751.333"/>
 					</pts>
 				</flow>
-				<flow x="987" y="451.25" name='age up to "adult" (R)'>
+				<flow x="977" y="535.25" name='age up to "adult" (R)'>
 					<pts>
-						<pt x="914.5" y="451.25"/>
-						<pt x="1071.5" y="451.25"/>
+						<pt x="904.5" y="535.25"/>
+						<pt x="1061.5" y="535.25"/>
 					</pts>
 				</flow>
-				<flow x="1094" y="348.75" name="Adult vaccination">
+				<flow x="1094" y="390.75" name="Adult vaccination">
 					<pts>
 						<pt x="1094" y="322.5"/>
-						<pt x="1094" y="387"/>
+						<pt x="1094" y="471"/>
 					</pts>
 				</flow>
 				<flow x="866" y="297.5" name='age up to "adult" (S)'>
@@ -771,69 +845,70 @@
 						<pt x="954.5" y="297.5"/>
 					</pts>
 				</flow>
-				<flow x="1037.5" y="433.25" name="Adult infections">
+				<flow x="1037.5" y="507.917" name="Adult infections">
 					<pts>
 						<pt x="1037.5" y="322.5"/>
-						<pt x="1037.5" y="556"/>
+						<pt x="1037.5" y="705.333"/>
 					</pts>
 				</flow>
-				<flow x="1001.5" y="764.5" name="Adult hospitalisation">
+				<flow x="990.167" y="967.833" name="Adult hospitalisation">
 					<pts>
-						<pt x="1001.5" y="648"/>
-						<pt x="1001.5" y="893"/>
+						<pt x="990.167" y="797.333"/>
+						<pt x="990.167" y="1150.33"/>
 					</pts>
 				</flow>
-				<flow x="1096" y="523.5" name="Adult recovery">
+				<flow x="1086" y="640.167" name="Adult recovery">
 					<pts>
-						<pt x="1096" y="556"/>
-						<pt x="1096" y="479"/>
+						<pt x="1086" y="705.333"/>
+						<pt x="1086" y="563"/>
 					</pts>
 				</flow>
-				<flow x="1178.67" y="282.333" name="Adult (S) mortality">
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="1152.04" y="282.429" name="Adult ACM (S)">
 					<pts>
-						<pt x="1120.5" y="282.333"/>
-						<pt x="1260.83" y="282.333"/>
+						<pt x="1120.5" y="282.429"/>
+						<pt x="1207.57" y="282.429"/>
 					</pts>
 				</flow>
-				<flow x="1284.75" y="433" name="Adult (R) mortality">
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="1262.39" y="520.143" name="Adult ACM (R)">
 					<pts>
-						<pt x="1237.5" y="433"/>
-						<pt x="1356" y="433"/>
+						<pt x="1227.5" y="520.143"/>
+						<pt x="1321.29" y="520.143"/>
 					</pts>
 				</flow>
-				<flow x="1189.5" y="601" name="Adults (I) mortality">
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="1143.73" y="775" name="Adult ACM (I)">
 					<pts>
-						<pt x="1117.5" y="601"/>
-						<pt x="1285.5" y="601"/>
+						<pt x="1106.17" y="775"/>
+						<pt x="1205.29" y="775"/>
 					</pts>
 				</flow>
-				<flow x="1192.75" y="930.333" name="Adults (H) mortality">
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="1138.95" y="1208.71" name="Adult ACM (H)">
 					<pts>
-						<pt x="1114" y="930.333"/>
-						<pt x="1295.5" y="930.333"/>
+						<pt x="1101.75" y="1150.33"/>
+						<pt x="1101.75" y="1208.71"/>
+						<pt x="1200.14" y="1208.71"/>
 					</pts>
 				</flow>
-				<flow x="577" y="982.75" name="Baby measles mortality">
+				<flow x="525.875" y="1240.08" name="Baby measles mortality">
 					<pts>
-						<pt x="448.5" y="982.75"/>
-						<pt x="705.5" y="982.75"/>
-						<pt x="705.5" y="1071.5"/>
+						<pt x="438.5" y="1240.08"/>
+						<pt x="613.25" y="1240.08"/>
+						<pt x="613.25" y="1396.83"/>
 					</pts>
 				</flow>
-				<flow x="705.5" y="1014.75" name="Child measles mortality">
+				<flow x="695.5" y="1306.08" name="Child measles mortality">
 					<pts>
-						<pt x="705.5" y="970"/>
-						<pt x="705.5" y="1071.5"/>
+						<pt x="695.5" y="1227.33"/>
+						<pt x="695.5" y="1396.83"/>
 					</pts>
 				</flow>
-				<flow x="826.75" y="982.75" name="Adult measles mortality">
+				<flow x="851.5" y="1240.08" name="Adult measles mortality">
 					<pts>
-						<pt x="948" y="982.75"/>
-						<pt x="705.5" y="982.75"/>
-						<pt x="705.5" y="1071.5"/>
+						<pt x="938" y="1240.08"/>
+						<pt x="765" y="1240.08"/>
+						<pt x="765" y="1396.83"/>
 					</pts>
 				</flow>
-				<stock font_size="14pt" label_side="top" x="624" y="1071.5" width="163" height="98" name="Measles Deaths"/>
+				<stock font_size="14pt" label_side="top" x="611" y="1396.83" width="163" height="98" name="Measles Deaths"/>
 				<flow x="580.75" y="241" name="Child migration (S)">
 					<pts>
 						<pt x="538" y="241"/>
@@ -846,16 +921,16 @@
 						<pt x="954.5" y="245"/>
 					</pts>
 				</flow>
-				<flow x="700.75" y="399" name="Child migration (R)">
+				<flow x="690.75" y="483" name="Child migration (R)">
 					<pts>
-						<pt x="653" y="399"/>
-						<pt x="748.5" y="399"/>
+						<pt x="643" y="483"/>
+						<pt x="738.5" y="483"/>
 					</pts>
 				</flow>
-				<flow x="1028.75" y="404" name="Adult (R) migration">
+				<flow x="1018.75" y="488" name="Adult (R) migration">
 					<pts>
-						<pt x="986" y="404"/>
-						<pt x="1071.5" y="404"/>
+						<pt x="976" y="488"/>
+						<pt x="1061.5" y="488"/>
 					</pts>
 				</flow>
 				<aux x="199" y="206" name="birth rate"/>
@@ -863,37 +938,37 @@
 					<from>birth_rate</from>
 					<to>Births</to>
 				</connector>
-				<aux x="192" y="354.25" name="baby migration rate"/>
-				<connector uid="61" angle="10.3048">
+				<aux x="194" y="376.083" name="baby migration rate"/>
+				<connector uid="61" angle="21.9489">
 					<from>baby_migration_rate</from>
 					<to>&quot;Baby_migration_(S)&quot;</to>
 				</connector>
-				<aux x="490" y="195" name="baby age-up rate"/>
-				<connector uid="62" angle="258.111">
+				<aux x="496.44" y="255" name="baby age-up rate"/>
+				<connector uid="62" angle="275.26">
 					<from>&quot;baby_age-up_rate&quot;</from>
 					<to>&quot;age_up_to_child_(S)&quot;</to>
 				</connector>
-				<aux x="538" y="144.5" name="child (S) migration rate"/>
-				<connector uid="63" angle="293.894">
+				<aux x="572" y="177" name="child (S) migration rate"/>
+				<connector uid="63" angle="277.785">
 					<from>&quot;child_(S)_migration_rate&quot;</from>
 					<to>&quot;Child_migration_(S)&quot;</to>
 				</connector>
-				<aux x="827.75" y="162.5" name="child age-up rate"/>
-				<connector uid="64" angle="267.032">
+				<aux x="833.667" y="250" name="child age-up rate"/>
+				<connector uid="64" angle="285.456">
 					<from>&quot;child_age-up_rate&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(S)&quot;</to>
 				</connector>
-				<aux x="905" y="135" name="adult (S) migration rate"/>
-				<connector uid="65" angle="255.277">
+				<aux x="891.37" y="189.637" name="adult (S) migration rate"/>
+				<connector uid="65" angle="271.578">
 					<from>&quot;adult_(S)_migration_rate&quot;</from>
 					<to>&quot;Adult_migration_(S)&quot;</to>
 				</connector>
 				<aux x="945.5" y="343.25" name="adult (R) migration rate"/>
-				<connector uid="66" angle="10.1543">
+				<connector uid="66" angle="343.115">
 					<from>&quot;adult_(R)_migration_rate&quot;</from>
 					<to>&quot;Adult_(R)_migration&quot;</to>
 				</connector>
-				<aux x="604" y="372.25" name="child (R) migration rate"/>
+				<aux x="594" y="456.25" name="child (R) migration rate"/>
 				<connector uid="67" angle="4.1075">
 					<from>&quot;child_(R)_migration_rate&quot;</from>
 					<to>&quot;Child_migration_(R)&quot;</to>
@@ -904,24 +979,24 @@
 					</from>
 					<to>&quot;age_up_to_child_(R)&quot;</to>
 				</connector>
-				<connector uid="70" angle="347.204">
+				<connector uid="70" angle="274.978">
 					<from>
 						<alias uid="71"/>
 					</from>
 					<to>&quot;age_up_to_child_(I)&quot;</to>
 				</connector>
-				<connector uid="72" angle="340.55">
+				<connector uid="72" angle="324.007">
 					<from>
 						<alias uid="73"/>
 					</from>
 					<to>&quot;Age_up_to_child_(H)&quot;</to>
 				</connector>
-				<aux x="1206" y="325.25" name="Adult vaccination rate"/>
-				<connector uid="74" angle="191.85">
+				<aux x="1171.42" y="358.083" name="Adult vaccination rate"/>
+				<connector uid="74" angle="202.877">
 					<from>Adult_vaccination_rate</from>
 					<to>Adult_vaccination</to>
 				</connector>
-				<connector uid="75" angle="308.026">
+				<connector uid="75" angle="296.314">
 					<from>&quot;Adults_(S)&quot;</from>
 					<to>Adult_vaccination</to>
 				</connector>
@@ -944,7 +1019,7 @@
 					</from>
 					<to>Total_infectious</to>
 				</connector>
-				<aux x="2060.43" y="182.667" name="R0"/>
+				<aux x="2057.43" y="215.467" name="R0"/>
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="82" x="1793" y="129.5" width="264" height="29">Global variables &amp; constants</text_box>
 				<connector uid="84" angle="341.697">
 					<from>
@@ -958,7 +1033,7 @@
 					</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</to>
 				</connector>
-				<connector uid="87" angle="320.192">
+				<connector uid="87" angle="301.385">
 					<from>
 						<alias uid="88"/>
 					</from>
@@ -972,7 +1047,7 @@
 					<from>&quot;Children_(S)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(S)&quot;</to>
 				</connector>
-				<connector uid="92" angle="352.115">
+				<connector uid="92" angle="345.262">
 					<from>&quot;Babies_(I)&quot;</from>
 					<to>&quot;age_up_to_child_(I)&quot;</to>
 				</connector>
@@ -1044,36 +1119,36 @@
 					</from>
 					<to>Total_population</to>
 				</connector>
-				<connector uid="123" angle="249.617">
+				<connector uid="123" angle="255.929">
 					<from>&quot;Babies_(S)&quot;</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="125" angle="26.07">
+				<connector uid="125" angle="15.437">
 					<from>
 						<alias uid="126"/>
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="127" angle="51.1844">
+				<connector uid="127" angle="38.7371">
 					<from>
 						<alias uid="128"/>
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="129" angle="305.995">
+				<connector uid="129" angle="286.919">
 					<from>
 						<alias uid="130"/>
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<aux x="2132.23" y="182.667" name="infection period"/>
-				<connector uid="131" angle="207.776">
+				<aux x="2057.43" y="268.55" name="infection period"/>
+				<connector uid="131" angle="233.759">
 					<from>
 						<alias uid="132"/>
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="133" angle="309.219">
+				<connector uid="133" angle="299.861">
 					<from>
 						<alias uid="132"/>
 					</from>
@@ -1083,55 +1158,55 @@
 					<from>&quot;Babies_(I)&quot;</from>
 					<to>Baby_recovery</to>
 				</connector>
-				<connector uid="139" angle="13.8754">
+				<connector uid="139" angle="2.2098">
 					<from>
 						<alias uid="137"/>
 					</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="140" angle="33.2658">
+				<connector uid="140" angle="25.6809">
 					<from>
 						<alias uid="135"/>
 					</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="141" angle="46.6689">
+				<connector uid="141" angle="39.9682">
 					<from>
 						<alias uid="136"/>
 					</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="146" angle="112.479">
+				<connector uid="146" angle="116.09">
 					<from>
 						<alias uid="138"/>
 					</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="147" angle="352.245">
+				<connector uid="147" angle="340.896">
 					<from>
 						<alias uid="144"/>
 					</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="148" angle="28.1116">
+				<connector uid="148" angle="19.6942">
 					<from>
 						<alias uid="142"/>
 					</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="149" angle="53.3644">
+				<connector uid="149" angle="46.5528">
 					<from>
 						<alias uid="143"/>
 					</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="150" angle="107.598">
+				<connector uid="150" angle="109.869">
 					<from>
 						<alias uid="145"/>
 					</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="151" angle="241.686">
+				<connector uid="151" angle="251.627">
 					<from>&quot;Children_(S)&quot;</from>
 					<to>Child_infections</to>
 				</connector>
@@ -1139,7 +1214,7 @@
 					<from>&quot;Adults_(S)&quot;</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="153" angle="309.012">
+				<connector uid="153" angle="293.913">
 					<from>
 						<alias uid="138"/>
 					</from>
@@ -1153,169 +1228,165 @@
 					<from>&quot;Adults_(I)&quot;</from>
 					<to>Adult_recovery</to>
 				</connector>
-				<connector uid="156" angle="356.845">
+				<connector uid="156" angle="337.912">
 					<from>
 						<alias uid="145"/>
 					</from>
 					<to>Adult_recovery</to>
 				</connector>
-				<aux x="2228.43" y="182.667" name="Hospitalisation rate"/>
-				<aux x="2060.43" y="244.267" name="Recovery from hospital rate"/>
-				<aux label_side="bottom" x="2228.43" y="244.267" name="Hospital mortality rate"/>
-				<connector uid="157" angle="223.52">
+				<aux x="2170.5" y="319.6" name="Hospitalisation rate"/>
+				<aux x="2170.5" y="268.55" name="Recovery from hospital rate"/>
+				<aux label_side="bottom" x="2170.5" y="215.467" name="Hospital mortality rate"/>
+				<connector uid="157" angle="228.579">
 					<from>&quot;Babies_(I)&quot;</from>
 					<to>Baby_hospitalisation</to>
 				</connector>
-				<connector uid="159" angle="165.254">
+				<connector uid="159" angle="139.824">
 					<from>
 						<alias uid="158"/>
 					</from>
 					<to>Baby_hospitalisation</to>
 				</connector>
-				<connector uid="161" angle="230.507">
+				<connector uid="161" angle="234.779">
 					<from>&quot;Children_(I)&quot;</from>
 					<to>Child_hospitalisation</to>
 				</connector>
-				<connector uid="162" angle="140.94">
+				<connector uid="162" angle="129.697">
 					<from>
 						<alias uid="160"/>
 					</from>
 					<to>Child_hospitalisation</to>
 				</connector>
-				<connector uid="163" angle="249.008">
+				<connector uid="163" angle="251.821">
 					<from>&quot;Adults_(I)&quot;</from>
 					<to>Adult_hospitalisation</to>
 				</connector>
-				<connector uid="164" angle="141.733">
+				<connector uid="164" angle="129.545">
 					<from>
 						<alias uid="165"/>
 					</from>
 					<to>Adult_hospitalisation</to>
 				</connector>
-				<connector uid="166" angle="12.5922">
+				<connector uid="166" angle="9.48092">
 					<from>&quot;Babies_(H)&quot;</from>
 					<to>Baby_hospital_recovery</to>
 				</connector>
-				<connector uid="167" angle="20.7265">
+				<connector uid="167" angle="18.3125">
 					<from>&quot;Children_(H)&quot;</from>
 					<to>Child_hospital_recovery</to>
 				</connector>
-				<flow x="1105.05" y="847.655" name="Adult hospital recovery">
+				<flow x="1084.72" y="1051.99" width="18" height="18" name="Adult hospital recovery">
 					<pts>
-						<pt x="1105.05" y="893"/>
-						<pt x="1105.05" y="790.31"/>
+						<pt x="1093.72" y="1150.33"/>
+						<pt x="1093.72" y="959.643"/>
 					</pts>
 				</flow>
-				<connector uid="168" angle="21.5508">
+				<connector uid="168" angle="19.8821">
 					<from>&quot;Adults_(H)&quot;</from>
 					<to>Adult_hospital_recovery</to>
 				</connector>
-				<connector uid="169" angle="201.644">
+				<connector uid="169" angle="195.843">
 					<from>
 						<alias uid="170"/>
 					</from>
 					<to>Baby_hospital_recovery</to>
 				</connector>
-				<connector uid="171" angle="223.93">
+				<connector uid="171" angle="253.377">
 					<from>
 						<alias uid="172"/>
 					</from>
 					<to>Adult_hospital_recovery</to>
 				</connector>
-				<connector uid="173" angle="197.198">
+				<connector uid="173" angle="208.713">
 					<from>
 						<alias uid="174"/>
 					</from>
 					<to>Child_hospital_recovery</to>
 				</connector>
-				<connector uid="175" angle="348.313">
+				<connector uid="175" angle="345.598">
 					<from>&quot;Babies_(H)&quot;</from>
 					<to>Baby_measles_mortality</to>
 				</connector>
-				<connector uid="176" angle="192.09">
+				<connector uid="176" angle="194.473">
 					<from>&quot;Adults_(H)&quot;</from>
 					<to>Adult_measles_mortality</to>
 				</connector>
-				<connector uid="177" angle="295.923">
+				<connector uid="177" angle="295.407">
 					<from>&quot;Children_(H)&quot;</from>
 					<to>Child_measles_mortality</to>
 				</connector>
-				<connector uid="178" angle="139.248">
+				<connector uid="178" angle="144.899">
 					<from>
 						<alias uid="179"/>
 					</from>
 					<to>Baby_measles_mortality</to>
 				</connector>
-				<connector uid="180" angle="25.7675">
+				<connector uid="180" angle="354.52">
 					<from>
 						<alias uid="179"/>
 					</from>
 					<to>Child_measles_mortality</to>
 				</connector>
-				<connector uid="181" angle="32.9548">
+				<connector uid="181" angle="31.6017">
 					<from>
 						<alias uid="179"/>
 					</from>
 					<to>Adult_measles_mortality</to>
 				</connector>
-				<connector uid="182" angle="326.736">
-					<from>&quot;Children_(S)&quot;</from>
-					<to>Child_vaccination</to>
-				</connector>
 				<aux x="831.5" y="339.45" name="Child vaccination proportion"/>
-				<connector uid="183" angle="187.36">
+				<connector uid="183" angle="215.47">
 					<from>Child_vaccination_proportion</from>
 					<to>Child_vaccination</to>
 				</connector>
-				<aux font_color="red" x="2062.67" y="310" name="General adult mortality rate"/>
-				<connector uid="185" angle="256.554">
+				<aux x="2284.1" y="319.6" name="ACMR Adults"/>
+				<connector uid="185" color="#B6B6B6" font_color="#B6B6B6" angle="236.841">
 					<from>
 						<alias uid="184"/>
 					</from>
-					<to>&quot;Adult_(S)_mortality&quot;</to>
+					<to>&quot;Adult_ACM_(S)&quot;</to>
 				</connector>
-				<connector uid="186" angle="12.0807">
+				<connector uid="186" color="#B6B6B6" font_color="#B6B6B6" angle="11.4837">
 					<from>&quot;Adults_(S)&quot;</from>
-					<to>&quot;Adult_(S)_mortality&quot;</to>
+					<to>&quot;Adult_ACM_(S)&quot;</to>
 				</connector>
-				<connector uid="187" angle="254.226">
+				<connector uid="187" color="#B6B6B6" font_color="#B6B6B6" angle="254.829">
 					<from>
 						<alias uid="188"/>
 					</from>
-					<to>&quot;Adult_(R)_mortality&quot;</to>
+					<to>&quot;Adult_ACM_(R)&quot;</to>
 				</connector>
-				<connector uid="191" angle="302.079">
+				<connector uid="191" color="#B6B6B6" font_color="#B6B6B6" angle="209.271">
 					<from>
 						<alias uid="189"/>
 					</from>
-					<to>&quot;Adults_(I)_mortality&quot;</to>
+					<to>&quot;Adult_ACM_(I)&quot;</to>
 				</connector>
-				<connector uid="192" angle="248.482">
+				<connector uid="192" color="#B6B6B6" font_color="#B6B6B6" angle="235.734">
 					<from>
 						<alias uid="190"/>
 					</from>
-					<to>&quot;Adults_(H)_mortality&quot;</to>
+					<to>&quot;Adult_ACM_(H)&quot;</to>
 				</connector>
-				<connector uid="193" angle="312.904">
+				<connector uid="193" color="#B6B6B6" font_color="#B6B6B6" angle="9.79135">
 					<from>&quot;Adults_(R)&quot;</from>
-					<to>&quot;Adult_(R)_mortality&quot;</to>
+					<to>&quot;Adult_ACM_(R)&quot;</to>
 				</connector>
-				<connector uid="194" angle="16.7815">
+				<connector uid="194" color="#B6B6B6" font_color="#B6B6B6" angle="5.30553">
 					<from>&quot;Adults_(I)&quot;</from>
-					<to>&quot;Adults_(I)_mortality&quot;</to>
+					<to>&quot;Adult_ACM_(I)&quot;</to>
 				</connector>
-				<connector uid="195" angle="15.1954">
+				<connector uid="195" color="#B6B6B6" font_color="#B6B6B6" angle="2.60226">
 					<from>&quot;Adults_(H)&quot;</from>
-					<to>&quot;Adults_(H)_mortality&quot;</to>
+					<to>&quot;Adult_ACM_(H)&quot;</to>
 				</connector>
-				<stacked_container uid="196" x="1376" y="513.75" width="349.667" height="174.5">
-					<graph width="349.667" height="174.5" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+				<stacked_container uid="196" x="1349.33" y="685.417" width="349.667" height="153.167">
+					<graph width="349.667" height="153.167" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="Total_infected"/>
 						</plot>
 					</graph>
 				</stacked_container>
-				<stacked_container uid="197" x="1376" y="720.75" width="349.667" height="161.75">
+				<stacked_container uid="197" x="1357.33" y="1115.46" width="349.667" height="161.75">
 					<graph width="349.667" height="161.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="Total_hospitalised"/>
@@ -1331,8 +1402,8 @@
 						</plot>
 					</graph>
 				</stacked_container>
-				<stacked_container uid="198" x="1376" y="356.5" width="349.667" height="142.5">
-					<graph width="349.667" height="142.5" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+				<stacked_container uid="198" x="1349.33" y="419.5" width="349.667" height="176.833">
+					<graph width="349.667" height="176.833" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="Total_recovered"/>
 						</plot>
@@ -1347,7 +1418,7 @@
 						</plot>
 					</graph>
 				</stacked_container>
-				<stacked_container uid="199" x="1375.5" y="166.667" width="350.667" height="167.583">
+				<stacked_container uid="199" x="1348.83" y="198.637" width="350.667" height="167.583">
 					<graph width="350.667" height="167.583" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="Total_susceptible"/>
@@ -1381,61 +1452,61 @@
 					</from>
 					<to>Total_hospitalised</to>
 				</connector>
-				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="201" x="35" y="750" width="148" height="29">Isolated</text_box>
-				<stock x="380.357" y="739.357" width="88.8571" height="50.9524" name="Babies (X)"/>
-				<flow x="417.786" y="687.679" name="Baby isolation">
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="201" x="23.6667" y="899.333" width="148" height="29">Isolated</text_box>
+				<stock x="334.024" y="899.19" width="123.857" height="77.9524" name="Babies (X)"/>
+				<flow x="406.453" y="842.262" name="Baby isolation">
 					<pts>
-						<pt x="417.786" y="648"/>
-						<pt x="417.786" y="739.357"/>
+						<pt x="406.453" y="797.333"/>
+						<pt x="406.453" y="899.19"/>
 					</pts>
 				</flow>
-				<stock x="719.833" y="739.357" width="89.5238" height="50.2857" name="Children (X)"/>
-				<flow x="458.5" y="615.179" name="Baby recovery X">
+				<stock x="685.166" y="888.69" width="112.857" height="76.9524" name="Children (X)"/>
+				<flow x="448.5" y="737.095" name="Baby recovery X">
 					<pts>
-						<pt x="458.5" y="739.357"/>
-						<pt x="458.5" y="479"/>
+						<pt x="448.5" y="899.19"/>
+						<pt x="448.5" y="563"/>
 					</pts>
 				</flow>
-				<flow x="755.9" y="687.679" name="Child isolation">
+				<flow x="744.567" y="837.012" name="Child isolation">
 					<pts>
-						<pt x="755.9" y="648"/>
-						<pt x="755.9" y="739.357"/>
+						<pt x="744.567" y="797.333"/>
+						<pt x="744.567" y="888.69"/>
 					</pts>
 				</flow>
-				<flow x="802.429" y="615.179" name="Child recovery X">
+				<flow x="792.429" y="731.845" name="Child recovery X">
 					<pts>
-						<pt x="802.429" y="739.357"/>
-						<pt x="802.429" y="479"/>
+						<pt x="792.429" y="888.69"/>
+						<pt x="792.429" y="563"/>
 					</pts>
 				</flow>
-				<flow x="588.524" y="764.5" name="Age up to child (X)">
+				<flow x="565.524" y="913.833" name="Age up to child (X)">
 					<pts>
-						<pt x="469.214" y="764.5"/>
-						<pt x="719.833" y="764.5"/>
+						<pt x="457.881" y="913.833"/>
+						<pt x="685.166" y="913.833"/>
 					</pts>
 				</flow>
-				<stock x="1068.23" y="739.357" width="87.5238" height="50.9524" name="Adults (X)"/>
-				<flow x="1101.72" y="687.679" name="Adult isolation">
+				<stock x="1035.18" y="888.69" width="109.238" height="70.9524" name="Adults (X)"/>
+				<flow x="1090.39" y="837.012" name="Adult isolation">
 					<pts>
-						<pt x="1101.72" y="648"/>
-						<pt x="1101.72" y="739.357"/>
+						<pt x="1090.39" y="797.333"/>
+						<pt x="1090.39" y="888.69"/>
 					</pts>
 				</flow>
-				<flow x="1138.18" y="615.179" name="Adult recovery (X)">
+				<flow x="1124.18" y="731.845" name="Adult recovery (X)">
 					<pts>
-						<pt x="1138.18" y="739.357"/>
-						<pt x="1138.18" y="479"/>
+						<pt x="1124.18" y="888.69"/>
+						<pt x="1124.18" y="563"/>
 					</pts>
 				</flow>
-				<flow x="932.792" y="764.5" name='age up to "adult" (X)'>
+				<flow x="910.603" y="913.833" name='age up to "adult" (X)'>
 					<pts>
-						<pt x="809.357" y="764.5"/>
-						<pt x="1068.23" y="764.5"/>
+						<pt x="798.023" y="913.833"/>
+						<pt x="1035.18" y="913.833"/>
 					</pts>
 				</flow>
-				<aux x="2095.35" y="439.75" name="Isolation threshold"/>
-				<aux x="2259.08" y="439.75" name="Isolation proportion"/>
-				<aux x="2176.42" y="511.867" name="isolation switch"/>
+				<aux x="2096.11" y="536.95" name="Isolation threshold"/>
+				<aux x="2259.84" y="536.95" name="Isolation proportion"/>
+				<aux x="2177.18" y="609.067" name="isolation switch"/>
 				<connector uid="202" angle="359.647">
 					<from>Isolation_threshold</from>
 					<to>isolation_switch</to>
@@ -1444,15 +1515,15 @@
 					<from>Isolation_proportion</from>
 					<to>isolation_switch</to>
 				</connector>
-				<aux x="2248.59" y="566.95" name="run max infections"/>
-				<group locked="true" x="2015.08" y="402.033" width="309.333" height="440.133" name="Isolation Switch Model">
+				<aux x="2249.35" y="664.15" name="run max infections"/>
+				<group locked="true" x="2015.84" y="499.233" width="309.333" height="440.133" name="Isolation Switch Model">
 					<item uid="205"/>
 					<item uid="206"/>
 					<item uid="207"/>
 					<item uid="250"/>
 					<item uid="255"/>
 				</group>
-				<aux x="2139.75" y="601.367" name="new case average"/>
+				<aux x="2140.51" y="698.567" name="new case average"/>
 				<connector uid="212" angle="36.0126">
 					<from>new_case_average</from>
 					<to>isolation_switch</to>
@@ -1461,17 +1532,17 @@
 					<from>run_max_infections</from>
 					<to>isolation_switch</to>
 				</connector>
-				<connector uid="215" angle="16.0359">
+				<connector uid="215" angle="43.4141">
 					<from>
 						<alias uid="216"/>
 					</from>
 					<to>Baby_isolation</to>
 				</connector>
-				<connector uid="217" angle="303.767">
+				<connector uid="217" angle="302.211">
 					<from>&quot;Babies_(I)&quot;</from>
 					<to>Baby_isolation</to>
 				</connector>
-				<connector uid="219" angle="26.3525">
+				<connector uid="219" angle="45.3882">
 					<from>
 						<alias uid="218"/>
 					</from>
@@ -1491,37 +1562,37 @@
 					<from>&quot;Adults_(I)&quot;</from>
 					<to>Adult_isolation</to>
 				</connector>
-				<connector uid="224" angle="0.116641">
+				<connector uid="224" angle="8.1661">
 					<from>&quot;Babies_(X)&quot;</from>
 					<to>&quot;Age_up_to_child_(X)&quot;</to>
 				</connector>
-				<connector uid="226" angle="347.649">
+				<connector uid="226" angle="340.624">
 					<from>
 						<alias uid="227"/>
 					</from>
 					<to>&quot;Age_up_to_child_(X)&quot;</to>
 				</connector>
-				<flow x="909.25" y="569" name="Infected adults input">
+				<flow x="897.917" y="718.333" name="Infected adults input">
 					<pts>
-						<pt x="867" y="569"/>
-						<pt x="951.5" y="569"/>
+						<pt x="855.667" y="718.333"/>
+						<pt x="940.167" y="718.333"/>
 					</pts>
 				</flow>
-				<connector uid="228" angle="358.899">
+				<connector uid="228" angle="351.641">
 					<from>
 						<alias uid="229"/>
 					</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</to>
 				</connector>
-				<connector uid="230" angle="347.827">
+				<connector uid="230" angle="4.51077">
 					<from>&quot;Children_(X)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</to>
 				</connector>
-				<connector uid="231" angle="31.8508">
+				<connector uid="231" angle="27.7109">
 					<from>&quot;Babies_(X)&quot;</from>
 					<to>Baby_recovery_X</to>
 				</connector>
-				<connector uid="232" angle="156.981">
+				<connector uid="232" angle="261.022">
 					<from>
 						<alias uid="233"/>
 					</from>
@@ -1533,17 +1604,17 @@
 					</from>
 					<to>Child_recovery_X</to>
 				</connector>
-				<connector uid="236" angle="47.5036">
+				<connector uid="236" angle="47.1335">
 					<from>&quot;Children_(X)&quot;</from>
 					<to>Child_recovery_X</to>
 				</connector>
-				<connector uid="237" angle="144.284">
+				<connector uid="237" angle="252.484">
 					<from>
 						<alias uid="238"/>
 					</from>
 					<to>&quot;Adult_recovery_(X)&quot;</to>
 				</connector>
-				<connector uid="239" angle="43.183">
+				<connector uid="239" angle="41.6321">
 					<from>&quot;Adults_(X)&quot;</from>
 					<to>&quot;Adult_recovery_(X)&quot;</to>
 				</connector>
@@ -1605,7 +1676,7 @@
 					</from>
 					<to>Total_population</to>
 				</connector>
-				<stacked_container uid="254" x="1374" y="915.667" width="353.667" height="161.833">
+				<stacked_container uid="254" x="1347.33" y="846.012" width="353.667" height="161.833">
 					<graph width="353.667" height="161.833" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="Total_isolated"/>
@@ -1621,62 +1692,62 @@
 						</plot>
 					</graph>
 				</stacked_container>
-				<stacked_container uid="255" x="2033.71" y="708.055" width="272.079" height="115.59">
+				<stacked_container uid="255" x="2034.47" y="805.255" width="272.079" height="115.59">
 					<graph legend_position="none" isee:transparent="false" isee:hide_border="false" axis_title_font_size="10pt" width="272.079" height="115.59" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="isolation_switch"/>
 						</plot>
 					</graph>
 				</stacked_container>
-				<flow x="399.786" y="835.655" name="Baby hospitalisation (X)">
+				<flow x="395.952" y="1057.74" name="Baby hospitalisation (X)">
 					<pts>
-						<pt x="399.786" y="790.31"/>
-						<pt x="399.786" y="893"/>
+						<pt x="395.952" y="977.143"/>
+						<pt x="395.952" y="1150.33"/>
 					</pts>
 				</flow>
-				<connector uid="256" angle="359.389">
+				<connector uid="256" angle="25.4991">
 					<from>
 						<alias uid="158"/>
 					</from>
 					<to>&quot;Baby_hospitalisation_(X)&quot;</to>
 				</connector>
-				<connector uid="257" angle="239.453">
+				<connector uid="257" angle="259.046">
 					<from>&quot;Babies_(X)&quot;</from>
 					<to>&quot;Baby_hospitalisation_(X)&quot;</to>
 				</connector>
-				<flow x="752.667" y="827.821" name="Child hospitalisation (X)">
+				<flow x="732.334" y="1035.49" width="18" height="18" name="Child hospitalisation (X)">
 					<pts>
-						<pt x="752.667" y="789.643"/>
-						<pt x="752.667" y="878"/>
+						<pt x="741.334" y="965.643"/>
+						<pt x="741.334" y="1135.33"/>
 					</pts>
 				</flow>
-				<connector uid="258" angle="359.651">
+				<connector uid="258" angle="357.938">
 					<from>
 						<alias uid="160"/>
 					</from>
 					<to>&quot;Child_hospitalisation_(X)&quot;</to>
 				</connector>
-				<connector uid="259" angle="228.723">
+				<connector uid="259" angle="239.263">
 					<from>&quot;Children_(X)&quot;</from>
 					<to>&quot;Child_hospitalisation_(X)&quot;</to>
 				</connector>
-				<flow x="1083.72" y="835.655" name="Adult hospitalisation (X)">
+				<flow x="1072.39" y="1048.99" name="Adult hospitalisation (X)">
 					<pts>
-						<pt x="1083.72" y="790.31"/>
-						<pt x="1083.72" y="893"/>
+						<pt x="1072.39" y="959.643"/>
+						<pt x="1072.39" y="1150.33"/>
 					</pts>
 				</flow>
-				<connector uid="260" angle="337.207">
+				<connector uid="260" angle="346.445">
 					<from>
 						<alias uid="165"/>
 					</from>
 					<to>&quot;Adult_hospitalisation_(X)&quot;</to>
 				</connector>
-				<connector uid="261" angle="213.638">
+				<connector uid="261" angle="227.457">
 					<from>&quot;Adults_(X)&quot;</from>
 					<to>&quot;Adult_hospitalisation_(X)&quot;</to>
 				</connector>
-				<stock font_size="14pt" x="396" y="387" width="166" height="92" name="Babies (R)"/>
+				<stock font_size="14pt" x="386" y="471" width="166" height="92" name="Babies (R)"/>
 				<connector uid="100" angle="355.236">
 					<from>
 						<alias uid="97"/>
@@ -1691,15 +1762,193 @@
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="56" x="963" y="144" width="149" height="29">&quot;Adults&quot; (5+ yrs)</text_box>
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="54" x="625.75" y="144" width="161.5" height="29">Children (1-4 yrs)</text_box>
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="53" x="282" y="144" width="148" height="29">Babies (&lt;1 yrs)</text_box>
-				<alias color="blue" background="white" font_style="italic" uid="69" x="595" y="403" width="18" height="18">
+				<aux x="2284.1" y="268.55" name="ACMR Children"/>
+				<aux x="2284.1" y="215.467" name="ACMR Babies"/>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="409.333" y="358.083" name="Baby ACM (S)">
+					<pts>
+						<pt x="409.333" y="326.5"/>
+						<pt x="409.333" y="410.667"/>
+					</pts>
+				</flow>
+				<connector uid="263" color="#B6B6B6" font_color="#B6B6B6" angle="174.787">
+					<from>
+						<alias uid="262"/>
+					</from>
+					<to>&quot;Baby_ACM_(S)&quot;</to>
+				</connector>
+				<connector uid="264" color="#B6B6B6" font_color="#B6B6B6" angle="317.924">
+					<from>&quot;Babies_(S)&quot;</from>
+					<to>&quot;Baby_ACM_(S)&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="490" y="586.333" name="Baby ACM (R)">
+					<pts>
+						<pt x="490" y="563"/>
+						<pt x="490" y="630.667"/>
+					</pts>
+				</flow>
+				<connector uid="265" color="#B6B6B6" font_color="#B6B6B6" angle="175.101">
+					<from>
+						<alias uid="266"/>
+					</from>
+					<to>&quot;Baby_ACM_(R)&quot;</to>
+				</connector>
+				<connector uid="267" color="#B6B6B6" font_color="#B6B6B6" angle="307.706">
+					<from>&quot;Babies_(R)&quot;</from>
+					<to>&quot;Baby_ACM_(R)&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="323.333" y="815.833" name="Baby ACM (I)">
+					<pts>
+						<pt x="323.333" y="797.333"/>
+						<pt x="323.333" y="855.333"/>
+					</pts>
+				</flow>
+				<connector uid="268" color="#B6B6B6" font_color="#B6B6B6" angle="144.288">
+					<from>
+						<alias uid="269"/>
+					</from>
+					<to>&quot;Baby_ACM_(I)&quot;</to>
+				</connector>
+				<connector uid="270" color="#B6B6B6" font_color="#B6B6B6" angle="255.06">
+					<from>&quot;Babies_(I)&quot;</from>
+					<to>&quot;Baby_ACM_(I)&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="324.667" y="1265" name="Baby ACM (H)">
+					<pts>
+						<pt x="324.667" y="1242.33"/>
+						<pt x="324.667" y="1308.67"/>
+					</pts>
+				</flow>
+				<connector uid="271" color="#B6B6B6" font_color="#B6B6B6" angle="167.055">
+					<from>
+						<alias uid="272"/>
+					</from>
+					<to>&quot;Baby_ACM_(H)&quot;</to>
+				</connector>
+				<connector uid="273" color="#B6B6B6" font_color="#B6B6B6" angle="253.301">
+					<from>&quot;Babies_(H)&quot;</from>
+					<to>&quot;Baby_ACM_(H)&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="478.44" y="962.375" name="Baby ACM (X)">
+					<pts>
+						<pt x="457.881" y="962.375"/>
+						<pt x="523" y="962.375"/>
+					</pts>
+				</flow>
+				<connector uid="274" color="#B6B6B6" font_color="#B6B6B6" angle="134.349">
+					<from>
+						<alias uid="275"/>
+					</from>
+					<to>&quot;Baby_ACM_(X)&quot;</to>
+				</connector>
+				<connector uid="276" color="#B6B6B6" font_color="#B6B6B6" angle="353.084">
+					<from>&quot;Babies_(X)&quot;</from>
+					<to>&quot;Baby_ACM_(X)&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="653.833" y="353.75" name="Child ACM (S)">
+					<pts>
+						<pt x="653.833" y="322.5"/>
+						<pt x="653.833" y="406"/>
+					</pts>
+				</flow>
+				<connector uid="277" color="#B6B6B6" font_color="#B6B6B6" angle="3.88357">
+					<from>
+						<alias uid="278"/>
+					</from>
+					<to>&quot;Child_ACM_(S)&quot;</to>
+				</connector>
+				<connector uid="279" color="#B6B6B6" font_color="#B6B6B6" angle="216.151">
+					<from>&quot;Children_(S)&quot;</from>
+					<to>&quot;Child_ACM_(S)&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="838.833" y="586.333" name="Child ACM (R)">
+					<pts>
+						<pt x="838.833" y="563"/>
+						<pt x="838.833" y="630.667"/>
+					</pts>
+				</flow>
+				<connector uid="281" color="#B6B6B6" font_color="#B6B6B6" angle="149.411">
+					<from>
+						<alias uid="280"/>
+					</from>
+					<to>&quot;Child_ACM_(R)&quot;</to>
+				</connector>
+				<connector uid="282" color="#B6B6B6" font_color="#B6B6B6" angle="306.8">
+					<from>&quot;Children_(R)&quot;</from>
+					<to>&quot;Child_ACM_(R)&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="739.5" y="1250.33" name="Child ACM (H) 1">
+					<pts>
+						<pt x="739.5" y="1227.33"/>
+						<pt x="739.5" y="1294.33"/>
+					</pts>
+				</flow>
+				<connector uid="283" color="#B6B6B6" font_color="#B6B6B6" angle="149.8">
+					<from>
+						<alias uid="284"/>
+					</from>
+					<to>&quot;Child_ACM_(H)_1&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="824.012" y="953.154" name="Child ACM (R) 1">
+					<pts>
+						<pt x="798.023" y="953.154"/>
+						<pt x="874" y="953.154"/>
+					</pts>
+				</flow>
+				<connector uid="285" color="#B6B6B6" font_color="#B6B6B6" angle="121.526">
+					<from>
+						<alias uid="286"/>
+					</from>
+					<to>&quot;Child_ACM_(R)_1&quot;</to>
+				</connector>
+				<connector uid="287" color="#B6B6B6" font_color="#B6B6B6" angle="346.754">
+					<from>&quot;Children_(X)&quot;</from>
+					<to>&quot;Child_ACM_(R)_1&quot;</to>
+				</connector>
+				<connector uid="288" color="#B6B6B6" font_color="#B6B6B6" angle="322.782">
+					<from>&quot;Children_(H)&quot;</from>
+					<to>&quot;Child_ACM_(H)_1&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="678.166" y="820.167" name="Child ACM (I)">
+					<pts>
+						<pt x="678.166" y="797.333"/>
+						<pt x="678.166" y="864"/>
+					</pts>
+				</flow>
+				<connector uid="289" color="#B6B6B6" font_color="#B6B6B6" angle="168.313">
+					<from>
+						<alias uid="290"/>
+					</from>
+					<to>&quot;Child_ACM_(I)&quot;</to>
+				</connector>
+				<connector uid="291" color="#B6B6B6" font_color="#B6B6B6" angle="262.075">
+					<from>&quot;Children_(I)&quot;</from>
+					<to>&quot;Child_ACM_(I)&quot;</to>
+				</connector>
+				<flow color="#B6B6B6" font_color="#B6B6B6" x="1191.64" y="924.167" name="Adult ACM (X)">
+					<pts>
+						<pt x="1144.42" y="924.167"/>
+						<pt x="1262.85" y="924.167"/>
+					</pts>
+				</flow>
+				<connector uid="292" color="#B6B6B6" font_color="#B6B6B6" angle="245.375">
+					<from>
+						<alias uid="293"/>
+					</from>
+					<to>&quot;Adult_ACM_(X)&quot;</to>
+				</connector>
+				<connector uid="294" color="#B6B6B6" font_color="#B6B6B6" angle="15.8699">
+					<from>&quot;Adults_(X)&quot;</from>
+					<to>&quot;Adult_ACM_(X)&quot;</to>
+				</connector>
+				<alias color="blue" background="white" font_style="italic" uid="69" x="585" y="487" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="71" x="479.333" y="556" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="71" x="531.333" y="691.333" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="73" x="504" y="847.5" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="73" x="509" y="1077.5" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
@@ -1712,15 +1961,15 @@
 				<alias font_style="italic" font_size="14pt" uid="78" x="1821.67" y="328.583" width="40.6667" height="33.3333">
 					<of>&quot;Children_(I)&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="83" x="936.5" y="403" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="83" x="926.5" y="487" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="86" x="823.036" y="560" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="86" x="811.703" y="709.333" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="88" x="832.5" y="847.5" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="88" x="839.167" y="1083.5" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
@@ -1750,77 +1999,77 @@
 					<shape type="circle" radius="18"/>
 					<of>Total_hospitalised</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="126" x="218.75" y="489" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="126" x="208.75" y="573" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Total_population</of>
 				</alias>
-				<alias font_style="italic" uid="128" x="264" y="471" width="18" height="18">
+				<alias font_style="italic" uid="128" x="254" y="555" width="18" height="18">
 					<of>Total_infectious</of>
 				</alias>
-				<alias font_style="italic" uid="130" x="218.75" y="424.25" width="18" height="18">
+				<alias font_style="italic" uid="130" x="208.75" y="508.25" width="18" height="18">
 					<of>R0</of>
 				</alias>
-				<alias font_style="italic" uid="132" x="351.5" y="437" width="18" height="18">
+				<alias font_style="italic" uid="132" x="341.5" y="521" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="135" x="620.75" y="517" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="135" x="610.75" y="601" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Total_population</of>
 				</alias>
-				<alias font_style="italic" uid="136" x="666" y="499" width="18" height="18">
+				<alias font_style="italic" uid="136" x="656" y="583" width="18" height="18">
 					<of>Total_infectious</of>
 				</alias>
-				<alias font_style="italic" uid="137" x="609" y="477" width="18" height="18">
+				<alias font_style="italic" uid="137" x="599" y="561" width="18" height="18">
 					<of>R0</of>
 				</alias>
-				<alias font_style="italic" uid="138" x="718.5" y="475" width="18" height="18">
+				<alias font_style="italic" uid="138" x="708.5" y="559" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="142" x="954.5" y="507" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="142" x="944.5" y="591" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Total_population</of>
 				</alias>
-				<alias font_style="italic" uid="143" x="996" y="499" width="18" height="18">
+				<alias font_style="italic" uid="143" x="986" y="583" width="18" height="18">
 					<of>Total_infectious</of>
 				</alias>
-				<alias font_style="italic" uid="144" x="941" y="480" width="18" height="18">
+				<alias font_style="italic" uid="144" x="931" y="564" width="18" height="18">
 					<of>R0</of>
 				</alias>
-				<alias font_style="italic" uid="145" x="1046.5" y="481" width="18" height="18">
+				<alias font_style="italic" uid="145" x="1036.5" y="565" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
-				<alias font_style="italic" uid="158" x="330.167" y="790.31" width="18" height="18">
+				<alias font_style="italic" uid="158" x="316.024" y="1042.74" width="18" height="18">
 					<of>Hospitalisation_rate</of>
 				</alias>
-				<alias font_style="italic" uid="160" x="687.667" y="804.5" width="18" height="18">
+				<alias font_style="italic" uid="160" x="665.167" y="1016.15" width="18" height="18">
 					<of>Hospitalisation_rate</of>
 				</alias>
-				<alias font_style="italic" uid="165" x="1022" y="804.5" width="18" height="18">
+				<alias font_style="italic" uid="165" x="1004" y="1025.67" width="18" height="18">
 					<of>Hospitalisation_rate</of>
 				</alias>
-				<alias font_style="italic" uid="170" x="509.857" y="804.5" width="18" height="18">
+				<alias font_style="italic" uid="170" x="475.881" y="1042.74" width="18" height="18">
 					<of>Recovery_from_hospital_rate</of>
 				</alias>
-				<alias font_style="italic" uid="174" x="805.036" y="804.5" width="18" height="18">
+				<alias font_style="italic" uid="174" x="793.703" y="1007.67" width="18" height="18">
 					<of>Recovery_from_hospital_rate</of>
 				</alias>
-				<alias font_style="italic" uid="172" x="1122.87" y="812.821" width="18" height="18">
+				<alias font_style="italic" uid="172" x="1111.54" y="962.154" width="18" height="18">
 					<of>Recovery_from_hospital_rate</of>
 				</alias>
-				<alias font_style="italic" uid="179" x="647" y="998" width="18" height="18">
+				<alias font_style="italic" uid="179" x="637" y="1255.33" width="18" height="18">
 					<of>Hospital_mortality_rate</of>
 				</alias>
-				<alias font_style="italic" font_color="red" uid="184" x="1185" y="209.2" width="18" height="18">
-					<of>General_adult_mortality_rate</of>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="184" x="1185" y="209.2" width="18" height="18">
+					<of>ACMR_Adults</of>
 				</alias>
-				<alias font_style="italic" font_color="red" uid="188" x="1306.2" y="365" width="18" height="18">
-					<of>General_adult_mortality_rate</of>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="188" x="1278.61" y="461" width="18" height="18">
+					<of>ACMR_Adults</of>
 				</alias>
-				<alias font_style="italic" font_color="red" uid="189" x="1197" y="538" width="18" height="18">
-					<of>General_adult_mortality_rate</of>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="189" x="1193.86" y="732.857" width="18" height="18">
+					<of>ACMR_Adults</of>
 				</alias>
-				<alias font_style="italic" font_color="red" uid="190" x="1217" y="837" width="18" height="18">
-					<of>General_adult_mortality_rate</of>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="190" x="1162.42" y="1152.05" width="18" height="18">
+					<of>ACMR_Adults</of>
 				</alias>
 				<alias font_style="italic" font_size="14pt" uid="111" x="1896.67" y="802.417" width="30" height="30">
 					<of>&quot;Adults_(H)&quot;</of>
@@ -1831,30 +2080,30 @@
 				<alias font_style="italic" font_size="14pt" uid="109" x="1762" y="798.417" width="30" height="30">
 					<of>&quot;Babies_(H)&quot;</of>
 				</alias>
-				<alias font_style="italic" uid="216" x="348.167" y="678.679" width="18" height="18">
+				<alias font_style="italic" uid="216" x="354.834" y="855.333" width="18" height="18">
 					<of>isolation_switch</of>
 				</alias>
-				<alias font_style="italic" uid="218" x="694.5" y="688" width="18" height="18">
+				<alias font_style="italic" uid="218" x="693.833" y="851.262" width="18" height="18">
 					<of>isolation_switch</of>
 				</alias>
-				<alias font_style="italic" uid="222" x="1046.5" y="693.333" width="18" height="18">
+				<alias font_style="italic" uid="222" x="1035.17" y="842.666" width="18" height="18">
 					<of>isolation_switch</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="227" x="527.857" y="721.357" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="227" x="516.524" y="870.69" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="229" x="875.703" y="718" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="229" x="864.37" y="867.333" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
-				<alias font_style="italic" uid="233" x="504" y="629.333" width="18" height="18">
+				<alias font_style="italic" uid="233" x="475.881" y="670.666" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
-				<alias font_style="italic" uid="234" x="832.5" y="642" width="18" height="18">
+				<alias font_style="italic" uid="234" x="821.167" y="791.333" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
-				<alias font_style="italic" uid="238" x="1179" y="642" width="18" height="18">
+				<alias font_style="italic" uid="238" x="1144.42" y="683.333" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
 				<alias font_style="italic" uid="242" x="1826.24" y="546.774" width="37.5238" height="32.9524">
@@ -1867,16 +2116,16 @@
 				<alias font_style="italic" uid="246" x="1892.57" y="521.298" width="40.1904" height="32.9524">
 					<of>&quot;Adults_(X)&quot;</of>
 				</alias>
-				<alias font_style="italic" uid="206" x="2060.58" y="592.367" width="18" height="18">
+				<alias font_style="italic" uid="206" x="2061.34" y="689.567" width="18" height="18">
 					<of>Baby_infections</of>
 				</alias>
-				<alias font_style="italic" uid="207" x="2060.58" y="641.617" width="18" height="18">
+				<alias font_style="italic" uid="207" x="2061.34" y="738.817" width="18" height="18">
 					<of>Adult_infections</of>
 				</alias>
-				<alias font_style="italic" uid="205" x="2060.58" y="536.7" width="18" height="18">
+				<alias font_style="italic" uid="205" x="2061.34" y="633.9" width="18" height="18">
 					<of>Child_infections</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="250" x="2237.58" y="636.7" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="250" x="2238.34" y="733.9" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Total_infected</of>
 				</alias>
@@ -1887,11 +2136,41 @@
 				<alias font_style="italic" font_size="14pt" uid="97" x="1762" y="646.917" width="30" height="30">
 					<of>&quot;Babies_(R)&quot;</of>
 				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="262" x="460" y="341.75" width="18" height="18">
+					<of>ACMR_Babies</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="266" x="535.333" y="582" width="18" height="18">
+					<of>ACMR_Babies</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="269" x="351.024" y="819.333" width="18" height="18">
+					<of>ACMR_Babies</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="272" x="372.834" y="1263.08" width="18" height="18">
+					<of>ACMR_Babies</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="275" x="513.333" y="977.143" width="18" height="18">
+					<of>ACMR_Babies</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="278" x="581" y="349.083" width="18" height="18">
+					<of>ACMR_Children</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="280" x="875" y="591" width="18" height="18">
+					<of>ACMR_Children</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="284" x="775.667" y="1254.67" width="18" height="18">
+					<of>ACMR_Children</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="286" x="842.5" y="971.375" width="18" height="18">
+					<of>ACMR_Children</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="290" x="701.167" y="810.012" width="18" height="18">
+					<of>ACMR_Children</of>
+				</alias>
+				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="293" x="1204.56" y="867.333" width="18" height="18">
+					<of>ACMR_Adults</of>
+				</alias>
 			</view>
 		</views>
 	</model>
-	<isee:controls>
-		<isee:control priority="interactive" name="Hospital_mortality_rate" value="0.237430765508009"/>
-	</isee:controls>
 </xmile>
 

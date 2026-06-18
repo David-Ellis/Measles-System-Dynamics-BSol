@@ -407,7 +407,7 @@ ggplot(cases, aes(x = week_number, y = value)) +
   ) +
   theme(
     legend.position = "inside",
-    legend.position.inside = c(0.2, 0.95),
+    legend.position.inside = c(0.2, 0.97),
     legend.background = element_rect(fill=NA)
   )
 

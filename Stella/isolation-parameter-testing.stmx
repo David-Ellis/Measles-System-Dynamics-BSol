@@ -75,7 +75,7 @@
 				<eqn>1.3e5 + 1.17e6</eqn>
 			</aux>
 			<stock name="Isolated">
-				<eqn>1/1.3e6</eqn>
+				<eqn>0</eqn>
 				<inflow>Isolation</inflow>
 				<outflow>Recovery_2</outflow>
 				<non_negative/>
