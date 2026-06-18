@@ -179,7 +179,7 @@
 				<units>people/days</units>
 			</flow>
 			<flow name="Baby infections">
-				<eqn> IF Total_infectious &gt;= 1 THEN (R0 / infection_period) * (Total_infectious / Total_population) * &quot;Babies_(S)&quot; ELSE 0</eqn>
+				<eqn> IF Total_infectious &gt;= 1 THEN (Total_infectious / Total_population) * &quot;Babies_(S)&quot; * Baby_inf_weight ELSE 0</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -224,7 +224,7 @@
 				<units>people/days</units>
 			</flow>
 			<flow name="Child infections">
-				<eqn> IF Total_infectious &gt;= 1 THEN (R0 / infection_period) * (Total_infectious / Total_population) * &quot;Children_(S)&quot; ELSE 0</eqn>
+				<eqn> IF Total_infectious &gt;= 1 THEN (Total_infectious / Total_population) * &quot;Children_(S)&quot; * Child_inf_weight ELSE 0</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -269,7 +269,7 @@
 				<units>people/days</units>
 			</flow>
 			<flow name="Adult infections">
-				<eqn> IF Total_infectious &gt;= 1 THEN (R0 / infection_period) * (Total_infectious / Total_population) * &quot;Adults_(S)&quot; ELSE 0</eqn>
+				<eqn> IF Total_infectious &gt;= 1 THEN  (Total_infectious / Total_population) * &quot;Adults_(S)&quot; * Adult_inf_weight ELSE 0</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -623,6 +623,15 @@
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
+			<aux name="Adult inf weight">
+				<eqn>0.802</eqn>
+			</aux>
+			<aux name="Child inf weight">
+				<eqn>4.93</eqn>
+			</aux>
+			<aux name="Baby inf weight">
+				<eqn>5.21</eqn>
+			</aux>
 		</variables>
 		<views>
 			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
@@ -672,7 +681,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="2" isee:scroll_y="133.333" zoom="60" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="2" isee:scroll_y="106.25" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -943,7 +952,7 @@
 					<from>baby_migration_rate</from>
 					<to>&quot;Baby_migration_(S)&quot;</to>
 				</connector>
-				<aux x="496.44" y="255" name="baby age-up rate"/>
+				<aux color="#B6B6B6" font_color="#B6B6B6" x="496.44" y="255" name="baby age-up rate"/>
 				<connector uid="62" angle="275.26">
 					<from>&quot;baby_age-up_rate&quot;</from>
 					<to>&quot;age_up_to_child_(S)&quot;</to>
@@ -953,8 +962,8 @@
 					<from>&quot;child_(S)_migration_rate&quot;</from>
 					<to>&quot;Child_migration_(S)&quot;</to>
 				</connector>
-				<aux x="833.667" y="250" name="child age-up rate"/>
-				<connector uid="64" angle="285.456">
+				<aux color="#B6B6B6" font_color="#B6B6B6" x="821.5" y="255" name="child age-up rate"/>
+				<connector uid="64" color="#B6B6B6" font_color="#B6B6B6" angle="297.53">
 					<from>&quot;child_age-up_rate&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(S)&quot;</to>
 				</connector>
@@ -963,29 +972,29 @@
 					<from>&quot;adult_(S)_migration_rate&quot;</from>
 					<to>&quot;Adult_migration_(S)&quot;</to>
 				</connector>
-				<aux x="945.5" y="343.25" name="adult (R) migration rate"/>
-				<connector uid="66" angle="343.115">
+				<aux x="977" y="438.25" name="adult (R) migration rate"/>
+				<connector uid="66" angle="356.277">
 					<from>&quot;adult_(R)_migration_rate&quot;</from>
 					<to>&quot;Adult_(R)_migration&quot;</to>
 				</connector>
-				<aux x="594" y="456.25" name="child (R) migration rate"/>
-				<connector uid="67" angle="4.1075">
+				<aux x="626" y="438.25" name="child (R) migration rate"/>
+				<connector uid="67" angle="344.914">
 					<from>&quot;child_(R)_migration_rate&quot;</from>
 					<to>&quot;Child_migration_(R)&quot;</to>
 				</connector>
-				<connector uid="68" angle="357.894">
+				<connector uid="68" color="#B6B6B6" font_color="#B6B6B6" angle="357.894">
 					<from>
 						<alias uid="69"/>
 					</from>
 					<to>&quot;age_up_to_child_(R)&quot;</to>
 				</connector>
-				<connector uid="70" angle="274.978">
+				<connector uid="70" color="#B6B6B6" font_color="#B6B6B6" angle="274.978">
 					<from>
 						<alias uid="71"/>
 					</from>
 					<to>&quot;age_up_to_child_(I)&quot;</to>
 				</connector>
-				<connector uid="72" angle="324.007">
+				<connector uid="72" color="#B6B6B6" font_color="#B6B6B6" angle="324.007">
 					<from>
 						<alias uid="73"/>
 					</from>
@@ -1021,7 +1030,7 @@
 				</connector>
 				<aux x="2057.43" y="215.467" name="R0"/>
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="82" x="1793" y="129.5" width="264" height="29">Global variables &amp; constants</text_box>
-				<connector uid="84" angle="341.697">
+				<connector uid="84" color="#B6B6B6" font_color="#B6B6B6" angle="341.697">
 					<from>
 						<alias uid="83"/>
 					</from>
@@ -1033,29 +1042,29 @@
 					</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</to>
 				</connector>
-				<connector uid="87" angle="301.385">
+				<connector uid="87" color="#B6B6B6" font_color="#B6B6B6" angle="301.385">
 					<from>
 						<alias uid="88"/>
 					</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(H)&quot;</to>
 				</connector>
-				<connector uid="89" angle="342.156">
+				<connector uid="89" color="#B6B6B6" font_color="#B6B6B6" angle="342.156">
 					<from>&quot;Babies_(S)&quot;</from>
 					<to>&quot;age_up_to_child_(S)&quot;</to>
 				</connector>
-				<connector uid="90" angle="339.168">
+				<connector uid="90" color="#B6B6B6" font_color="#B6B6B6" angle="339.168">
 					<from>&quot;Children_(S)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(S)&quot;</to>
 				</connector>
-				<connector uid="92" angle="345.262">
+				<connector uid="92" color="#B6B6B6" font_color="#B6B6B6" angle="345.262">
 					<from>&quot;Babies_(I)&quot;</from>
 					<to>&quot;age_up_to_child_(I)&quot;</to>
 				</connector>
-				<connector uid="93" angle="11.1403">
+				<connector uid="93" color="#B6B6B6" font_color="#B6B6B6" angle="11.1403">
 					<from>&quot;Babies_(H)&quot;</from>
 					<to>&quot;Age_up_to_child_(H)&quot;</to>
 				</connector>
-				<connector uid="94" angle="341.414">
+				<connector uid="94" color="#B6B6B6" font_color="#B6B6B6" angle="341.414">
 					<from>&quot;Children_(R)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(R)&quot;</to>
 				</connector>
@@ -1063,7 +1072,7 @@
 					<from>&quot;Children_(I)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</to>
 				</connector>
-				<connector uid="96" angle="6.13148">
+				<connector uid="96" color="#B6B6B6" font_color="#B6B6B6" angle="6.13148">
 					<from>&quot;Children_(H)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(H)&quot;</to>
 				</connector>
@@ -1135,20 +1144,8 @@
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="129" angle="286.919">
-					<from>
-						<alias uid="130"/>
-					</from>
-					<to>Baby_infections</to>
-				</connector>
 				<aux x="2057.43" y="268.55" name="infection period"/>
-				<connector uid="131" angle="233.759">
-					<from>
-						<alias uid="132"/>
-					</from>
-					<to>Baby_infections</to>
-				</connector>
-				<connector uid="133" angle="299.861">
+				<connector uid="133" angle="337.58">
 					<from>
 						<alias uid="132"/>
 					</from>
@@ -1157,12 +1154,6 @@
 				<connector uid="134" angle="51.1405">
 					<from>&quot;Babies_(I)&quot;</from>
 					<to>Baby_recovery</to>
-				</connector>
-				<connector uid="139" angle="2.2098">
-					<from>
-						<alias uid="137"/>
-					</from>
-					<to>Child_infections</to>
 				</connector>
 				<connector uid="140" angle="25.6809">
 					<from>
@@ -1176,18 +1167,6 @@
 					</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="146" angle="116.09">
-					<from>
-						<alias uid="138"/>
-					</from>
-					<to>Child_infections</to>
-				</connector>
-				<connector uid="147" angle="340.896">
-					<from>
-						<alias uid="144"/>
-					</from>
-					<to>Adult_infections</to>
-				</connector>
 				<connector uid="148" angle="19.6942">
 					<from>
 						<alias uid="142"/>
@@ -1200,12 +1179,6 @@
 					</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="150" angle="109.869">
-					<from>
-						<alias uid="145"/>
-					</from>
-					<to>Adult_infections</to>
-				</connector>
 				<connector uid="151" angle="251.627">
 					<from>&quot;Children_(S)&quot;</from>
 					<to>Child_infections</to>
@@ -1214,7 +1187,7 @@
 					<from>&quot;Adults_(S)&quot;</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="153" angle="293.913">
+				<connector uid="153" angle="293.456">
 					<from>
 						<alias uid="138"/>
 					</from>
@@ -1228,7 +1201,7 @@
 					<from>&quot;Adults_(I)&quot;</from>
 					<to>Adult_recovery</to>
 				</connector>
-				<connector uid="156" angle="337.912">
+				<connector uid="156" angle="347.861">
 					<from>
 						<alias uid="145"/>
 					</from>
@@ -1333,8 +1306,8 @@
 					</from>
 					<to>Adult_measles_mortality</to>
 				</connector>
-				<aux x="831.5" y="339.45" name="Child vaccination proportion"/>
-				<connector uid="183" angle="215.47">
+				<aux x="838.833" y="350.75" name="Child vaccination proportion"/>
+				<connector uid="183" angle="206.757">
 					<from>Child_vaccination_proportion</from>
 					<to>Child_vaccination</to>
 				</connector>
@@ -1386,8 +1359,8 @@
 						</plot>
 					</graph>
 				</stacked_container>
-				<stacked_container uid="197" x="1357.33" y="1115.46" width="349.667" height="161.75">
-					<graph width="349.667" height="161.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+				<stacked_container uid="197" x="1349.33" y="1106.66" width="349.667" height="170.55">
+					<graph width="349.667" height="170.55" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="Total_hospitalised"/>
 						</plot>
@@ -1562,11 +1535,11 @@
 					<from>&quot;Adults_(I)&quot;</from>
 					<to>Adult_isolation</to>
 				</connector>
-				<connector uid="224" angle="8.1661">
+				<connector uid="224" color="#B6B6B6" font_color="#B6B6B6" angle="8.1661">
 					<from>&quot;Babies_(X)&quot;</from>
 					<to>&quot;Age_up_to_child_(X)&quot;</to>
 				</connector>
-				<connector uid="226" angle="340.624">
+				<connector uid="226" color="#B6B6B6" font_color="#B6B6B6" angle="340.624">
 					<from>
 						<alias uid="227"/>
 					</from>
@@ -1578,13 +1551,13 @@
 						<pt x="940.167" y="718.333"/>
 					</pts>
 				</flow>
-				<connector uid="228" angle="351.641">
+				<connector uid="228" color="#B6B6B6" font_color="#B6B6B6" angle="351.641">
 					<from>
 						<alias uid="229"/>
 					</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</to>
 				</connector>
-				<connector uid="230" angle="4.51077">
+				<connector uid="230" color="#B6B6B6" font_color="#B6B6B6" angle="4.51077">
 					<from>&quot;Children_(X)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</to>
 				</connector>
@@ -1754,7 +1727,7 @@
 					</from>
 					<to>Total_recovered</to>
 				</connector>
-				<connector uid="91" angle="342.021">
+				<connector uid="91" color="#B6B6B6" font_color="#B6B6B6" angle="342.021">
 					<from>&quot;Babies_(R)&quot;</from>
 					<to>&quot;age_up_to_child_(R)&quot;</to>
 				</connector>
@@ -1940,15 +1913,36 @@
 					<from>&quot;Adults_(X)&quot;</from>
 					<to>&quot;Adult_ACM_(X)&quot;</to>
 				</connector>
-				<alias color="blue" background="white" font_style="italic" uid="69" x="585" y="487" width="18" height="18">
+				<aux x="2373.75" y="319.6" name="Adult inf weight"/>
+				<aux x="2373.75" y="268.55" name="Child inf weight"/>
+				<aux x="2373.75" y="215.467" name="Baby inf weight"/>
+				<connector uid="295" angle="348.996">
+					<from>
+						<alias uid="296"/>
+					</from>
+					<to>Baby_infections</to>
+				</connector>
+				<connector uid="297" angle="51.0725">
+					<from>
+						<alias uid="298"/>
+					</from>
+					<to>Child_infections</to>
+				</connector>
+				<connector uid="299" angle="45">
+					<from>
+						<alias uid="300"/>
+					</from>
+					<to>Adult_infections</to>
+				</connector>
+				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="69" x="585" y="487" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="71" x="531.333" y="691.333" width="18" height="18">
+				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="71" x="531.333" y="691.333" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="73" x="509" y="1077.5" width="18" height="18">
+				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="73" x="509" y="1077.5" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
@@ -1961,7 +1955,7 @@
 				<alias font_style="italic" font_size="14pt" uid="78" x="1821.67" y="328.583" width="40.6667" height="33.3333">
 					<of>&quot;Children_(I)&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="83" x="926.5" y="487" width="18" height="18">
+				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="83" x="926.5" y="487" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
@@ -1969,7 +1963,7 @@
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="88" x="839.167" y="1083.5" width="18" height="18">
+				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="88" x="839.167" y="1083.5" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
@@ -2006,10 +2000,7 @@
 				<alias font_style="italic" uid="128" x="254" y="555" width="18" height="18">
 					<of>Total_infectious</of>
 				</alias>
-				<alias font_style="italic" uid="130" x="208.75" y="508.25" width="18" height="18">
-					<of>R0</of>
-				</alias>
-				<alias font_style="italic" uid="132" x="341.5" y="521" width="18" height="18">
+				<alias font_style="italic" uid="132" x="351.024" y="609" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
 				<alias color="blue" background="white" font_style="italic" uid="135" x="610.75" y="601" width="18" height="18">
@@ -2019,10 +2010,7 @@
 				<alias font_style="italic" uid="136" x="656" y="583" width="18" height="18">
 					<of>Total_infectious</of>
 				</alias>
-				<alias font_style="italic" uid="137" x="599" y="561" width="18" height="18">
-					<of>R0</of>
-				</alias>
-				<alias font_style="italic" uid="138" x="708.5" y="559" width="18" height="18">
+				<alias font_style="italic" uid="138" x="719.167" y="582" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
 				<alias color="blue" background="white" font_style="italic" uid="142" x="944.5" y="591" width="18" height="18">
@@ -2032,10 +2020,7 @@
 				<alias font_style="italic" uid="143" x="986" y="583" width="18" height="18">
 					<of>Total_infectious</of>
 				</alias>
-				<alias font_style="italic" uid="144" x="931" y="564" width="18" height="18">
-					<of>R0</of>
-				</alias>
-				<alias font_style="italic" uid="145" x="1036.5" y="565" width="18" height="18">
+				<alias font_style="italic" uid="145" x="1045.39" y="595.333" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
 				<alias font_style="italic" uid="158" x="316.024" y="1042.74" width="18" height="18">
@@ -2089,11 +2074,11 @@
 				<alias font_style="italic" uid="222" x="1035.17" y="842.666" width="18" height="18">
 					<of>isolation_switch</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="227" x="516.524" y="870.69" width="18" height="18">
+				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="227" x="516.524" y="870.69" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="229" x="864.37" y="867.333" width="18" height="18">
+				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="229" x="864.37" y="867.333" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
@@ -2168,6 +2153,16 @@
 				</alias>
 				<alias color="#B6B6B6" font_style="italic" font_color="#B6B6B6" uid="293" x="1204.56" y="867.333" width="18" height="18">
 					<of>ACMR_Adults</of>
+				</alias>
+				<alias font_style="italic" uid="296" x="230" y="462" width="18" height="18">
+					<of>Baby_inf_weight</of>
+				</alias>
+				<alias font_style="italic" uid="298" x="647" y="638" width="18" height="18">
+					<of>Child_inf_weight</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="300" x="972" y="638" width="18" height="18">
+					<shape type="circle" radius="18"/>
+					<of>Adult_inf_weight</of>
 				</alias>
 			</view>
 		</views>
