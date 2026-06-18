@@ -7,10 +7,10 @@
 		<vendor>isee systems, inc.</vendor>
 		<product version="3.8.1" isee:build_number="3623" isee:saved_by_v1="true" lang="en">Stella Architect</product>
 	</header>
-	<sim_specs isee:sim_duration="5" isee:run_prefix="Run" isee:simulation_delay="5" isee:restore_on_start="false" method="Euler" time_units="Years" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
+	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.00410959" isee:restore_on_start="false" method="Euler" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
 		<start>0</start>
-		<stop>1</stop>
-		<dt reciprocal="true">365</dt>
+		<stop>365</stop>
+		<dt reciprocal="true">4</dt>
 	</sim_specs>
 	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="false" rifp="true"/>
 	<isee:multiplayer_settings include_chat="true" allow_observers="false" advance_time_increment="1" max_advance_time_in_ms="0" model_stops_when_players_drop="false" observer_start_page="home_page" enabled="false"/>
@@ -20,7 +20,7 @@
 	<isee:number_format_extenders/>
 	<default_format/>
 	<data>
-		<export resource="r../test-output.xlsx" type="Excel" worksheet="Sheet1" interval="DT" precomputed="false" isee:format="numbers">
+		<export enabled="false" resource="r../test-output.xlsx" type="Excel" worksheet="Sheet1" interval="DT" precomputed="false" isee:format="numbers">
 			<all/>
 		</export>
 	</data>
@@ -29,6 +29,10 @@
 			<eqn/>
 			<alias>person</alias>
 			<alias>persons</alias>
+		</unit>
+		<unit name="Days">
+			<eqn/>
+			<alias>day</alias>
 		</unit>
 		<unit name="Years">
 			<eqn/>
@@ -45,31 +49,25 @@
 				<eqn>16346</eqn>
 				<inflow>Births</inflow>
 				<inflow>&quot;Baby_migration_(S)&quot;</inflow>
-				<outflow>Baby_infections</outflow>
 				<outflow>&quot;age_up_to_child_(S)&quot;</outflow>
-				<non_negative/>
-				<units>people</units>
-			</stock>
-			<stock name="Babies (R)">
-				<eqn>0</eqn>
-				<inflow>Baby_recovery</inflow>
-				<outflow>&quot;age_up_to_child_(R)&quot;</outflow>
+				<outflow>Baby_infections</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
 			<stock name="Babies (I)">
 				<eqn>0</eqn>
 				<inflow>Baby_infections</inflow>
-				<inflow>Baby_hospital_recovery</inflow>
 				<outflow>Baby_recovery</outflow>
 				<outflow>&quot;age_up_to_child_(I)&quot;</outflow>
 				<outflow>Baby_hospitalisation</outflow>
+				<outflow>Baby_isolation</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
 			<stock name="Babies (H)">
 				<eqn>0</eqn>
 				<inflow>Baby_hospitalisation</inflow>
+				<inflow>&quot;Baby_hospitalisation_(X)&quot;</inflow>
 				<outflow>Baby_hospital_recovery</outflow>
 				<outflow>&quot;Age_up_to_child_(H)&quot;</outflow>
 				<outflow>Baby_measles_mortality</outflow>
@@ -92,6 +90,7 @@
 				<inflow>Child_vaccination</inflow>
 				<inflow>Child_recovery</inflow>
 				<inflow>&quot;Child_migration_(R)&quot;</inflow>
+				<inflow>Child_recovery_X</inflow>
 				<outflow>&quot;age_up_to_\&quot;adult\&quot;_(R)&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
@@ -100,10 +99,10 @@
 				<eqn>0</eqn>
 				<inflow>&quot;age_up_to_child_(I)&quot;</inflow>
 				<inflow>Child_infections</inflow>
-				<inflow>Child_hospital_recovery</inflow>
 				<outflow>Child_recovery</outflow>
 				<outflow>Child_hospitalisation</outflow>
 				<outflow>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</outflow>
+				<outflow>Child_isolation</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -111,6 +110,7 @@
 				<eqn>0</eqn>
 				<inflow>&quot;Age_up_to_child_(H)&quot;</inflow>
 				<inflow>Child_hospitalisation</inflow>
+				<inflow>&quot;Child_hospitalisation_(X)&quot;</inflow>
 				<outflow>Child_hospital_recovery</outflow>
 				<outflow>&quot;age_up_to_\&quot;adult\&quot;_(H)&quot;</outflow>
 				<outflow>Child_measles_mortality</outflow>
@@ -133,6 +133,7 @@
 				<inflow>Adult_vaccination</inflow>
 				<inflow>Adult_recovery</inflow>
 				<inflow>&quot;Adult_(R)_migration&quot;</inflow>
+				<inflow>&quot;Adult_recovery_(X)&quot;</inflow>
 				<outflow>&quot;Adult_(R)_mortality&quot;</outflow>
 				<non_negative/>
 				<units>people</units>
@@ -142,10 +143,10 @@
 				<inflow>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</inflow>
 				<inflow>Adult_infections</inflow>
 				<inflow>Infected_adults_input</inflow>
-				<inflow>Adult_hospital_recovery</inflow>
 				<outflow>Adult_hospitalisation</outflow>
 				<outflow>Adult_recovery</outflow>
 				<outflow>&quot;Adults_(I)_mortality&quot;</outflow>
+				<outflow>Adult_isolation</outflow>
 				<non_negative/>
 				<units>people</units>
 			</stock>
@@ -153,6 +154,7 @@
 				<eqn>0</eqn>
 				<inflow>&quot;age_up_to_\&quot;adult\&quot;_(H)&quot;</inflow>
 				<inflow>Adult_hospitalisation</inflow>
+				<inflow>&quot;Adult_hospitalisation_(X)&quot;</inflow>
 				<outflow>&quot;Adults_(H)_mortality&quot;</outflow>
 				<outflow>Adult_measles_mortality</outflow>
 				<outflow>Adult_hospital_recovery</outflow>
@@ -160,154 +162,154 @@
 				<units>people</units>
 			</stock>
 			<flow name="Births">
-				<eqn>birth_rate</eqn>
+				<eqn>birth_rate * 0</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Baby migration (S)">
 				<eqn>baby_migration_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Baby infections">
-				<eqn> (R0 / infection_period) * (Total_infected / Total_population) * &quot;Babies_(S)&quot;</eqn>
+				<eqn> IF Total_infectious &gt;= 1 THEN (R0 / infection_period) * (Total_infectious / Total_population) * &quot;Babies_(S)&quot; ELSE 0</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Baby recovery">
 				<eqn>&quot;Babies_(I)&quot; / infection_period</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Baby hospitalisation">
 				<eqn>&quot;Babies_(I)&quot; * Hospitalisation_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Baby hospital recovery">
 				<eqn>&quot;Babies_(H)&quot; * Recovery_from_hospital_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="age up to child (R)">
 				<eqn>&quot;baby_age-up_rate&quot; * &quot;Babies_(R)&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="age up to child (S)">
 				<eqn>&quot;baby_age-up_rate&quot;*&quot;Babies_(S)&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="age up to child (I)">
 				<eqn>&quot;baby_age-up_rate&quot; * &quot;Babies_(I)&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Age up to child (H)">
 				<eqn>&quot;baby_age-up_rate&quot; * &quot;Babies_(H)&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Child vaccination">
 				<eqn>&quot;Children_(S)&quot; * Child_vaccination_proportion</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Child infections">
-				<eqn> (R0 / infection_period) * (Total_infected / Total_population) * &quot;Children_(S)&quot;</eqn>
+				<eqn> IF Total_infectious &gt;= 1 THEN (R0 / infection_period) * (Total_infectious / Total_population) * &quot;Children_(S)&quot; ELSE 0</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Child recovery">
 				<eqn>&quot;Children_(I)&quot; / infection_period</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Child hospitalisation">
 				<eqn>&quot;Children_(I)&quot; * Hospitalisation_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Child hospital recovery">
 				<eqn>&quot;Children_(H)&quot; * Recovery_from_hospital_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name='age up to "adult" (H)'>
 				<eqn>&quot;child_age-up_rate&quot; * &quot;Children_(H)&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name='age up to "adult" (I)'>
 				<eqn>&quot;child_age-up_rate&quot; * &quot;Children_(I)&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name='age up to "adult" (R)'>
 				<eqn>&quot;child_age-up_rate&quot; * &quot;Children_(R)&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adult vaccination">
 				<eqn>&quot;Adults_(S)&quot; * Adult_vaccination_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name='age up to "adult" (S)'>
 				<eqn>&quot;child_age-up_rate&quot; * &quot;Children_(S)&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adult infections">
-				<eqn> (R0 / infection_period) * (Total_infected / Total_population) * &quot;Adults_(S)&quot;</eqn>
+				<eqn> IF Total_infectious &gt;= 1 THEN (R0 / infection_period) * (Total_infectious / Total_population) * &quot;Adults_(S)&quot; ELSE 0</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adult hospitalisation">
 				<eqn>Hospitalisation_rate * &quot;Adults_(I)&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adult recovery">
 				<eqn>&quot;Adults_(I)&quot; / infection_period</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adult (S) mortality">
 				<eqn>&quot;Adults_(S)&quot; * General_adult_mortality_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adult (R) mortality">
 				<eqn>&quot;Adults_(R)&quot; * General_adult_mortality_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adults (I) mortality">
 				<eqn>&quot;Adults_(I)&quot; * General_adult_mortality_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adults (H) mortality">
 				<eqn>&quot;Adults_(H)&quot; * General_adult_mortality_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Baby measles mortality">
 				<eqn>&quot;Babies_(H)&quot; * Hospital_mortality_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Child measles mortality">
 				<eqn>&quot;Children_(H)&quot; * Hospital_mortality_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adult measles mortality">
 				<eqn>&quot;Adults_(H)&quot; * Hospital_mortality_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<stock name="Measles Deaths">
 				<eqn>0</eqn>
@@ -320,68 +322,63 @@
 			<flow name="Child migration (S)">
 				<eqn>&quot;child_(S)_migration_rate&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adult migration (S)">
 				<eqn>&quot;adult_(S)_migration_rate&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Child migration (R)">
 				<eqn>&quot;child_(R)_migration_rate&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<flow name="Adult (R) migration">
 				<eqn>&quot;adult_(R)_migration_rate&quot;</eqn>
 				<non_negative/>
-				<units>people/Years</units>
-			</flow>
-			<flow name="Infected adults input">
-				<eqn>0</eqn>
-				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<aux name="birth rate">
-				<eqn>16346</eqn>
+				<eqn>16346/365</eqn>
 				<units>per Year</units>
 			</aux>
 			<aux name="baby migration rate">
-				<eqn>196</eqn>
+				<eqn>196/365</eqn>
 				<units>per Year</units>
 			</aux>
 			<aux name="baby age-up rate">
-				<eqn>1</eqn>
+				<eqn>1/365</eqn>
 				<units>per Year</units>
 			</aux>
 			<aux name="child (S) migration rate">
-				<eqn>80.1</eqn>
+				<eqn>80.1/365</eqn>
 				<units>per Year</units>
 			</aux>
 			<aux name="child age-up rate">
-				<eqn>1/4</eqn>
+				<eqn>1/4/365</eqn>
 				<units>Per Year</units>
 			</aux>
 			<aux name="adult (S) migration rate">
-				<eqn>572.7</eqn>
+				<eqn>572.7/365</eqn>
 				<units>Per Year</units>
 			</aux>
 			<aux name="adult (R) migration rate">
-				<eqn>5732.5</eqn>
+				<eqn>5732.5/365</eqn>
 				<units>Per Year</units>
 			</aux>
 			<aux name="child (R) migration rate">
-				<eqn>801.7</eqn>
+				<eqn>801.7/365</eqn>
 			</aux>
 			<aux name="Adult vaccination rate">
 				<eqn>0</eqn>
 				<units>Per Year</units>
 			</aux>
-			<aux name="Total infected">
+			<aux name="Total infectious">
 				<eqn>&quot;Babies_(I)&quot; + &quot;Children_(I)&quot; + &quot;Adults_(I)&quot;</eqn>
 			</aux>
 			<aux name="R0">
-				<eqn>13.5*0.8</eqn>
+				<eqn>13.5</eqn>
 			</aux>
 			<aux name="Total recovered">
 				<eqn>&quot;Babies_(R)&quot; + &quot;Children_(R)&quot; + &quot;Adults_(R)&quot;</eqn>
@@ -396,33 +393,162 @@
 				<eqn>Total_susceptible + Total_infected + Total_recovered + Total_hospitalised</eqn>
 			</aux>
 			<aux name="infection period">
-				<eqn>9/365</eqn>
+				<eqn>8.75</eqn>
 				<units>Years</units>
 			</aux>
 			<aux name="Hospitalisation rate">
-				<eqn>0.0021*365</eqn>
+				<eqn>0.0021</eqn>
 				<units>Per Year</units>
 			</aux>
 			<aux name="Recovery from hospital rate">
-				<eqn>0.5*365</eqn>
+				<eqn>0.5</eqn>
 				<units>Per Year</units>
 			</aux>
 			<aux name="Hospital mortality rate">
-				<eqn>0.167*365</eqn>
+				<eqn>0.167</eqn>
 				<units>Per Year</units>
 			</aux>
 			<flow name="Adult hospital recovery">
 				<eqn>&quot;Adults_(H)&quot; * Recovery_from_hospital_rate</eqn>
 				<non_negative/>
-				<units>people/Years</units>
+				<units>people/days</units>
 			</flow>
 			<aux name="Child vaccination proportion">
-				<eqn>0.789</eqn>
+				<eqn>0.789/365</eqn>
 			</aux>
 			<aux name="General adult mortality rate">
-				<eqn>0.009</eqn>
+				<eqn>0 {0.009/365}</eqn>
 				<units>Per Year</units>
 			</aux>
+			<stock name="Babies (X)">
+				<eqn>0</eqn>
+				<inflow>Baby_hospital_recovery</inflow>
+				<inflow>Baby_isolation</inflow>
+				<outflow>Baby_recovery_X</outflow>
+				<outflow>&quot;Age_up_to_child_(X)&quot;</outflow>
+				<outflow>&quot;Baby_hospitalisation_(X)&quot;</outflow>
+				<non_negative/>
+				<units>people</units>
+			</stock>
+			<flow name="Baby isolation">
+				<eqn>&quot;Babies_(I)&quot; * isolation_switch</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<stock name="Children (X)">
+				<eqn>0</eqn>
+				<inflow>Child_hospital_recovery</inflow>
+				<inflow>Child_isolation</inflow>
+				<inflow>&quot;Age_up_to_child_(X)&quot;</inflow>
+				<outflow>Child_recovery_X</outflow>
+				<outflow>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</outflow>
+				<outflow>&quot;Child_hospitalisation_(X)&quot;</outflow>
+				<non_negative/>
+				<units>people</units>
+			</stock>
+			<flow name="Baby recovery X">
+				<eqn>&quot;Babies_(X)&quot; / infection_period</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Child isolation">
+				<eqn>&quot;Children_(I)&quot; * isolation_switch</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Child recovery X">
+				<eqn>&quot;Children_(X)&quot;/infection_period</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Age up to child (X)">
+				<eqn>&quot;Babies_(X)&quot; * &quot;baby_age-up_rate&quot;</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<stock name="Adults (X)">
+				<eqn>0</eqn>
+				<inflow>Adult_hospital_recovery</inflow>
+				<inflow>Adult_isolation</inflow>
+				<inflow>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</inflow>
+				<outflow>&quot;Adult_recovery_(X)&quot;</outflow>
+				<outflow>&quot;Adult_hospitalisation_(X)&quot;</outflow>
+				<non_negative/>
+				<units>people</units>
+			</stock>
+			<flow name="Adult isolation">
+				<eqn>&quot;Adults_(I)&quot; * isolation_switch</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Adult recovery (X)">
+				<eqn>&quot;Adults_(X)&quot;/infection_period</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name='age up to "adult" (X)'>
+				<eqn>&quot;Children_(X)&quot; * &quot;child_age-up_rate&quot;</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<aux name="Isolation threshold">
+				<eqn>56.74688</eqn>
+			</aux>
+			<aux name="Isolation proportion">
+				<eqn>0.07834804</eqn>
+			</aux>
+			<aux name="isolation switch">
+				<eqn>IF (run_max_infections &gt; Isolation_threshold AND new_case_average &gt; 1/38) THEN Isolation_proportion ELSE 0</eqn>
+			</aux>
+			<aux name="run max infections">
+				<eqn>RUNMAX(Total_infected)</eqn>
+				<isee:delay_aux/>
+			</aux>
+			<group name="Isolation Switch Model" run="false">
+				<entity name="Isolation_proportion"/>
+				<entity name="isolation_switch"/>
+				<entity name="Isolation_threshold"/>
+				<entity name="new_case_average"/>
+				<entity name="run_max_infections"/>
+			</group>
+			<aux name="new case average">
+				<eqn>SMTH1(Child_infections + Baby_infections + Adult_infections,  38,  0)</eqn>
+				<isee:delay_aux/>
+			</aux>
+			<flow name="Infected adults input">
+				<eqn>0</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<aux name="Total isolated">
+				<eqn>&quot;Babies_(X)&quot; + &quot;Children_(X)&quot; + &quot;Adults_(X)&quot;</eqn>
+			</aux>
+			<aux name="Total infected">
+				<eqn>Total_isolated + Total_infectious</eqn>
+			</aux>
+			<flow name="Baby hospitalisation (X)">
+				<eqn>&quot;Babies_(X)&quot; * Hospitalisation_rate</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Child hospitalisation (X)">
+				<eqn>&quot;Children_(X)&quot; * Hospitalisation_rate</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<flow name="Adult hospitalisation (X)">
+				<eqn>&quot;Adults_(X)&quot; * Hospitalisation_rate</eqn>
+				<non_negative/>
+				<units>people/days</units>
+			</flow>
+			<stock name="Babies (R)">
+				<eqn>0</eqn>
+				<inflow>Baby_recovery</inflow>
+				<inflow>Baby_recovery_X</inflow>
+				<outflow>&quot;age_up_to_child_(R)&quot;</outflow>
+				<non_negative/>
+				<units>people</units>
+			</stock>
 		</variables>
 		<views>
 			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
@@ -472,7 +598,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="2" isee:scroll_x="25" isee:scroll_y="100" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="2" zoom="60" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -511,25 +637,20 @@
 					</graph>
 					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" isee:unlimited_table_length="false" blank_column_width="80" column_width="160" interval="1" report_balances="beginning" report_flows="instantaneous" header_font_style="normal" header_font_weight="normal" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="12pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 				</style>
-				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="53" x="282" y="144" width="148" height="29">Babies (&lt;1 yrs)</text_box>
-				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="54" x="625.75" y="144" width="161.5" height="29">Children (1-4 yrs)</text_box>
-				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="56" x="963" y="144" width="149" height="29">&quot;Adults&quot; (5+ yrs)</text_box>
-				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="55" x="32" y="272" width="148" height="29">Susceptible</text_box>
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="57" x="32" y="421" width="148" height="50">Vaccinated/recovered</text_box>
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="58" x="32" y="587.5" width="148" height="29">Infected</text_box>
-				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="59" x="32" y="785.5" width="148" height="29">Hospitalised</text_box>
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="59" x="31" y="924.5" width="148" height="29">Hospitalised</text_box>
 				<stock font_size="14pt" x="283.5" y="234.5" width="166" height="92" name="Babies (S)"/>
-				<stock font_size="14pt" x="396" y="387" width="166" height="92" name="Babies (R)"/>
 				<stock font_size="14pt" x="277.5" y="556" width="166" height="92" name="Babies (I)"/>
-				<stock font_size="14pt" x="283.5" y="754" width="166" height="92" name="Babies (H)"/>
+				<stock font_size="14pt" x="282.5" y="893" width="166" height="92" name="Babies (H)"/>
 				<stock font_size="14pt" x="623.5" y="230.5" width="166" height="92" name="Children (S)"/>
 				<stock font_size="14pt" x="748.5" y="387" width="166" height="92" name="Children (R)"/>
 				<stock font_size="14pt" x="620.5" y="556" width="166" height="92" name="Children (I)"/>
-				<stock font_size="14pt" x="620.5" y="739" width="166" height="92" name="Children (H)"/>
+				<stock font_size="14pt" x="619.5" y="878" width="166" height="92" name="Children (H)"/>
 				<stock font_size="14pt" x="954.5" y="230.5" width="166" height="92" name="Adults (S)"/>
 				<stock font_size="14pt" x="1071.5" y="387" width="166" height="92" name="Adults (R)"/>
 				<stock font_size="14pt" x="951.5" y="556" width="166" height="92" name="Adults (I)"/>
-				<stock font_size="14pt" x="949" y="754" width="166" height="92" name="Adults (H)"/>
+				<stock font_size="14pt" x="948" y="893" width="166" height="92" name="Adults (H)"/>
 				<flow x="245.75" y="263" name="Births">
 					<pts>
 						<pt x="208" y="263"/>
@@ -554,16 +675,16 @@
 						<pt x="423.75" y="479"/>
 					</pts>
 				</flow>
-				<flow x="309" y="695" name="Baby hospitalisation">
+				<flow x="296" y="764.5" name="Baby hospitalisation">
 					<pts>
-						<pt x="309" y="648"/>
-						<pt x="309" y="754"/>
+						<pt x="296" y="648"/>
+						<pt x="296" y="893"/>
 					</pts>
 				</flow>
-				<flow x="423.75" y="707" name="Baby hospital recovery">
+				<flow x="432.786" y="847.655" name="Baby hospital recovery">
 					<pts>
-						<pt x="423.75" y="754"/>
-						<pt x="423.75" y="648"/>
+						<pt x="432.786" y="893"/>
+						<pt x="432.786" y="790.31"/>
 					</pts>
 				</flow>
 				<flow x="649.25" y="451.25" name="age up to child (R)">
@@ -584,10 +705,10 @@
 						<pt x="620.5" y="602"/>
 					</pts>
 				</flow>
-				<flow x="529" y="768" name="Age up to child (H)">
+				<flow x="528" y="907" name="Age up to child (H)">
 					<pts>
-						<pt x="449.5" y="768"/>
-						<pt x="620.5" y="768"/>
+						<pt x="448.5" y="907"/>
+						<pt x="619.5" y="907"/>
 					</pts>
 				</flow>
 				<flow color="blue" x="759.5" y="348.75" name="Child vaccination">
@@ -608,22 +729,22 @@
 						<pt x="759.5" y="479"/>
 					</pts>
 				</flow>
-				<flow x="655.5" y="687.5" name="Child hospitalisation">
+				<flow x="655.5" y="757" name="Child hospitalisation">
 					<pts>
 						<pt x="655.5" y="648"/>
-						<pt x="655.5" y="739"/>
+						<pt x="655.5" y="878"/>
 					</pts>
 				</flow>
-				<flow x="759.5" y="699.5" name="Child hospital recovery">
+				<flow x="773.9" y="839.821" name="Child hospital recovery">
 					<pts>
-						<pt x="759.5" y="739"/>
-						<pt x="759.5" y="648"/>
+						<pt x="773.9" y="878"/>
+						<pt x="773.9" y="789.643"/>
 					</pts>
 				</flow>
-				<flow x="861.75" y="768" name='age up to "adult" (H)'>
+				<flow x="860.75" y="907" name='age up to "adult" (H)'>
 					<pts>
-						<pt x="786.5" y="768"/>
-						<pt x="949" y="768"/>
+						<pt x="785.5" y="907"/>
+						<pt x="948" y="907"/>
 					</pts>
 				</flow>
 				<flow x="863" y="602" name='age up to "adult" (I)'>
@@ -656,10 +777,10 @@
 						<pt x="1037.5" y="556"/>
 					</pts>
 				</flow>
-				<flow x="1001.5" y="695" name="Adult hospitalisation">
+				<flow x="1001.5" y="764.5" name="Adult hospitalisation">
 					<pts>
 						<pt x="1001.5" y="648"/>
-						<pt x="1001.5" y="754"/>
+						<pt x="1001.5" y="893"/>
 					</pts>
 				</flow>
 				<flow x="1096" y="523.5" name="Adult recovery">
@@ -668,10 +789,10 @@
 						<pt x="1096" y="479"/>
 					</pts>
 				</flow>
-				<flow x="1168.25" y="275" name="Adult (S) mortality">
+				<flow x="1178.67" y="282.333" name="Adult (S) mortality">
 					<pts>
-						<pt x="1120.5" y="275"/>
-						<pt x="1240" y="275"/>
+						<pt x="1120.5" y="282.333"/>
+						<pt x="1260.83" y="282.333"/>
 					</pts>
 				</flow>
 				<flow x="1284.75" y="433" name="Adult (R) mortality">
@@ -680,39 +801,39 @@
 						<pt x="1356" y="433"/>
 					</pts>
 				</flow>
-				<flow x="1164.75" y="602" name="Adults (I) mortality">
+				<flow x="1189.5" y="601" name="Adults (I) mortality">
 					<pts>
-						<pt x="1117.5" y="602"/>
-						<pt x="1236" y="602"/>
+						<pt x="1117.5" y="601"/>
+						<pt x="1285.5" y="601"/>
 					</pts>
 				</flow>
-				<flow x="1168" y="795" name="Adults (H) mortality">
+				<flow x="1192.75" y="930.333" name="Adults (H) mortality">
 					<pts>
-						<pt x="1115" y="795"/>
-						<pt x="1245" y="795"/>
+						<pt x="1114" y="930.333"/>
+						<pt x="1295.5" y="930.333"/>
 					</pts>
 				</flow>
-				<flow x="578" y="843.75" name="Baby measles mortality">
+				<flow x="577" y="982.75" name="Baby measles mortality">
 					<pts>
-						<pt x="449.5" y="843.75"/>
-						<pt x="706.5" y="843.75"/>
-						<pt x="706.5" y="932.5"/>
+						<pt x="448.5" y="982.75"/>
+						<pt x="705.5" y="982.75"/>
+						<pt x="705.5" y="1071.5"/>
 					</pts>
 				</flow>
-				<flow x="706.5" y="875.75" name="Child measles mortality">
+				<flow x="705.5" y="1014.75" name="Child measles mortality">
 					<pts>
-						<pt x="706.5" y="831"/>
-						<pt x="706.5" y="932.5"/>
+						<pt x="705.5" y="970"/>
+						<pt x="705.5" y="1071.5"/>
 					</pts>
 				</flow>
-				<flow x="827.75" y="843.75" name="Adult measles mortality">
+				<flow x="826.75" y="982.75" name="Adult measles mortality">
 					<pts>
-						<pt x="949" y="843.75"/>
-						<pt x="706.5" y="843.75"/>
-						<pt x="706.5" y="932.5"/>
+						<pt x="948" y="982.75"/>
+						<pt x="705.5" y="982.75"/>
+						<pt x="705.5" y="1071.5"/>
 					</pts>
 				</flow>
-				<stock font_size="14pt" label_side="top" x="625" y="932.5" width="163" height="98" name="Measles Deaths"/>
+				<stock font_size="14pt" label_side="top" x="624" y="1071.5" width="163" height="98" name="Measles Deaths"/>
 				<flow x="580.75" y="241" name="Child migration (S)">
 					<pts>
 						<pt x="538" y="241"/>
@@ -735,12 +856,6 @@
 					<pts>
 						<pt x="986" y="404"/>
 						<pt x="1071.5" y="404"/>
-					</pts>
-				</flow>
-				<flow x="909.25" y="569" name="Infected adults input">
-					<pts>
-						<pt x="867" y="569"/>
-						<pt x="951.5" y="569"/>
 					</pts>
 				</flow>
 				<aux x="199" y="206" name="birth rate"/>
@@ -789,7 +904,7 @@
 					</from>
 					<to>&quot;age_up_to_child_(R)&quot;</to>
 				</connector>
-				<connector uid="70" angle="338.395">
+				<connector uid="70" angle="347.204">
 					<from>
 						<alias uid="71"/>
 					</from>
@@ -802,34 +917,34 @@
 					<to>&quot;Age_up_to_child_(H)&quot;</to>
 				</connector>
 				<aux x="1206" y="325.25" name="Adult vaccination rate"/>
-				<connector uid="74" angle="184.493">
+				<connector uid="74" angle="191.85">
 					<from>Adult_vaccination_rate</from>
 					<to>Adult_vaccination</to>
 				</connector>
-				<connector uid="75" angle="310.764">
+				<connector uid="75" angle="308.026">
 					<from>&quot;Adults_(S)&quot;</from>
 					<to>Adult_vaccination</to>
 				</connector>
-				<aux x="1842" y="401" name="Total infected"/>
+				<aux x="1842" y="401" name="Total infectious"/>
 				<connector uid="79" angle="343.187">
 					<from>
 						<alias uid="76"/>
 					</from>
-					<to>Total_infected</to>
+					<to>Total_infectious</to>
 				</connector>
 				<connector uid="80" angle="281.711">
 					<from>
 						<alias uid="78"/>
 					</from>
-					<to>Total_infected</to>
+					<to>Total_infectious</to>
 				</connector>
 				<connector uid="81" angle="205.032">
 					<from>
 						<alias uid="77"/>
 					</from>
-					<to>Total_infected</to>
+					<to>Total_infectious</to>
 				</connector>
-				<aux x="2047.1" y="268" name="R0"/>
+				<aux x="2060.43" y="182.667" name="R0"/>
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="82" x="1793" y="129.5" width="264" height="29">Global variables &amp; constants</text_box>
 				<connector uid="84" angle="341.697">
 					<from>
@@ -837,7 +952,7 @@
 					</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(R)&quot;</to>
 				</connector>
-				<connector uid="85" angle="310.469">
+				<connector uid="85" angle="313.177">
 					<from>
 						<alias uid="86"/>
 					</from>
@@ -857,15 +972,11 @@
 					<from>&quot;Children_(S)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(S)&quot;</to>
 				</connector>
-				<connector uid="91" angle="342.021">
-					<from>&quot;Babies_(R)&quot;</from>
-					<to>&quot;age_up_to_child_(R)&quot;</to>
-				</connector>
 				<connector uid="92" angle="352.115">
 					<from>&quot;Babies_(I)&quot;</from>
 					<to>&quot;age_up_to_child_(I)&quot;</to>
 				</connector>
-				<connector uid="93" angle="6.11851">
+				<connector uid="93" angle="11.1403">
 					<from>&quot;Babies_(H)&quot;</from>
 					<to>&quot;Age_up_to_child_(H)&quot;</to>
 				</connector>
@@ -873,21 +984,15 @@
 					<from>&quot;Children_(R)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(R)&quot;</to>
 				</connector>
-				<connector uid="95" angle="354.224">
+				<connector uid="95" angle="0">
 					<from>&quot;Children_(I)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</to>
 				</connector>
-				<connector uid="96" angle="2.91374">
+				<connector uid="96" angle="6.13148">
 					<from>&quot;Children_(H)&quot;</from>
 					<to>&quot;age_up_to_\&quot;adult\&quot;_(H)&quot;</to>
 				</connector>
-				<aux x="1843" y="542" name="Total recovered"/>
-				<connector uid="100" angle="355.236">
-					<from>
-						<alias uid="97"/>
-					</from>
-					<to>Total_recovered</to>
-				</connector>
+				<aux x="1843" y="702.667" name="Total recovered"/>
 				<connector uid="101" angle="287.393">
 					<from>
 						<alias uid="99"/>
@@ -919,114 +1024,108 @@
 					</from>
 					<to>Total_susceptible</to>
 				</connector>
-				<aux x="1842" y="690.5" name="Total hospitalised"/>
-				<aux x="1842" y="804" name="Total population"/>
+				<aux x="1842" y="851.167" name="Total hospitalised"/>
+				<aux x="1842" y="964.667" name="Total population"/>
 				<connector uid="117" angle="305.538">
 					<from>
 						<alias uid="115"/>
 					</from>
 					<to>Total_population</to>
 				</connector>
-				<connector uid="118" angle="226.848">
-					<from>
-						<alias uid="116"/>
-					</from>
-					<to>Total_population</to>
-				</connector>
-				<connector uid="119" angle="137.203">
+				<connector uid="119" angle="139.554">
 					<from>
 						<alias uid="120"/>
 					</from>
 					<to>Total_population</to>
 				</connector>
-				<connector uid="122" angle="48.4682">
+				<connector uid="122" angle="40.9144">
 					<from>
 						<alias uid="121"/>
 					</from>
 					<to>Total_population</to>
 				</connector>
-				<connector uid="123" angle="250.669">
+				<connector uid="123" angle="249.617">
 					<from>&quot;Babies_(S)&quot;</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="125" angle="52.2769">
+				<connector uid="125" angle="26.07">
 					<from>
 						<alias uid="126"/>
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="127" angle="64.5501">
+				<connector uid="127" angle="51.1844">
 					<from>
 						<alias uid="128"/>
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="129" angle="20.8545">
+				<connector uid="129" angle="305.995">
 					<from>
 						<alias uid="130"/>
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<aux x="2118.9" y="268" name="infection period"/>
-				<connector uid="131" angle="153.925">
+				<aux x="2132.23" y="182.667" name="infection period"/>
+				<connector uid="131" angle="207.776">
 					<from>
 						<alias uid="132"/>
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="133" angle="310.276">
+				<connector uid="133" angle="309.219">
 					<from>
 						<alias uid="132"/>
 					</from>
 					<to>Baby_recovery</to>
 				</connector>
-				<connector uid="134" angle="55.3345">
+				<connector uid="134" angle="51.1405">
 					<from>&quot;Babies_(I)&quot;</from>
 					<to>Baby_recovery</to>
 				</connector>
-				<connector uid="139" angle="43.4725">
+				<connector uid="139" angle="13.8754">
 					<from>
 						<alias uid="137"/>
 					</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="140" angle="51.4641">
+				<connector uid="140" angle="33.2658">
 					<from>
 						<alias uid="135"/>
 					</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="141" angle="59.4703">
+				<connector uid="141" angle="46.6689">
 					<from>
 						<alias uid="136"/>
 					</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="146" angle="92.2906">
+				<connector uid="146" angle="112.479">
 					<from>
 						<alias uid="138"/>
 					</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="147" angle="20.879">
+				<connector uid="147" angle="352.245">
 					<from>
 						<alias uid="144"/>
 					</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="148" angle="52.2701">
+				<connector uid="148" angle="28.1116">
 					<from>
 						<alias uid="142"/>
 					</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="149" angle="61.3611">
+				<connector uid="149" angle="53.3644">
 					<from>
 						<alias uid="143"/>
 					</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="150" angle="87.1579">
+				<connector uid="150" angle="107.598">
 					<from>
 						<alias uid="145"/>
 					</from>
@@ -1036,11 +1135,11 @@
 					<from>&quot;Children_(S)&quot;</from>
 					<to>Child_infections</to>
 				</connector>
-				<connector uid="152" angle="264.444">
+				<connector uid="152" angle="270">
 					<from>&quot;Adults_(S)&quot;</from>
 					<to>Adult_infections</to>
 				</connector>
-				<connector uid="153" angle="316.863">
+				<connector uid="153" angle="309.012">
 					<from>
 						<alias uid="138"/>
 					</from>
@@ -1060,80 +1159,80 @@
 					</from>
 					<to>Adult_recovery</to>
 				</connector>
-				<aux x="2215.1" y="268" name="Hospitalisation rate"/>
-				<aux x="2047.1" y="329.6" name="Recovery from hospital rate"/>
-				<aux label_side="bottom" x="2215.1" y="329.6" name="Hospital mortality rate"/>
-				<connector uid="157" angle="216.193">
+				<aux x="2228.43" y="182.667" name="Hospitalisation rate"/>
+				<aux x="2060.43" y="244.267" name="Recovery from hospital rate"/>
+				<aux label_side="bottom" x="2228.43" y="244.267" name="Hospital mortality rate"/>
+				<connector uid="157" angle="223.52">
 					<from>&quot;Babies_(I)&quot;</from>
 					<to>Baby_hospitalisation</to>
 				</connector>
-				<connector uid="159" angle="358.885">
+				<connector uid="159" angle="165.254">
 					<from>
 						<alias uid="158"/>
 					</from>
 					<to>Baby_hospitalisation</to>
 				</connector>
-				<connector uid="161" angle="218.404">
+				<connector uid="161" angle="230.507">
 					<from>&quot;Children_(I)&quot;</from>
 					<to>Child_hospitalisation</to>
 				</connector>
-				<connector uid="162" angle="354.289">
+				<connector uid="162" angle="140.94">
 					<from>
 						<alias uid="160"/>
 					</from>
 					<to>Child_hospitalisation</to>
 				</connector>
-				<connector uid="163" angle="240.951">
+				<connector uid="163" angle="249.008">
 					<from>&quot;Adults_(I)&quot;</from>
 					<to>Adult_hospitalisation</to>
 				</connector>
-				<connector uid="164" angle="352.638">
+				<connector uid="164" angle="141.733">
 					<from>
 						<alias uid="165"/>
 					</from>
 					<to>Adult_hospitalisation</to>
 				</connector>
-				<connector uid="166" angle="29.2471">
+				<connector uid="166" angle="12.5922">
 					<from>&quot;Babies_(H)&quot;</from>
 					<to>Baby_hospital_recovery</to>
 				</connector>
-				<connector uid="167" angle="40.8404">
+				<connector uid="167" angle="20.7265">
 					<from>&quot;Children_(H)&quot;</from>
 					<to>Child_hospital_recovery</to>
 				</connector>
-				<flow x="1078" y="707" name="Adult hospital recovery">
+				<flow x="1105.05" y="847.655" name="Adult hospital recovery">
 					<pts>
-						<pt x="1078" y="754"/>
-						<pt x="1078" y="648"/>
+						<pt x="1105.05" y="893"/>
+						<pt x="1105.05" y="790.31"/>
 					</pts>
 				</flow>
-				<connector uid="168" angle="44.4514">
+				<connector uid="168" angle="21.5508">
 					<from>&quot;Adults_(H)&quot;</from>
 					<to>Adult_hospital_recovery</to>
 				</connector>
-				<connector uid="169" angle="199.44">
+				<connector uid="169" angle="201.644">
 					<from>
 						<alias uid="170"/>
 					</from>
 					<to>Baby_hospital_recovery</to>
 				</connector>
-				<connector uid="171" angle="214.411">
+				<connector uid="171" angle="223.93">
 					<from>
 						<alias uid="172"/>
 					</from>
 					<to>Adult_hospital_recovery</to>
 				</connector>
-				<connector uid="173" angle="182.187">
+				<connector uid="173" angle="197.198">
 					<from>
 						<alias uid="174"/>
 					</from>
 					<to>Child_hospital_recovery</to>
 				</connector>
-				<connector uid="175" angle="348.483">
+				<connector uid="175" angle="348.313">
 					<from>&quot;Babies_(H)&quot;</from>
 					<to>Baby_measles_mortality</to>
 				</connector>
-				<connector uid="176" angle="188.83">
+				<connector uid="176" angle="192.09">
 					<from>&quot;Adults_(H)&quot;</from>
 					<to>Adult_measles_mortality</to>
 				</connector>
@@ -1168,14 +1267,14 @@
 					<from>Child_vaccination_proportion</from>
 					<to>Child_vaccination</to>
 				</connector>
-				<aux font_color="red" x="2047.1" y="397.8" name="General adult mortality rate"/>
-				<connector uid="185" angle="259.216">
+				<aux font_color="red" x="2062.67" y="310" name="General adult mortality rate"/>
+				<connector uid="185" angle="256.554">
 					<from>
 						<alias uid="184"/>
 					</from>
 					<to>&quot;Adult_(S)_mortality&quot;</to>
 				</connector>
-				<connector uid="186" angle="15.1042">
+				<connector uid="186" angle="12.0807">
 					<from>&quot;Adults_(S)&quot;</from>
 					<to>&quot;Adult_(S)_mortality&quot;</to>
 				</connector>
@@ -1185,62 +1284,82 @@
 					</from>
 					<to>&quot;Adult_(R)_mortality&quot;</to>
 				</connector>
-				<connector uid="191" angle="282.2">
+				<connector uid="191" angle="302.079">
 					<from>
 						<alias uid="189"/>
 					</from>
 					<to>&quot;Adults_(I)_mortality&quot;</to>
 				</connector>
-				<connector uid="192" angle="236.16">
+				<connector uid="192" angle="248.482">
 					<from>
 						<alias uid="190"/>
 					</from>
 					<to>&quot;Adults_(H)_mortality&quot;</to>
 				</connector>
-				<connector uid="193" angle="19.5968">
+				<connector uid="193" angle="312.904">
 					<from>&quot;Adults_(R)&quot;</from>
 					<to>&quot;Adult_(R)_mortality&quot;</to>
 				</connector>
-				<connector uid="194" angle="16.4119">
+				<connector uid="194" angle="16.7815">
 					<from>&quot;Adults_(I)&quot;</from>
 					<to>&quot;Adults_(I)_mortality&quot;</to>
 				</connector>
-				<connector uid="195" angle="14.2339">
+				<connector uid="195" angle="15.1954">
 					<from>&quot;Adults_(H)&quot;</from>
 					<to>&quot;Adults_(H)_mortality&quot;</to>
 				</connector>
-				<stacked_container uid="196" x="1376" y="513.75" width="267.667" height="190.75">
-					<graph width="267.667" height="190.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
-						<plot color="red" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+				<stacked_container uid="196" x="1376" y="513.75" width="349.667" height="174.5">
+					<graph width="349.667" height="174.5" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="Total_infected"/>
 						</plot>
 					</graph>
 				</stacked_container>
-				<stacked_container uid="197" x="1376" y="720.75" width="267.667" height="190.75">
-					<graph width="267.667" height="190.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+				<stacked_container uid="197" x="1376" y="720.75" width="349.667" height="161.75">
+					<graph width="349.667" height="161.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="Total_hospitalised"/>
 						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Adults_(H)"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"Babies_(H)"'/>
+						</plot>
+						<plot color="#008F44" pen_style="dashed" isee:keep_zero_visible="true" pen_width="1" index="3" show_y_axis="true">
+							<entity name='"Children_(H)"'/>
+						</plot>
 					</graph>
 				</stacked_container>
-				<stacked_container uid="198" x="1376" y="307" width="267.667" height="190.75">
-					<graph width="267.667" height="190.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+				<stacked_container uid="198" x="1376" y="356.5" width="349.667" height="142.5">
+					<graph width="349.667" height="142.5" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="Total_recovered"/>
 						</plot>
-					</graph>
-				</stacked_container>
-				<stacked_container uid="199" x="1376" y="97.75" width="267.667" height="190.75">
-					<graph width="267.667" height="190.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
-						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
-							<entity name="Total_susceptible"/>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Adults_(R)"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"Babies_(R)"'/>
+						</plot>
+						<plot color="#008F44" pen_style="dashed" isee:keep_zero_visible="true" pen_width="1" index="3" show_y_axis="true">
+							<entity name='"Children_(R)"'/>
 						</plot>
 					</graph>
 				</stacked_container>
-				<stacked_container uid="200" x="836.75" y="895.75" width="267.667" height="190.75">
-					<graph width="267.667" height="190.75" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+				<stacked_container uid="199" x="1375.5" y="166.667" width="350.667" height="167.583">
+					<graph width="350.667" height="167.583" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
-							<entity name="Measles_Deaths"/>
+							<entity name="Total_susceptible"/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Adults_(S)"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"Babies_(S)"'/>
+						</plot>
+						<plot color="#008F44" pen_style="dashed" isee:keep_zero_visible="true" pen_width="1" index="3" show_y_axis="true">
+							<entity name='"Children_(S)"'/>
 						</plot>
 					</graph>
 				</stacked_container>
@@ -1262,15 +1381,325 @@
 					</from>
 					<to>Total_hospitalised</to>
 				</connector>
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="201" x="35" y="750" width="148" height="29">Isolated</text_box>
+				<stock x="380.357" y="739.357" width="88.8571" height="50.9524" name="Babies (X)"/>
+				<flow x="417.786" y="687.679" name="Baby isolation">
+					<pts>
+						<pt x="417.786" y="648"/>
+						<pt x="417.786" y="739.357"/>
+					</pts>
+				</flow>
+				<stock x="719.833" y="739.357" width="89.5238" height="50.2857" name="Children (X)"/>
+				<flow x="458.5" y="615.179" name="Baby recovery X">
+					<pts>
+						<pt x="458.5" y="739.357"/>
+						<pt x="458.5" y="479"/>
+					</pts>
+				</flow>
+				<flow x="755.9" y="687.679" name="Child isolation">
+					<pts>
+						<pt x="755.9" y="648"/>
+						<pt x="755.9" y="739.357"/>
+					</pts>
+				</flow>
+				<flow x="802.429" y="615.179" name="Child recovery X">
+					<pts>
+						<pt x="802.429" y="739.357"/>
+						<pt x="802.429" y="479"/>
+					</pts>
+				</flow>
+				<flow x="588.524" y="764.5" name="Age up to child (X)">
+					<pts>
+						<pt x="469.214" y="764.5"/>
+						<pt x="719.833" y="764.5"/>
+					</pts>
+				</flow>
+				<stock x="1068.23" y="739.357" width="87.5238" height="50.9524" name="Adults (X)"/>
+				<flow x="1101.72" y="687.679" name="Adult isolation">
+					<pts>
+						<pt x="1101.72" y="648"/>
+						<pt x="1101.72" y="739.357"/>
+					</pts>
+				</flow>
+				<flow x="1138.18" y="615.179" name="Adult recovery (X)">
+					<pts>
+						<pt x="1138.18" y="739.357"/>
+						<pt x="1138.18" y="479"/>
+					</pts>
+				</flow>
+				<flow x="932.792" y="764.5" name='age up to "adult" (X)'>
+					<pts>
+						<pt x="809.357" y="764.5"/>
+						<pt x="1068.23" y="764.5"/>
+					</pts>
+				</flow>
+				<aux x="2095.35" y="439.75" name="Isolation threshold"/>
+				<aux x="2259.08" y="439.75" name="Isolation proportion"/>
+				<aux x="2176.42" y="511.867" name="isolation switch"/>
+				<connector uid="202" angle="359.647">
+					<from>Isolation_threshold</from>
+					<to>isolation_switch</to>
+				</connector>
+				<connector uid="203" angle="191.931">
+					<from>Isolation_proportion</from>
+					<to>isolation_switch</to>
+				</connector>
+				<aux x="2248.59" y="566.95" name="run max infections"/>
+				<group locked="true" x="2015.08" y="402.033" width="309.333" height="440.133" name="Isolation Switch Model">
+					<item uid="205"/>
+					<item uid="206"/>
+					<item uid="207"/>
+					<item uid="250"/>
+					<item uid="255"/>
+				</group>
+				<aux x="2139.75" y="601.367" name="new case average"/>
+				<connector uid="212" angle="36.0126">
+					<from>new_case_average</from>
+					<to>isolation_switch</to>
+				</connector>
+				<connector uid="214" angle="96.7992">
+					<from>run_max_infections</from>
+					<to>isolation_switch</to>
+				</connector>
+				<connector uid="215" angle="16.0359">
+					<from>
+						<alias uid="216"/>
+					</from>
+					<to>Baby_isolation</to>
+				</connector>
+				<connector uid="217" angle="303.767">
+					<from>&quot;Babies_(I)&quot;</from>
+					<to>Baby_isolation</to>
+				</connector>
+				<connector uid="219" angle="26.3525">
+					<from>
+						<alias uid="218"/>
+					</from>
+					<to>Child_isolation</to>
+				</connector>
+				<connector uid="220" angle="301.449">
+					<from>&quot;Children_(I)&quot;</from>
+					<to>Child_isolation</to>
+				</connector>
+				<connector uid="221" angle="17.5915">
+					<from>
+						<alias uid="222"/>
+					</from>
+					<to>Adult_isolation</to>
+				</connector>
+				<connector uid="223" angle="308.117">
+					<from>&quot;Adults_(I)&quot;</from>
+					<to>Adult_isolation</to>
+				</connector>
+				<connector uid="224" angle="0.116641">
+					<from>&quot;Babies_(X)&quot;</from>
+					<to>&quot;Age_up_to_child_(X)&quot;</to>
+				</connector>
+				<connector uid="226" angle="347.649">
+					<from>
+						<alias uid="227"/>
+					</from>
+					<to>&quot;Age_up_to_child_(X)&quot;</to>
+				</connector>
+				<flow x="909.25" y="569" name="Infected adults input">
+					<pts>
+						<pt x="867" y="569"/>
+						<pt x="951.5" y="569"/>
+					</pts>
+				</flow>
+				<connector uid="228" angle="358.899">
+					<from>
+						<alias uid="229"/>
+					</from>
+					<to>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</to>
+				</connector>
+				<connector uid="230" angle="347.827">
+					<from>&quot;Children_(X)&quot;</from>
+					<to>&quot;age_up_to_\&quot;adult\&quot;_(X)&quot;</to>
+				</connector>
+				<connector uid="231" angle="31.8508">
+					<from>&quot;Babies_(X)&quot;</from>
+					<to>Baby_recovery_X</to>
+				</connector>
+				<connector uid="232" angle="156.981">
+					<from>
+						<alias uid="233"/>
+					</from>
+					<to>Baby_recovery_X</to>
+				</connector>
+				<connector uid="235" angle="137.485">
+					<from>
+						<alias uid="234"/>
+					</from>
+					<to>Child_recovery_X</to>
+				</connector>
+				<connector uid="236" angle="47.5036">
+					<from>&quot;Children_(X)&quot;</from>
+					<to>Child_recovery_X</to>
+				</connector>
+				<connector uid="237" angle="144.284">
+					<from>
+						<alias uid="238"/>
+					</from>
+					<to>&quot;Adult_recovery_(X)&quot;</to>
+				</connector>
+				<connector uid="239" angle="43.183">
+					<from>&quot;Adults_(X)&quot;</from>
+					<to>&quot;Adult_recovery_(X)&quot;</to>
+				</connector>
+				<aux x="1845" y="499.333" name="Total isolated"/>
+				<connector uid="244" angle="29.6919">
+					<from>
+						<alias uid="243"/>
+					</from>
+					<to>Total_isolated</to>
+				</connector>
+				<connector uid="245" angle="75.0686">
+					<from>
+						<alias uid="242"/>
+					</from>
+					<to>Total_isolated</to>
+				</connector>
+				<connector uid="247" angle="141.014">
+					<from>
+						<alias uid="246"/>
+					</from>
+					<to>Total_isolated</to>
+				</connector>
+				<aux x="1842" y="454.05" name="Total infected"/>
+				<connector uid="248" angle="297.667">
+					<from>Total_infectious</from>
+					<to>Total_infected</to>
+				</connector>
+				<connector uid="249" angle="93.7903">
+					<from>Total_isolated</from>
+					<to>Total_infected</to>
+				</connector>
+				<connector uid="209" angle="5.33035">
+					<from>
+						<alias uid="206"/>
+					</from>
+					<to>new_case_average</to>
+				</connector>
+				<connector uid="210" angle="10.0743">
+					<from>
+						<alias uid="207"/>
+					</from>
+					<to>new_case_average</to>
+				</connector>
+				<connector uid="208" angle="358.252">
+					<from>
+						<alias uid="205"/>
+					</from>
+					<to>new_case_average</to>
+				</connector>
+				<connector uid="251" angle="79.992">
+					<from>
+						<alias uid="250"/>
+					</from>
+					<to>run_max_infections</to>
+				</connector>
+				<connector uid="252" angle="243.1">
+					<from>
+						<alias uid="253"/>
+					</from>
+					<to>Total_population</to>
+				</connector>
+				<stacked_container uid="254" x="1374" y="915.667" width="353.667" height="161.833">
+					<graph width="353.667" height="161.833" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="Total_isolated"/>
+						</plot>
+						<plot color="red" pen_style="dot_dashed" isee:keep_zero_visible="true" pen_width="1" index="1" show_y_axis="true">
+							<entity name='"Adults_(X)"'/>
+						</plot>
+						<plot color="fuchsia" pen_style="dotted" isee:keep_zero_visible="true" pen_width="1" index="2" show_y_axis="true">
+							<entity name='"Babies_(X)"'/>
+						</plot>
+						<plot color="#008F44" pen_style="dashed" isee:keep_zero_visible="true" pen_width="1" index="3" show_y_axis="true">
+							<entity name='"Children_(X)"'/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<stacked_container uid="255" x="2033.71" y="708.055" width="272.079" height="115.59">
+					<graph legend_position="none" isee:transparent="false" isee:hide_border="false" axis_title_font_size="10pt" width="272.079" height="115.59" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="isolation_switch"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<flow x="399.786" y="835.655" name="Baby hospitalisation (X)">
+					<pts>
+						<pt x="399.786" y="790.31"/>
+						<pt x="399.786" y="893"/>
+					</pts>
+				</flow>
+				<connector uid="256" angle="359.389">
+					<from>
+						<alias uid="158"/>
+					</from>
+					<to>&quot;Baby_hospitalisation_(X)&quot;</to>
+				</connector>
+				<connector uid="257" angle="239.453">
+					<from>&quot;Babies_(X)&quot;</from>
+					<to>&quot;Baby_hospitalisation_(X)&quot;</to>
+				</connector>
+				<flow x="752.667" y="827.821" name="Child hospitalisation (X)">
+					<pts>
+						<pt x="752.667" y="789.643"/>
+						<pt x="752.667" y="878"/>
+					</pts>
+				</flow>
+				<connector uid="258" angle="359.651">
+					<from>
+						<alias uid="160"/>
+					</from>
+					<to>&quot;Child_hospitalisation_(X)&quot;</to>
+				</connector>
+				<connector uid="259" angle="228.723">
+					<from>&quot;Children_(X)&quot;</from>
+					<to>&quot;Child_hospitalisation_(X)&quot;</to>
+				</connector>
+				<flow x="1083.72" y="835.655" name="Adult hospitalisation (X)">
+					<pts>
+						<pt x="1083.72" y="790.31"/>
+						<pt x="1083.72" y="893"/>
+					</pts>
+				</flow>
+				<connector uid="260" angle="337.207">
+					<from>
+						<alias uid="165"/>
+					</from>
+					<to>&quot;Adult_hospitalisation_(X)&quot;</to>
+				</connector>
+				<connector uid="261" angle="213.638">
+					<from>&quot;Adults_(X)&quot;</from>
+					<to>&quot;Adult_hospitalisation_(X)&quot;</to>
+				</connector>
+				<stock font_size="14pt" x="396" y="387" width="166" height="92" name="Babies (R)"/>
+				<connector uid="100" angle="355.236">
+					<from>
+						<alias uid="97"/>
+					</from>
+					<to>Total_recovered</to>
+				</connector>
+				<connector uid="91" angle="342.021">
+					<from>&quot;Babies_(R)&quot;</from>
+					<to>&quot;age_up_to_child_(R)&quot;</to>
+				</connector>
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="55" x="32" y="272" width="148" height="29">Susceptible</text_box>
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="56" x="963" y="144" width="149" height="29">&quot;Adults&quot; (5+ yrs)</text_box>
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="54" x="625.75" y="144" width="161.5" height="29">Children (1-4 yrs)</text_box>
+				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="53" x="282" y="144" width="148" height="29">Babies (&lt;1 yrs)</text_box>
 				<alias color="blue" background="white" font_style="italic" uid="69" x="595" y="403" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="71" x="476" y="538" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="71" x="479.333" y="556" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="73" x="505" y="708.5" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="73" x="504" y="847.5" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
 				</alias>
@@ -1287,21 +1716,18 @@
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="86" x="815.5" y="548" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="86" x="823.036" y="560" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="88" x="833.5" y="708.5" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="88" x="832.5" y="847.5" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;child_age-up_rate&quot;</of>
 				</alias>
-				<alias font_style="italic" font_size="14pt" uid="97" x="1762" y="486.25" width="30" height="30">
-					<of>&quot;Babies_(R)&quot;</of>
-				</alias>
-				<alias font_style="italic" font_size="14pt" uid="98" x="1901.67" y="486.25" width="30" height="30">
+				<alias font_style="italic" font_size="14pt" uid="98" x="1901.67" y="646.917" width="30" height="30">
 					<of>&quot;Adults_(R)&quot;</of>
 				</alias>
-				<alias font_style="italic" font_size="14pt" uid="99" x="1828" y="471.25" width="30" height="30">
+				<alias font_style="italic" font_size="14pt" uid="99" x="1828" y="631.917" width="30" height="30">
 					<of>&quot;Children_(R)&quot;</of>
 				</alias>
 				<alias font_style="italic" font_size="14pt" uid="103" x="1760" y="220.75" width="30" height="30">
@@ -1313,17 +1739,14 @@
 				<alias font_style="italic" font_size="14pt" uid="105" x="1896.67" y="220.75" width="30" height="30">
 					<of>&quot;Adults_(S)&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="115" x="1773" y="737" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="115" x="1773" y="897.667" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Total_susceptible</of>
 				</alias>
-				<alias font_style="italic" uid="116" x="1894" y="737" width="18" height="18">
-					<of>Total_infected</of>
-				</alias>
-				<alias font_style="italic" uid="120" x="1894" y="847" width="18" height="18">
+				<alias font_style="italic" uid="120" x="1894" y="1007.67" width="18" height="18">
 					<of>Total_recovered</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="121" x="1773" y="847" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="121" x="1773" y="1007.67" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Total_hospitalised</of>
 				</alias>
@@ -1332,9 +1755,9 @@
 					<of>Total_population</of>
 				</alias>
 				<alias font_style="italic" uid="128" x="264" y="471" width="18" height="18">
-					<of>Total_infected</of>
+					<of>Total_infectious</of>
 				</alias>
-				<alias font_style="italic" uid="130" x="207" y="449" width="18" height="18">
+				<alias font_style="italic" uid="130" x="218.75" y="424.25" width="18" height="18">
 					<of>R0</of>
 				</alias>
 				<alias font_style="italic" uid="132" x="351.5" y="437" width="18" height="18">
@@ -1345,7 +1768,7 @@
 					<of>Total_population</of>
 				</alias>
 				<alias font_style="italic" uid="136" x="666" y="499" width="18" height="18">
-					<of>Total_infected</of>
+					<of>Total_infectious</of>
 				</alias>
 				<alias font_style="italic" uid="137" x="609" y="477" width="18" height="18">
 					<of>R0</of>
@@ -1353,12 +1776,12 @@
 				<alias font_style="italic" uid="138" x="718.5" y="475" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="142" x="952.75" y="520" width="18" height="18">
+				<alias color="blue" background="white" font_style="italic" uid="142" x="954.5" y="507" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Total_population</of>
 				</alias>
-				<alias font_style="italic" uid="143" x="998" y="502" width="18" height="18">
-					<of>Total_infected</of>
+				<alias font_style="italic" uid="143" x="996" y="499" width="18" height="18">
+					<of>Total_infectious</of>
 				</alias>
 				<alias font_style="italic" uid="144" x="941" y="480" width="18" height="18">
 					<of>R0</of>
@@ -1366,25 +1789,25 @@
 				<alias font_style="italic" uid="145" x="1046.5" y="481" width="18" height="18">
 					<of>infection_period</of>
 				</alias>
-				<alias font_style="italic" uid="158" x="236.75" y="656.167" width="18" height="18">
+				<alias font_style="italic" uid="158" x="330.167" y="790.31" width="18" height="18">
 					<of>Hospitalisation_rate</of>
 				</alias>
-				<alias font_style="italic" uid="160" x="587" y="656.167" width="18" height="18">
+				<alias font_style="italic" uid="160" x="687.667" y="804.5" width="18" height="18">
 					<of>Hospitalisation_rate</of>
 				</alias>
-				<alias font_style="italic" uid="165" x="936.5" y="656.167" width="18" height="18">
+				<alias font_style="italic" uid="165" x="1022" y="804.5" width="18" height="18">
 					<of>Hospitalisation_rate</of>
 				</alias>
-				<alias font_style="italic" uid="170" x="487" y="672.5" width="18" height="18">
+				<alias font_style="italic" uid="170" x="509.857" y="804.5" width="18" height="18">
 					<of>Recovery_from_hospital_rate</of>
 				</alias>
-				<alias font_style="italic" uid="174" x="818.75" y="668" width="18" height="18">
+				<alias font_style="italic" uid="174" x="805.036" y="804.5" width="18" height="18">
 					<of>Recovery_from_hospital_rate</of>
 				</alias>
-				<alias font_style="italic" uid="172" x="1126.3" y="658.75" width="18" height="18">
+				<alias font_style="italic" uid="172" x="1122.87" y="812.821" width="18" height="18">
 					<of>Recovery_from_hospital_rate</of>
 				</alias>
-				<alias font_style="italic" uid="179" x="648" y="859" width="18" height="18">
+				<alias font_style="italic" uid="179" x="647" y="998" width="18" height="18">
 					<of>Hospital_mortality_rate</of>
 				</alias>
 				<alias font_style="italic" font_color="red" uid="184" x="1185" y="209.2" width="18" height="18">
@@ -1396,20 +1819,79 @@
 				<alias font_style="italic" font_color="red" uid="189" x="1197" y="538" width="18" height="18">
 					<of>General_adult_mortality_rate</of>
 				</alias>
-				<alias font_style="italic" font_color="red" uid="190" x="1218" y="698" width="18" height="18">
+				<alias font_style="italic" font_color="red" uid="190" x="1217" y="837" width="18" height="18">
 					<of>General_adult_mortality_rate</of>
 				</alias>
-				<alias font_style="italic" font_size="14pt" uid="111" x="1896.67" y="641.75" width="30" height="30">
+				<alias font_style="italic" font_size="14pt" uid="111" x="1896.67" y="802.417" width="30" height="30">
 					<of>&quot;Adults_(H)&quot;</of>
 				</alias>
-				<alias font_style="italic" font_size="14pt" uid="110" x="1828" y="607.75" width="30" height="30">
+				<alias font_style="italic" font_size="14pt" uid="110" x="1828" y="768.417" width="30" height="30">
 					<of>&quot;Children_(H)&quot;</of>
 				</alias>
-				<alias font_style="italic" font_size="14pt" uid="109" x="1762" y="637.75" width="30" height="30">
+				<alias font_style="italic" font_size="14pt" uid="109" x="1762" y="798.417" width="30" height="30">
 					<of>&quot;Babies_(H)&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="216" x="348.167" y="678.679" width="18" height="18">
+					<of>isolation_switch</of>
+				</alias>
+				<alias font_style="italic" uid="218" x="694.5" y="688" width="18" height="18">
+					<of>isolation_switch</of>
+				</alias>
+				<alias font_style="italic" uid="222" x="1046.5" y="693.333" width="18" height="18">
+					<of>isolation_switch</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="227" x="527.857" y="721.357" width="18" height="18">
+					<shape type="circle" radius="18"/>
+					<of>&quot;baby_age-up_rate&quot;</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="229" x="875.703" y="718" width="18" height="18">
+					<shape type="circle" radius="18"/>
+					<of>&quot;child_age-up_rate&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="233" x="504" y="629.333" width="18" height="18">
+					<of>infection_period</of>
+				</alias>
+				<alias font_style="italic" uid="234" x="832.5" y="642" width="18" height="18">
+					<of>infection_period</of>
+				</alias>
+				<alias font_style="italic" uid="238" x="1179" y="642" width="18" height="18">
+					<of>infection_period</of>
+				</alias>
+				<alias font_style="italic" uid="242" x="1826.24" y="546.774" width="37.5238" height="32.9524">
+					<of>&quot;Children_(X)&quot;</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="243" x="1758.57" y="521.964" width="36.8571" height="32.2857">
+					<shape type="rectangle" width="45" height="35"/>
+					<of>&quot;Babies_(X)&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="246" x="1892.57" y="521.298" width="40.1904" height="32.9524">
+					<of>&quot;Adults_(X)&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="206" x="2060.58" y="592.367" width="18" height="18">
+					<of>Baby_infections</of>
+				</alias>
+				<alias font_style="italic" uid="207" x="2060.58" y="641.617" width="18" height="18">
+					<of>Adult_infections</of>
+				</alias>
+				<alias font_style="italic" uid="205" x="2060.58" y="536.7" width="18" height="18">
+					<of>Child_infections</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="250" x="2237.58" y="636.7" width="18" height="18">
+					<shape type="circle" radius="18"/>
+					<of>Total_infected</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="253" x="1894" y="891.2" width="18" height="18">
+					<shape type="circle" radius="18"/>
+					<of>Total_infected</of>
+				</alias>
+				<alias font_style="italic" font_size="14pt" uid="97" x="1762" y="646.917" width="30" height="30">
+					<of>&quot;Babies_(R)&quot;</of>
 				</alias>
 			</view>
 		</views>
 	</model>
+	<isee:controls>
+		<isee:control priority="interactive" name="Hospital_mortality_rate" value="0.237430765508009"/>
+	</isee:controls>
 </xmile>
 
