@@ -121,17 +121,17 @@ ggsave("figures/model-params/SIR-isol-thresh.pdf",
 
 isol_params_both <- read_excel(
   "data/stella outputs/basic-model-testing/SIR-isolation-params-both.xlsx",
-  sheet = "run-data"
+  sheet = "run-data2"
 ) %>%
   pivot_longer(
     cols = contains("Run"),
     names_to = "Run",
-    values_to = "Infected"
+    values_to = "Infections"
   ) %>%
   left_join(
     read_excel(
       "data/stella outputs/basic-model-testing/SIR-isolation-params-both.xlsx",
-      sheet = "run-params"
+      sheet = "run-params2"
     ),
     by = join_by("Run")
   ) 
@@ -139,11 +139,11 @@ isol_params_both <- read_excel(
 summary_stats <- isol_params_both %>%
   group_by(`isolation threshold`, `isolation proportion`) %>%
   filter(
-    Infected >= 1,
+    Infections >= 0.5,
     `isolation threshold` > 5,
     `isolation proportion` < 0.15) %>%
   summarise(
-    `Total Cases` = sum(Infected) / 8.75,
+    `Total Cases` = sum(Infections),
     `Outbreak Length` = max(Day),
     .groups = "drop"
   ) %>%
@@ -194,8 +194,6 @@ cases_plt <- summary_stats %>%
     )
 
 
-
-
 length_plt <- summary_stats %>%
   filter(Indicator == "Outbreak Length") %>%
   ggplot(aes(x = `isolation threshold`, 
@@ -230,9 +228,9 @@ length_plt <- summary_stats %>%
     strip.background = element_rect(fill="white")
   ) +
   annotate(
-    "text", x = 45, y = 0.1, label = "175 days",
+    "text", x = 45, y = 0.08, label = "175 days",
     color = "white",
-    angle = 31,
+    angle = 22,
     size = 4.5
   )
 
@@ -298,8 +296,8 @@ cont_plt <- ggplot(contours, aes(x=x, y=y, color = Indicator)) +
   geom_line(lwd = 1.2) +
   geom_point(x = xroot, y = yroot, 
              color = "black", size = 3) +
-  annotate("text", x = 78, y = 0.105, 
-           label = "(71.8, 0.114)",
+  annotate("text", x = xroot-6, y = yroot+0.008, 
+           label = paste0("(", round(xroot, 1), ", ", round(yroot, 2),")"),
            size = 4.5) +
   theme_bw() +
   scale_color_manual(
@@ -333,3 +331,85 @@ ggsave(
   plot = cmb_plts,
   width = 7.5, height = 7
 )
+
+################################################################################
+#                               Tuned Model                                    #
+################################################################################
+
+tuned_data <- read_excel(
+  "data/stella outputs/basic-model-testing/tuned-SIR-output.xlsx"
+) %>%
+  mutate(
+    week_number = floor(Day / 7),
+    daily_infections = Infections,
+    testing_curve = TTR::SMA(Infections, n = 8.75)
+  ) %>%
+  pivot_longer(
+    cols = c("daily_infections", "testing_curve"),
+    names_to = "indicator",
+    values_to = "value"
+  ) %>%
+  group_by(week_number, indicator) %>%
+  summarise(
+    value = sum(value)
+  ) %>%
+  mutate(
+    indicator = case_when(
+      indicator == "daily_infections" ~ "Weekly Infections",
+      indicator == "testing_curve" ~ "Modelled Weekly Cases",
+      TRUE ~ "Error"
+    )
+  )
+
+cases <- read_excel(
+  "data/model params/BSol-outbreak-cases-oct23toapril24.xlsx",
+  sheet = "Data"
+) %>%
+  janitor::clean_names() %>%
+  rename(
+    Birmingham = `birmingham_confirmed_cases`,
+    Solihull = `solihull_estimate`
+  ) %>%
+  pivot_longer(
+    cols = c("Birmingham", "Solihull"),
+    names_to = "local_authority",
+    values_to = "value"
+  ) %>%
+  mutate(
+    outcome = "Confirmed Measles Cases",
+    moving_average = TTR::SMA(value, n = 8.75)
+  ) %>%
+  group_by(week_number, outcome) %>%
+  summarise(
+    value = sum(value)
+  )
+
+ggplot(cases, aes(x = week_number, y = value)) +
+  geom_col() +
+  geom_line(
+    data = tuned_data %>% filter(indicator == "Modelled Weekly Cases"), 
+    aes(x = week_number, y = value, color = indicator),
+    lwd = 1.05
+       ) +
+  theme_bw() +
+  scale_x_continuous(
+    limits = c(0, 30),
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(
+    limits = c(0, 80),
+    expand = c(0, 0)
+  ) +
+  labs(
+    y = "Measles Cases",
+    x = "Week Number",
+    color = ""
+  ) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.2, 0.95),
+    legend.background = element_rect(fill=NA)
+  )
+
+ggsave("figures/model-params/SIR-tuned.pdf", 
+       width = 6, height = 3)
