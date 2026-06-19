@@ -24,6 +24,12 @@
 			<all/>
 		</export>
 	</data>
+	<isee:optimizer_specs_list active_index="0">
+		<isee:optimizer_specs name="Optimization" method="Powell" use_additional_starts_file="false" additional_starts="0" report_interval="1" confidence_range="0"/>
+	</isee:optimizer_specs_list>
+	<isee:payoff_specs_list>
+		<isee:payoff_specs name="Payoff"/>
+	</isee:payoff_specs_list>
 	<model_units>
 		<unit name="People">
 			<eqn/>
@@ -502,10 +508,10 @@
 				<units>people/days</units>
 			</flow>
 			<aux name="Isolation threshold">
-				<eqn>56.74688</eqn>
+				<eqn>30.64587</eqn>
 			</aux>
 			<aux name="Isolation proportion">
-				<eqn>0.07834804</eqn>
+				<eqn>0.1199688</eqn>
 			</aux>
 			<aux name="isolation switch">
 				<eqn>IF (run_max_infections &gt; Isolation_threshold AND new_case_average &gt; 1/38) THEN Isolation_proportion ELSE 0</eqn>
@@ -522,7 +528,7 @@
 				<entity name="run_max_infections"/>
 			</group>
 			<aux name="new case average">
-				<eqn>SMTH1(Child_infections + Baby_infections + Adult_infections,  38,  0)</eqn>
+				<eqn>SMTH1(New_cases,  38,  0)</eqn>
 				<isee:delay_aux/>
 			</aux>
 			<flow name="Infected adults input">
@@ -624,13 +630,25 @@
 				<units>people/days</units>
 			</flow>
 			<aux name="Adult inf weight">
-				<eqn>0.802</eqn>
+				<eqn>1.27</eqn>
 			</aux>
 			<aux name="Child inf weight">
-				<eqn>4.93</eqn>
+				<eqn>6.20</eqn>
 			</aux>
 			<aux name="Baby inf weight">
-				<eqn>5.21</eqn>
+				<eqn>2.52</eqn>
+			</aux>
+			<aux name="New cases">
+				<eqn>Baby_infections + Child_infections + Adult_infections</eqn>
+			</aux>
+			<aux name="Baby hospitalisation total">
+				<eqn>Baby_hospitalisation + &quot;Baby_hospitalisation_(X)&quot;</eqn>
+			</aux>
+			<aux name="Child hospitalisation total">
+				<eqn>Child_hospitalisation + &quot;Child_hospitalisation_(X)&quot;</eqn>
+			</aux>
+			<aux name="Adult hospitalisation total">
+				<eqn>Adult_hospitalisation + &quot;Adult_hospitalisation_(X)&quot;</eqn>
 			</aux>
 		</variables>
 		<views>
@@ -681,7 +699,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="2" isee:scroll_y="106.25" zoom="80" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="3" zoom="40" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -758,13 +776,13 @@
 						<pt x="413.75" y="563"/>
 					</pts>
 				</flow>
-				<flow x="284.667" y="967.833" name="Baby hospitalisation">
+				<flow x="284.667" y="967.832" name="Baby hospitalisation">
 					<pts>
 						<pt x="284.667" y="797.333"/>
 						<pt x="284.667" y="1150.33"/>
 					</pts>
 				</flow>
-				<flow x="412.453" y="1060.74" width="18" height="18" name="Baby hospital recovery">
+				<flow x="421.453" y="1069.74" name="Baby hospital recovery">
 					<pts>
 						<pt x="421.453" y="1150.33"/>
 						<pt x="421.453" y="977.143"/>
@@ -1248,7 +1266,7 @@
 					<from>&quot;Children_(H)&quot;</from>
 					<to>Child_hospital_recovery</to>
 				</connector>
-				<flow x="1084.72" y="1051.99" width="18" height="18" name="Adult hospital recovery">
+				<flow x="1093.72" y="1060.99" name="Adult hospital recovery">
 					<pts>
 						<pt x="1093.72" y="1150.33"/>
 						<pt x="1093.72" y="959.643"/>
@@ -1477,10 +1495,10 @@
 						<pt x="1035.18" y="913.833"/>
 					</pts>
 				</flow>
-				<aux x="2096.11" y="536.95" name="Isolation threshold"/>
+				<aux x="2097.44" y="536.95" name="Isolation threshold"/>
 				<aux x="2259.84" y="536.95" name="Isolation proportion"/>
 				<aux x="2177.18" y="609.067" name="isolation switch"/>
-				<connector uid="202" angle="359.647">
+				<connector uid="202" angle="359.175">
 					<from>Isolation_threshold</from>
 					<to>isolation_switch</to>
 				</connector>
@@ -1490,11 +1508,9 @@
 				</connector>
 				<aux x="2249.35" y="664.15" name="run max infections"/>
 				<group locked="true" x="2015.84" y="499.233" width="309.333" height="440.133" name="Isolation Switch Model">
-					<item uid="205"/>
-					<item uid="206"/>
-					<item uid="207"/>
 					<item uid="250"/>
 					<item uid="255"/>
+					<item uid="308"/>
 				</group>
 				<aux x="2140.51" y="698.567" name="new case average"/>
 				<connector uid="212" angle="36.0126">
@@ -1619,24 +1635,6 @@
 					<from>Total_isolated</from>
 					<to>Total_infected</to>
 				</connector>
-				<connector uid="209" angle="5.33035">
-					<from>
-						<alias uid="206"/>
-					</from>
-					<to>new_case_average</to>
-				</connector>
-				<connector uid="210" angle="10.0743">
-					<from>
-						<alias uid="207"/>
-					</from>
-					<to>new_case_average</to>
-				</connector>
-				<connector uid="208" angle="358.252">
-					<from>
-						<alias uid="205"/>
-					</from>
-					<to>new_case_average</to>
-				</connector>
 				<connector uid="251" angle="79.992">
 					<from>
 						<alias uid="250"/>
@@ -1688,7 +1686,7 @@
 					<from>&quot;Babies_(X)&quot;</from>
 					<to>&quot;Baby_hospitalisation_(X)&quot;</to>
 				</connector>
-				<flow x="732.334" y="1035.49" width="18" height="18" name="Child hospitalisation (X)">
+				<flow x="741.334" y="1044.49" name="Child hospitalisation (X)">
 					<pts>
 						<pt x="741.334" y="965.643"/>
 						<pt x="741.334" y="1135.33"/>
@@ -1914,7 +1912,7 @@
 					<to>&quot;Adult_ACM_(X)&quot;</to>
 				</connector>
 				<aux x="2373.75" y="319.6" name="Adult inf weight"/>
-				<aux x="2373.75" y="268.55" name="Child inf weight"/>
+				<aux x="2373.75" y="264.429" name="Child inf weight"/>
 				<aux x="2373.75" y="215.467" name="Baby inf weight"/>
 				<connector uid="295" angle="348.996">
 					<from>
@@ -1934,6 +1932,109 @@
 					</from>
 					<to>Adult_infections</to>
 				</connector>
+				<aux x="1843" y="1179.05" name="New cases"/>
+				<connector uid="303" angle="352.821">
+					<from>
+						<alias uid="304"/>
+					</from>
+					<to>New_cases</to>
+				</connector>
+				<connector uid="305" angle="277.251">
+					<from>
+						<alias uid="306"/>
+					</from>
+					<to>New_cases</to>
+				</connector>
+				<connector uid="307" angle="155.068">
+					<from>
+						<alias uid="302"/>
+					</from>
+					<to>New_cases</to>
+				</connector>
+				<connector uid="309" angle="42.8102">
+					<from>
+						<alias uid="308"/>
+					</from>
+					<to>new_case_average</to>
+				</connector>
+				<stacked_container uid="310" x="1758" y="1261.25" width="513" height="303">
+					<table width="513" height="303">
+						<item type="time"/>
+						<item>
+							<entity name="Baby_infections"/>
+						</item>
+						<item>
+							<entity name="Child_infections"/>
+						</item>
+						<item>
+							<entity name="Adult_infections"/>
+						</item>
+					</table>
+				</stacked_container>
+				<aux x="2104.29" y="1060.99" name="Baby hospitalisation total"/>
+				<connector uid="317" angle="336.122">
+					<from>
+						<alias uid="312"/>
+					</from>
+					<to>Baby_hospitalisation_total</to>
+				</connector>
+				<connector uid="318" angle="15.2757">
+					<from>
+						<alias uid="311"/>
+					</from>
+					<to>Baby_hospitalisation_total</to>
+				</connector>
+				<aux x="2236.57" y="1060.99" name="Child hospitalisation total"/>
+				<connector uid="319" angle="11.8032">
+					<from>
+						<alias uid="313"/>
+					</from>
+					<to>Child_hospitalisation_total</to>
+				</connector>
+				<connector uid="320" angle="342.712">
+					<from>
+						<alias uid="314"/>
+					</from>
+					<to>Child_hospitalisation_total</to>
+				</connector>
+				<aux x="2380.29" y="1060.99" name="Adult hospitalisation total"/>
+				<connector uid="321" angle="11.0889">
+					<from>
+						<alias uid="315"/>
+					</from>
+					<to>Adult_hospitalisation_total</to>
+				</connector>
+				<connector uid="322" angle="342.113">
+					<from>
+						<alias uid="316"/>
+					</from>
+					<to>Adult_hospitalisation_total</to>
+				</connector>
+				<stacked_container uid="323" x="2338.67" y="1259" width="562" height="300.667">
+					<table width="562" height="300.667">
+						<item type="time"/>
+						<item>
+							<entity name="Baby_hospitalisation_total"/>
+						</item>
+						<item>
+							<entity name="Child_hospitalisation_total"/>
+						</item>
+						<item>
+							<entity name="Adult_hospitalisation_total"/>
+						</item>
+					</table>
+				</stacked_container>
+				<numeric_display uid="324" x="611.703" y="1508.33" width="163.964" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
+					<entity name="Measles_Deaths"/>
+				</numeric_display>
+				<stacked_container uid="325" x="674.167" y="1828">
+					<table width="350" height="250" comparative="true">
+						<item type="time"/>
+						<item>
+							<entity name="New_cases"/>
+						</item>
+					</table>
+				</stacked_container>
 				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="69" x="585" y="487" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
@@ -2101,15 +2202,6 @@
 				<alias font_style="italic" uid="246" x="1892.57" y="521.298" width="40.1904" height="32.9524">
 					<of>&quot;Adults_(X)&quot;</of>
 				</alias>
-				<alias font_style="italic" uid="206" x="2061.34" y="689.567" width="18" height="18">
-					<of>Baby_infections</of>
-				</alias>
-				<alias font_style="italic" uid="207" x="2061.34" y="738.817" width="18" height="18">
-					<of>Adult_infections</of>
-				</alias>
-				<alias font_style="italic" uid="205" x="2061.34" y="633.9" width="18" height="18">
-					<of>Child_infections</of>
-				</alias>
 				<alias color="blue" background="white" font_style="italic" uid="250" x="2238.34" y="733.9" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Total_infected</of>
@@ -2163,6 +2255,37 @@
 				<alias color="blue" background="white" font_style="italic" uid="300" x="972" y="638" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Adult_inf_weight</of>
+				</alias>
+				<alias font_style="italic" uid="302" x="1902.67" y="1157.25" width="18" height="18">
+					<of>Adult_infections</of>
+				</alias>
+				<alias font_style="italic" uid="304" x="1763.75" y="1157.25" width="18" height="18">
+					<of>Baby_infections</of>
+				</alias>
+				<alias font_style="italic" uid="306" x="1834" y="1115.25" width="18" height="18">
+					<of>Child_infections</of>
+				</alias>
+				<alias color="blue" background="white" font_style="italic" uid="308" x="2046.17" y="689.567" width="18" height="18">
+					<shape type="circle" radius="18"/>
+					<of>New_cases</of>
+				</alias>
+				<alias font_style="italic" uid="311" x="2050" y="1014.67" width="18" height="18">
+					<of>Baby_hospitalisation</of>
+				</alias>
+				<alias font_style="italic" uid="312" x="2050" y="1086.93" width="18" height="18">
+					<of>&quot;Baby_hospitalisation_(X)&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="313" x="2170" y="1014.67" width="18" height="18">
+					<of>Child_hospitalisation</of>
+				</alias>
+				<alias font_style="italic" label_side="bottom" uid="314" x="2170" y="1086.93" width="18" height="18">
+					<of>&quot;Child_hospitalisation_(X)&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="315" x="2306.55" y="1014.67" width="18" height="18">
+					<of>Adult_hospitalisation</of>
+				</alias>
+				<alias font_style="italic" uid="316" x="2306.55" y="1086.93" width="18" height="18">
+					<of>&quot;Adult_hospitalisation_(X)&quot;</of>
 				</alias>
 			</view>
 		</views>
