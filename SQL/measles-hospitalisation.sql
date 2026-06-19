@@ -6,6 +6,11 @@ WITH MeaslesAdmissions AS (
 		ROW_NUMBER() OVER (PARTITION BY NHSNumber ORDER BY AdmissionDate) AS MeaslesAdmissionNum,
 		AdmissionDate,
 		AgeOnAdmission,
+        CASE
+            WHEN AgeOnAdmission = 0 THEN 'Under 1'
+            WHEN AgeOnAdmission <= 4 THEN '1-4 yrs'
+            ELSE '5+ yrs'
+        END AS AgeGroup,
 		SpellDuration,
 		Cost,
 		GenderCode,
@@ -56,18 +61,15 @@ BSolStatuses AS (
 )
 
 SELECT 
-	AdmissionDate,
-	MeaslesAdmissionNum,
-	AgeOnAdmission,
-	SpellDuration,
-	Cost,
-	GenderCode,
-	Ethnicity,
-	LocalAuthority
+	AgeGroup,
+	COUNT(*) AS N
 FROM
 	MeaslesAdmissions
 LEFT JOIN 
 	BSolStatuses
 ON [NHSNumber] = [Pseudo_NHS_Number]
-WHERE LocalAuthority in ('Birmingham', 'Solihull')
-ORDER BY AdmissionDate
+WHERE 
+	LocalAuthority in ('Birmingham', 'Solihull')
+	AND AdmissionDate >= '2023-10-13'
+	AND AdmissionDate < '2024-04-12'
+GROUP BY AgeGroup
