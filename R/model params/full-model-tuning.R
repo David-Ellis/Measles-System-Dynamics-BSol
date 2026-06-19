@@ -354,3 +354,16 @@ read_excel(
     `Child infections` = sum(`Child infections`),
     `Adult infections` = sum(`Adult infections`)
   )
+
+read_excel(
+  "data/stella outputs/basic-model-testing/tuned-full-output.xlsx",
+  sheet = 2
+) %>%
+  summarise(
+    `Baby hospitalisation` = sum(`Baby hospitalisation`),
+    `Child hospitalisation` = sum(`Child hospitalisation`),
+    `Adult hospitalisation` = sum(`Adult hospitalisation`)
+  ) %>%
+  mutate(
+    Total = `Baby hospitalisation` + `Child hospitalisation` + `Adult hospitalisation`
+  )

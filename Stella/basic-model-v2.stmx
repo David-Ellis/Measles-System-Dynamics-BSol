@@ -195,7 +195,7 @@
 				<units>people/days</units>
 			</flow>
 			<flow name="Baby hospitalisation">
-				<eqn>&quot;Babies_(I)&quot; * Hospitalisation_rate</eqn>
+				<eqn>&quot;Babies_(I)&quot; * Hosp_rate_baby</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -240,7 +240,7 @@
 				<units>people/days</units>
 			</flow>
 			<flow name="Child hospitalisation">
-				<eqn>&quot;Children_(I)&quot; * Hospitalisation_rate</eqn>
+				<eqn>&quot;Children_(I)&quot; * Hosp_rate_child</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -280,7 +280,7 @@
 				<units>people/days</units>
 			</flow>
 			<flow name="Adult hospitalisation">
-				<eqn>Hospitalisation_rate * &quot;Adults_(I)&quot;</eqn>
+				<eqn>Hosp_rate_adult * &quot;Adults_(I)&quot;</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -409,8 +409,8 @@
 				<eqn>8.75</eqn>
 				<units>Years</units>
 			</aux>
-			<aux name="Hospitalisation rate">
-				<eqn>0.0021</eqn>
+			<aux name="Hosp rate baby">
+				<eqn>0.0613</eqn>
 				<units>Per Year</units>
 			</aux>
 			<aux name="Recovery from hospital rate">
@@ -543,17 +543,17 @@
 				<eqn>Total_isolated + Total_infectious</eqn>
 			</aux>
 			<flow name="Baby hospitalisation (X)">
-				<eqn>&quot;Babies_(X)&quot; * Hospitalisation_rate</eqn>
+				<eqn>&quot;Babies_(X)&quot; * Hosp_rate_baby</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
 			<flow name="Child hospitalisation (X)">
-				<eqn>&quot;Children_(X)&quot; * Hospitalisation_rate</eqn>
+				<eqn>&quot;Children_(X)&quot; * Hosp_rate_child</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
 			<flow name="Adult hospitalisation (X)">
-				<eqn>&quot;Adults_(X)&quot; * Hospitalisation_rate</eqn>
+				<eqn>&quot;Adults_(X)&quot; * Hosp_rate_adult</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -650,6 +650,14 @@
 			<aux name="Adult hospitalisation total">
 				<eqn>Adult_hospitalisation + &quot;Adult_hospitalisation_(X)&quot;</eqn>
 			</aux>
+			<aux name="Hosp rate child">
+				<eqn>0.0304</eqn>
+				<units>Per Year</units>
+			</aux>
+			<aux name="Hosp rate adult">
+				<eqn>0.0323</eqn>
+				<units>Per Year</units>
+			</aux>
 		</variables>
 		<views>
 			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
@@ -699,7 +707,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="3" zoom="40" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="3" isee:scroll_x="52" isee:scroll_y="400" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -1225,7 +1233,7 @@
 					</from>
 					<to>Adult_recovery</to>
 				</connector>
-				<aux x="2170.5" y="319.6" name="Hospitalisation rate"/>
+				<aux x="2274.5" y="217.067" name="Hosp rate baby"/>
 				<aux x="2170.5" y="268.55" name="Recovery from hospital rate"/>
 				<aux label_side="bottom" x="2170.5" y="215.467" name="Hospital mortality rate"/>
 				<connector uid="157" angle="228.579">
@@ -1242,20 +1250,8 @@
 					<from>&quot;Children_(I)&quot;</from>
 					<to>Child_hospitalisation</to>
 				</connector>
-				<connector uid="162" angle="129.697">
-					<from>
-						<alias uid="160"/>
-					</from>
-					<to>Child_hospitalisation</to>
-				</connector>
 				<connector uid="163" angle="251.821">
 					<from>&quot;Adults_(I)&quot;</from>
-					<to>Adult_hospitalisation</to>
-				</connector>
-				<connector uid="164" angle="129.545">
-					<from>
-						<alias uid="165"/>
-					</from>
 					<to>Adult_hospitalisation</to>
 				</connector>
 				<connector uid="166" angle="9.48092">
@@ -1329,7 +1325,7 @@
 					<from>Child_vaccination_proportion</from>
 					<to>Child_vaccination</to>
 				</connector>
-				<aux x="2284.1" y="319.6" name="ACMR Adults"/>
+				<aux x="2358.5" y="321.2" name="ACMR Adults"/>
 				<connector uid="185" color="#B6B6B6" font_color="#B6B6B6" angle="236.841">
 					<from>
 						<alias uid="184"/>
@@ -1692,12 +1688,6 @@
 						<pt x="741.334" y="1135.33"/>
 					</pts>
 				</flow>
-				<connector uid="258" angle="357.938">
-					<from>
-						<alias uid="160"/>
-					</from>
-					<to>&quot;Child_hospitalisation_(X)&quot;</to>
-				</connector>
 				<connector uid="259" angle="239.263">
 					<from>&quot;Children_(X)&quot;</from>
 					<to>&quot;Child_hospitalisation_(X)&quot;</to>
@@ -1708,12 +1698,6 @@
 						<pt x="1072.39" y="1150.33"/>
 					</pts>
 				</flow>
-				<connector uid="260" angle="346.445">
-					<from>
-						<alias uid="165"/>
-					</from>
-					<to>&quot;Adult_hospitalisation_(X)&quot;</to>
-				</connector>
 				<connector uid="261" angle="227.457">
 					<from>&quot;Adults_(X)&quot;</from>
 					<to>&quot;Adult_hospitalisation_(X)&quot;</to>
@@ -1733,8 +1717,8 @@
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="56" x="963" y="144" width="149" height="29">&quot;Adults&quot; (5+ yrs)</text_box>
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="54" x="625.75" y="144" width="161.5" height="29">Children (1-4 yrs)</text_box>
 				<text_box font_weight="bold" text_align="center" font_size="18pt" uid="53" x="282" y="144" width="148" height="29">Babies (&lt;1 yrs)</text_box>
-				<aux x="2284.1" y="268.55" name="ACMR Children"/>
-				<aux x="2284.1" y="215.467" name="ACMR Babies"/>
+				<aux x="2358.5" y="270.15" name="ACMR Children"/>
+				<aux x="2358.5" y="217.067" name="ACMR Babies"/>
 				<flow color="#B6B6B6" font_color="#B6B6B6" x="409.333" y="358.083" name="Baby ACM (S)">
 					<pts>
 						<pt x="409.333" y="326.5"/>
@@ -1911,9 +1895,9 @@
 					<from>&quot;Adults_(X)&quot;</from>
 					<to>&quot;Adult_ACM_(X)&quot;</to>
 				</connector>
-				<aux x="2373.75" y="319.6" name="Adult inf weight"/>
-				<aux x="2373.75" y="264.429" name="Child inf weight"/>
-				<aux x="2373.75" y="215.467" name="Baby inf weight"/>
+				<aux x="2448.15" y="321.2" name="Adult inf weight"/>
+				<aux x="2448.15" y="266.029" name="Child inf weight"/>
+				<aux x="2448.15" y="217.067" name="Baby inf weight"/>
 				<connector uid="295" angle="348.996">
 					<from>
 						<alias uid="296"/>
@@ -2035,6 +2019,32 @@
 						</item>
 					</table>
 				</stacked_container>
+				<aux x="2274.5" y="270.15" name="Hosp rate child"/>
+				<aux x="2274.5" y="321.2" name="Hosp rate adult"/>
+				<connector uid="326" angle="95.6971">
+					<from>
+						<alias uid="327"/>
+					</from>
+					<to>Child_hospitalisation</to>
+				</connector>
+				<connector uid="328" angle="357.306">
+					<from>
+						<alias uid="327"/>
+					</from>
+					<to>&quot;Child_hospitalisation_(X)&quot;</to>
+				</connector>
+				<connector uid="329" angle="107.928">
+					<from>
+						<alias uid="330"/>
+					</from>
+					<to>Adult_hospitalisation</to>
+				</connector>
+				<connector uid="331" angle="351.573">
+					<from>
+						<alias uid="330"/>
+					</from>
+					<to>&quot;Adult_hospitalisation_(X)&quot;</to>
+				</connector>
 				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="69" x="585" y="487" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
@@ -2125,13 +2135,7 @@
 					<of>infection_period</of>
 				</alias>
 				<alias font_style="italic" uid="158" x="316.024" y="1042.74" width="18" height="18">
-					<of>Hospitalisation_rate</of>
-				</alias>
-				<alias font_style="italic" uid="160" x="665.167" y="1016.15" width="18" height="18">
-					<of>Hospitalisation_rate</of>
-				</alias>
-				<alias font_style="italic" uid="165" x="1004" y="1025.67" width="18" height="18">
-					<of>Hospitalisation_rate</of>
+					<of>Hosp_rate_baby</of>
 				</alias>
 				<alias font_style="italic" uid="170" x="475.881" y="1042.74" width="18" height="18">
 					<of>Recovery_from_hospital_rate</of>
@@ -2286,6 +2290,12 @@
 				</alias>
 				<alias font_style="italic" uid="316" x="2306.55" y="1086.93" width="18" height="18">
 					<of>&quot;Adult_hospitalisation_(X)&quot;</of>
+				</alias>
+				<alias font_style="italic" uid="327" x="667.166" y="1024.74" width="18" height="18">
+					<of>Hosp_rate_child</of>
+				</alias>
+				<alias font_style="italic" uid="330" x="1003" y="1027" width="18" height="18">
+					<of>Hosp_rate_adult</of>
 				</alias>
 			</view>
 		</views>
