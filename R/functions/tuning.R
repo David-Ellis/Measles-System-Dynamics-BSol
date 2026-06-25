@@ -1,5 +1,7 @@
 library(dplyr)
 library(readxl)
+library(foreach)
+library(doParallel)
 
 load_sim_data <- function(
     path,
@@ -24,13 +26,6 @@ load_sim_data <- function(
     ) 
 }
 
-get_run_data <- function(data, run_number) {
-  data %>%
-  filter(
-    Run == paste0("Run ", run_number)
-  )
-}
-
 group_weekly <- function(
     data,
     time_lag
@@ -48,34 +43,33 @@ group_weekly <- function(
 calc_error <- function(
     sim_data, 
     obs_data,
-    run_number,
     time_lag
 ) {
-  sim_data_i <- get_run_data(sim_data, run_number) %>%
+  sim_data_i <- sim_data %>%
     group_weekly(time_lag)
   
-  joined_i <- obs_data %>%
-    left_join(
-      sim_data_i,
-      by = join_by("Week")
-      ) %>%
-    mutate(
-      SimVal = ifelse(is.na(SimVal), 0, SimVal)
-    )%>%
-    summarise(
-      Error = sum((ObsVal - SimVal)**2)
-    ) %>%
-    pull(Error)
+  obs_vals <- obs_data$ObsVal
+  obs_weeks <- obs_data$Week
+  
+  sim_weeks <- sim_data_i$Week
+  sim_vals  <- sim_data_i$SimVal
+  
+  sim_aligned <- sim_vals[
+    match(obs_weeks, sim_weeks)
+  ]
+  
+  sim_aligned[is.na(sim_aligned)] <- 0
+  
+  sum((obs_vals - sim_aligned)^2)
 }
 
 calc_time_lag <- function(
     sim_data, 
     obs_data,
-    run_number,
     max_lag = 40
 ) {
   
-  h <- function(time_lag) calc_error(sim_data, obs_data, run_number, time_lag)
+  h <- function(time_lag) calc_error(sim_data, obs_data, time_lag)
   
   time_lag <- optimize(h, interval = c(-max_lag, max_lag))$minimum
   
@@ -94,31 +88,49 @@ calc_all_errors <- function(
   
   output <- sim_data %>%
     filter(Day == 0) %>%
-    mutate(
-      Error = NA
-    ) %>%
-    select(-c(Day, SimVal))
+    select(-c(Day, SimVal)) %>%
+    arrange(Run)
   
   n_runs <- nrow(output)
+  sim_runs <- split(sim_data, sim_data$Run)
   
-  for (run_number in 1:n_runs) {
+  # Register cluster
+  n_cores <- detectCores()
+  cluster <- makeCluster(n_cores - 1)
+  registerDoParallel(cluster)
+  
+  errors <- list()
+  
+  results <- foreach(
+    run_number = 1:n_runs,
+    .packages = c("dplyr"),
+    .export = c("calc_time_lag", "calc_error", "sim_runs", "obs_data", "group_weekly")
+  ) %dopar% {
+    
     lag_i <- calc_time_lag(
-      sim_data,
+      sim_runs[[run_number]],
       obs_data,
-      run_number,
       max_lag = max_lag
     )
     
     error_i <- calc_error(
-      sim_data,
+      sim_runs[[run_number]],
       obs_data,
-      run_number,
       lag_i
     )
     
-    output$Error[run_number] <- error_i
-    
+    data.frame(
+      Run = sim_runs[[run_number]]$Run[1],
+      Error = error_i,
+      Lag = lag_i
+    )
   }
+    
+  stopCluster(cl = cluster)
+  
+  output <- do.call(rbind, results) %>%
+    left_join(output, 
+              by = join_by("Run"))
   
   return(output)
 }
