@@ -8,15 +8,20 @@ library(latex2exp)
 
 source("R/functions/tuning.R")
 
+################################################################################
+#                                    Cases                                     #          
+################################################################################
+
+
 sim_cases <- load_sim_data(
-  "data/stella outputs/basic-model-testing/full-isolation-params.xlsx",
-  "run-data",
+  "data/stella outputs/basic-model-testing/full-isol-hosp-params.xlsx",
+  "run-cases",
   "run-params"
   ) 
 
 obs_cases <- read_excel(
   "data/model params/BSol-outbreak-cases-oct23toapril24.xlsx",
-  sheet = "Data"
+  sheet = "cases"
 ) %>%
   mutate(
     ObsVal = `Birmingham Confirmed Cases` + `Solihull Estimate`,
@@ -26,43 +31,84 @@ obs_cases <- read_excel(
     Week, ObsVal
   )
 
+
 incidence_errors <- calc_all_errors(
     sim_cases,
     obs_cases,
-    max_lag = 40
+    max_lag = 7
 )
 
-err_range <- 1.1 * min(incidence_errors$Error)
+################################################################################
+#                                    Admissions                                     #          
+################################################################################
 
-min_error <- incidence_errors %>%
-  filter(
-    Error == min(Error)
+
+sim_admissions <- load_sim_data(
+  "data/stella outputs/basic-model-testing/full-isol-hosp-params.xlsx",
+  "run-admissions",
+  "run-params"
+) 
+
+
+obs_admissions <- read_excel(
+  "data/model params/BSol-outbreak-cases-oct23toapril24.xlsx",
+  sheet = "admissions"
+) %>%
+  mutate(
+    Week = floor(Day/ 7) 
+  ) %>%
+  group_by(Week) %>%
+  summarise(
+    ObsVal = sum(Admissions)
   )
 
-ggplot(incidence_errors,
-       aes(x = `Isolation threshold`, 
-           y = `Isolation proportion`,
-           fill= log10(Error))) + 
-  geom_raster(interpolate = TRUE) +
-  geom_contour(aes(z = Error),
-               breaks = c(err_range), 
-               color = "white",
-               lwd = 0.8,
-               linetype = "dashed") + 
-  geom_point(
-    data = min_error,
-    aes(x = `Isolation threshold`, 
-        y = `Isolation proportion`),
-    size = 2,
-    color = "white"
-  ) +
-  scale_fill_continuous(
-    palette = viridis::magma(30)
-  )+
-  theme_bw() +
-  scale_x_continuous(
-    expand = c(0,0)
-  ) +
-  scale_y_continuous(
-    expand = c(0,0)
+admission_errors <- calc_all_errors(
+  sim_admissions,
+  obs_admissions,
+  max_lag = 7
+)
+
+################################################################################
+#                                    Combined                                     #          
+################################################################################
+
+
+comb_errors <- incidence_errors %>%
+  rename(
+    case_error = Error,
+    case_lag = Lag
+    ) %>%
+  left_join(
+    admission_errors %>%
+      select(
+        -c("Isolation proportion","Isolation threshold","Hosp rate adult")
+        )%>%
+      rename(
+        hosp_error = Error,
+        hosp_lag = Lag
+      ),
+    by = join_by("Run")
+  ) %>%
+  mutate(
+    case_error = case_error / sd(case_error),
+    hosp_error = hosp_error / sd(hosp_error),
+    Error =  case_error + 0.5 * hosp_error
   ) 
+
+mins <- comb_errors %>%
+  filter(
+    Error == min(Error)
+  ) %>%
+  mutate(
+    min_error_fraction = 0
+  ) 
+
+plot_tuned_params(
+    comb_errors, 
+    param_pairs = list(
+      c("Isolation threshold", "Isolation proportion"),
+      c("Hosp rate adult", "Isolation proportion"),
+      c("Isolation threshold", "Hosp rate adult")
+    )
+) 
+

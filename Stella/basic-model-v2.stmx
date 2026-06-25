@@ -7,9 +7,9 @@
 		<vendor>isee systems, inc.</vendor>
 		<product version="3.8.1" isee:build_number="3623" isee:saved_by_v1="true" lang="en">Stella Architect</product>
 	</header>
-	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.00410959" isee:restore_on_start="false" method="Euler" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
+	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.001875" isee:restore_on_start="false" method="Euler" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
 		<start>0</start>
-		<stop>365</stop>
+		<stop>800</stop>
 		<dt reciprocal="true">4</dt>
 	</sim_specs>
 	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="false" rifp="true"/>
@@ -24,6 +24,13 @@
 			<all/>
 		</export>
 	</data>
+	<isee:sensi_specs_list active_index="0">
+		<isee:sensi_specs name="Sensitivity" method="grid">
+			<isee:variable starting_value="0.05" ending_value="0.2" type="incremental" min="0.05" max="0.2" seed="12345" name="Isolation_proportion" num_samples="10"/>
+			<isee:variable starting_value="10" ending_value="75" type="incremental" min="10" max="75" seed="12345" name="Isolation_threshold" num_samples="10"/>
+			<isee:variable starting_value="0.01" ending_value="0.04" type="incremental" min="0.01" max="0.04" seed="12345" name="Hosp_rate_adult" num_samples="10"/>
+		</isee:sensi_specs>
+	</isee:sensi_specs_list>
 	<isee:optimizer_specs_list active_index="0">
 		<isee:optimizer_specs name="Optimization" method="Powell" use_additional_starts_file="false" additional_starts="0" report_interval="1" confidence_range="0"/>
 	</isee:optimizer_specs_list>
@@ -410,7 +417,7 @@
 				<units>Years</units>
 			</aux>
 			<aux name="Hosp rate baby">
-				<eqn>0.0613*2</eqn>
+				<eqn>1.89 * Hosp_rate_adult</eqn>
 				<units>Per Year</units>
 			</aux>
 			<aux name="Recovery from hospital rate">
@@ -651,12 +658,15 @@
 				<eqn>Adult_hospitalisation + &quot;Adult_hospitalisation_(X)&quot;</eqn>
 			</aux>
 			<aux name="Hosp rate child">
-				<eqn>0.0304*2</eqn>
+				<eqn>0.940*Hosp_rate_adult</eqn>
 				<units>Per Year</units>
 			</aux>
 			<aux name="Hosp rate adult">
 				<eqn>0.0323*2</eqn>
 				<units>Per Year</units>
+			</aux>
+			<aux name="New Admissions">
+				<eqn>Adult_hospitalisation_total + Baby_hospitalisation_total + Child_hospitalisation_total</eqn>
 			</aux>
 		</variables>
 		<views>
@@ -707,7 +717,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="3" isee:scroll_x="835" isee:scroll_y="266.667" zoom="60" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="4" isee:scroll_y="1160" zoom="40" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -2011,8 +2021,8 @@
 				<numeric_display uid="324" x="611.703" y="1508.33" width="163.964" height="24" retain_ending_value="true" isee:navigate_to="false" show_name="true">
 					<entity name="Measles_Deaths"/>
 				</numeric_display>
-				<stacked_container uid="325" x="674.167" y="1828">
-					<table width="350" height="250" comparative="true">
+				<stacked_container uid="325" x="499.167" y="1703" width="1504.17" height="540">
+					<table width="1504.17" height="540" comparative="true">
 						<item type="time"/>
 						<item>
 							<entity name="New_cases"/>
@@ -2045,6 +2055,41 @@
 					</from>
 					<to>&quot;Adult_hospitalisation_(X)&quot;</to>
 				</connector>
+				<connector uid="332" angle="66.4618">
+					<from>Hosp_rate_adult</from>
+					<to>Hosp_rate_child</to>
+				</connector>
+				<connector uid="333" angle="123.54">
+					<from>Hosp_rate_adult</from>
+					<to>Hosp_rate_baby</to>
+				</connector>
+				<aux x="2584.34" y="1070.93" name="New Admissions"/>
+				<connector uid="337" angle="54.5382">
+					<from>
+						<alias uid="336"/>
+					</from>
+					<to>New_Admissions</to>
+				</connector>
+				<connector uid="338" angle="309.543">
+					<from>
+						<alias uid="334"/>
+					</from>
+					<to>New_Admissions</to>
+				</connector>
+				<connector uid="339" angle="165.498">
+					<from>
+						<alias uid="335"/>
+					</from>
+					<to>New_Admissions</to>
+				</connector>
+				<stacked_container uid="340" x="499.166" y="2277" width="1504.17" height="540">
+					<table width="1504.17" height="540" comparative="true">
+						<item type="time"/>
+						<item>
+							<entity name="New_Admissions"/>
+						</item>
+					</table>
+				</stacked_container>
 				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="69" x="585" y="487" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
@@ -2296,6 +2341,15 @@
 				</alias>
 				<alias font_style="italic" uid="330" x="1003" y="1027" width="18" height="18">
 					<of>Hosp_rate_adult</of>
+				</alias>
+				<alias font_style="italic" uid="334" x="2561.75" y="999.25" width="18" height="18">
+					<of>Baby_hospitalisation_total</of>
+				</alias>
+				<alias font_style="italic" uid="335" x="2657.75" y="1083.25" width="18" height="18">
+					<of>Child_hospitalisation_total</of>
+				</alias>
+				<alias font_style="italic" uid="336" x="2516.75" y="1111.25" width="18" height="18">
+					<of>Adult_hospitalisation_total</of>
 				</alias>
 			</view>
 		</views>
