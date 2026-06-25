@@ -63,6 +63,62 @@ calc_error <- function(
       SimVal = ifelse(is.na(SimVal), 0, SimVal)
     )%>%
     summarise(
-      E = sum((ObsVal - SimVal)**2)
+      Error = sum((ObsVal - SimVal)**2)
+    ) %>%
+    pull(Error)
+}
+
+calc_time_lag <- function(
+    sim_data, 
+    obs_data,
+    run_number,
+    max_lag = 40
+) {
+  
+  h <- function(time_lag) calc_error(sim_data, obs_data, run_number, time_lag)
+  
+  time_lag <- optimize(h, interval = c(-max_lag, max_lag))$minimum
+  
+  if (abs(time_lag) == max_lag) {
+    warning("Optimised time lag equal to interval maximum.")
+  }
+  
+  return(time_lag)
+}
+
+calc_all_errors <- function(
+    sim_data,
+    obs_data,
+    max_lag = 40
+) {
+  
+  output <- sim_data %>%
+    filter(Day == 0) %>%
+    mutate(
+      Error = NA
+    ) %>%
+    select(-c(Day, SimVal))
+  
+  n_runs <- nrow(output)
+  
+  for (run_number in 1:n_runs) {
+    lag_i <- calc_time_lag(
+      sim_data,
+      obs_data,
+      run_number,
+      max_lag = max_lag
     )
+    
+    error_i <- calc_error(
+      sim_data,
+      obs_data,
+      run_number,
+      lag_i
+    )
+    
+    output$Error[run_number] <- error_i
+    
+  }
+  
+  return(output)
 }
