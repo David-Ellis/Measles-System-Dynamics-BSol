@@ -43,7 +43,7 @@
 
 \newcommand{\diff}{\mathrm{d}}  
 
-\title{BSol Measles Participatory System Modelling Workshop (April Update)}
+\title{BSol Measles Participatory System Modelling (July Update)}
 \author{David Ellis}
 \date{30/04/2026}
 
@@ -115,7 +115,33 @@
     \label{fig:isol-thresh}
 \end{figure}
 
+\subsection{Full model}
+
+\subsection{Model tuning}
+
+To maximise the use of data, the model is tuned by minimising an error function. Since relative timing of the simulated is not \tkDE{important to this study}, a time-lag parameter $\tau$ is used so that the modelled outcomes are compared to observed outcomes occurring at the time time. The error function is then given by
+%
+\begin{equation}
+    E_V(p_i, \tau) = \sum_t\left( V_{t+\tau}^{\text{sim}}(p_i) - V_t^{\text{obs}}\right)^2 
+\end{equation}
+%
+where $p_i$ represents all free model parameters to be tuned, and $V_{t+\tau}^{\text{sim}}$ and $V^{\text{obs}}$ are the simulated and observed measurable values respectively. 
+
+There are two observable values for the model to be tuned to: measles infections and hospital admissions. Therefore, the full error function to be minimised is
+%
+\begin{equation}
+    E(p_i) = E_I(p_i) + \omega E_H(p_i)
+\end{equation}
+%
+where $E_I$ and $E_H$ are the error functions for infections and hospital admissions respectively and $\omega$ is a weighting parameter that encodes the relative importance of $E_H$ to $E_I$ in the error function calculation. 
+
 \printbibliography
+
+\appendix
+
+\section{Contribution Extraction from Workshop Transcript}
+
+
 
 
 \end{document}
