@@ -1,6 +1,7 @@
 library(readxl)
 library(dplyr)
 library(ggplot2)
+library(tidyr)
 library(janitor)
 
 source("R/functions/styles.R")
@@ -56,3 +57,67 @@ ggsave(
   plot = flow_plt,
   width = 6, height = 4
   )
+
+# Intervention ranking
+
+int_data <- read_excel(
+  "data/workshop/intervention-ranking.xlsx",
+  sheet = "data"
+) %>%
+  clean_names() %>%
+  pivot_longer(
+    cols = contains("rank"),
+    names_to = "rank",
+    values_to = "votes"
+      ) %>%
+  mutate(
+    rank = as.numeric(gsub("rank_", "", rank))
+  ) %>%
+  left_join(
+    read_excel(
+      "data/workshop/intervention-ranking.xlsx",
+      sheet = "rank-points"
+    ) %>%
+      clean_names(),
+    by = join_by("rank")
+  ) %>%
+  group_by(intervention) %>%
+  summarise(
+    total_points = sum(points * votes)
+  ) %>%
+  mutate(
+    intervention = stringr::str_wrap(intervention, width = 40)
+  ) %>%
+  arrange(total_points)
+
+int_data$intervention <- factor(
+  int_data$intervention,
+  levels = int_data$intervention
+)
+
+int_plot <- ggplot(
+  int_data,
+  aes(
+    x = total_points, 
+    y = intervention
+  )
+) +
+  geom_col(
+    fill = uob_colors[2]
+  ) +
+  theme_bw() +
+  labs(
+    y = "",
+    x = "Total Points"
+  ) +
+  scale_x_continuous(
+    expand = c(0,0),
+    limits = c(0, 60)
+  ) 
+
+ggsave(
+  "figures/workshop/intervention-voting.pdf", 
+  plot = int_plot,
+  width = 6, height = 3
+)
+
