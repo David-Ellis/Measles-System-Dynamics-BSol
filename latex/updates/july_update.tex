@@ -113,15 +113,15 @@ where $E_I$ and $E_H$ are the error functions for infections and hospital admiss
 
 \subsection{SIR model}
 
-In order to first simulate the most basic system behaviour, only three population states were simulated: susceptible, infected, and recovered. These population states are connected by an infection rate determined by the basic reproduction number $R_0$ and the infectious period $1/\gamma$ and recovery rate which is also determined by the infectious period. The value for these parameters, as well as population values, were taken from the literature and are presented in Table~\ref{tab:model-params}. The proportional of the population initially susceptible to measles was taken to be 20\%.
+In order to first simulate the most basic system behaviour, only three population states were simulated: susceptible, infected, and recovered (SIR). These population states are connected by an infection rate determined by the basic reproduction number $R_0$ and the infectious period $1/\gamma$ and recovery rate which is also determined by the infectious period. The value for these parameters, as well as population values, were taken from the literature and are presented in Table~\ref{tab:model-params}. The proportional of the population initially susceptible to measles was taken to be 20\%. This basic SIR model is shown by the blue components of Figure~\ref{fig:SIR+isol}. It should be noted that this model has no free parameters to be tuned. 
 
 \tkDE{Talk about initial SIR modelling and how the behaviour didn't match observations.}
 
 \tkDE{Had to introduce mechanism to prevent continuous outbreak cycle.}
 
+    
 
-
-\begin{figure}
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=1\linewidth]{figures/model-diagrams/SIR+isolation.png}
     \caption{Diagram of a basic SIR system with the ability to isolate infected individuals at a fixed daily proportion once the number of infections reaches a fixed threshold for action.}
@@ -131,7 +131,12 @@ In order to first simulate the most basic system behaviour, only three populatio
 
 \subsection{Full model}
 
-
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/model-params/full-tuned.pdf}
+    \caption{Caption}
+    \label{fig:placeholder}
+\end{figure}
 
 \printbibliography
 
