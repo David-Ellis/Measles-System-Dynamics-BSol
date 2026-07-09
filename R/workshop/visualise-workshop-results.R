@@ -10,12 +10,7 @@ source("R/functions/styles.R")
 flow_factors <- read_excel(
   "data/workshop/flow-factors.xlsx"
 ) %>%
-  clean_names() %>%
-  arrange(votes)
-
-flow_factors$factor = factor(
-  flow_factors$factor,
-  levels = flow_factors$factor)
+  clean_names()
 
 flow_plt <- ggplot(
   flow_factors,
@@ -53,9 +48,11 @@ flow_plt <- ggplot(
     strip.text.y.left = element_text(face = "bold"),
     strip.background = element_blank()
   ) 
+
 flow_plt
+
 ggsave(
   "figures/workshop/flow-factors.pdf", 
   plot = flow_plt,
-  width = 5, height = 6
+  width = 6, height = 4
   )
