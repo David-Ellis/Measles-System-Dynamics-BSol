@@ -161,12 +161,37 @@ get_min_params <- function(
     ) 
 }
 
+# interp_error_function <- function(
+#     error_func,
+#     param1,
+#     param2
+# ) {
+# 
+#   interp_out<- interp::interp(
+#     error_func[[param1]], 
+#     error_func[[param2]], 
+#     error_func$min_error_fraction, nx = 20, ny = 20
+#   )
+#   
+#   print("Got here")
+#   interp_df <- expand.grid(
+#     param1 = interp_out$x,
+#     param2 = interp_out$y
+#   ) |>
+#     mutate(min_error_fraction = as.vector(interp_out$z))
+#   
+#   colnames(interp_df) <- c(param1, param2, "min_error_fraction")
+#   
+#   return(interp_df)
+# }
+
 plot_param_pair <- function(
   error_func, 
   param_pair,
   min_error_coord,
   contour_fracs = c(10, 50, 100),
-  palette = "Purples"
+  palette = "Purples"#,
+  #interpolate = F
 ) {
   
   global_min <- min_error_coord$Error
@@ -194,15 +219,14 @@ plot_param_pair <- function(
       plot_data,
       aes(x = !!sym(param_pair[1]),
           y = !!sym(param_pair[2]),
-          z = min_error_fraction,
-          fill = min_error_fraction)
+          color = min_error_fraction)
       ) + 
-      geom_raster(interpolate = TRUE) +
-      geom_textcontour(
-      aes(label = paste0(after_stat(level), "%")),
-      breaks = contour_fracs,
-      linetype = "dashed"
-      ) +
+      geom_point(alpha = 1) +
+      # geom_textcontour(
+      #   aes(label = paste0(after_stat(level), "%")),
+      #   breaks = contour_fracs,
+      #   linetype = "dashed"
+      # ) +
       geom_point(
       data = min_error_coord,
       aes(
@@ -218,7 +242,7 @@ plot_param_pair <- function(
       scale_y_continuous(
         expand = c(0,0)
       ) +
-      scale_fill_continuous(
+      scale_color_continuous(
         palette = palette,
         limits = c(0, max(contour_fracs)),
         trans = 'reverse',
@@ -227,19 +251,22 @@ plot_param_pair <- function(
       labs(
         x = stringr::str_to_title(param_pair[1]),
         y = stringr::str_to_title(param_pair[2]),
-        fill = "Minimum Error Function"
+        #fill = "Minimum Error Function"
       ) +
       theme(
         legend.position = "none"
       )
 }
 
+
 plot_tuned_params <- function(
     error_func,
     param_pairs,
     contour_fracs = c(10, 50, 100),
-    palette = "Purples"
+    palette = "Purples"#,
+    #interpolate = F
 ) {
+
   
   min_error_coord <- get_min_params(error_func)
     
@@ -251,11 +278,13 @@ plot_tuned_params <- function(
         param_pair,
         min_error_coord,
         contour_fracs = contour_fracs,
-        palette = palette
+        palette = palette#,
+        #interpolate = interpolate
       )
     }
     )
   
-  cowplot::plot_grid(plotlist = plots)
+  
+  cowplot::plot_grid(plotlist = plots) 
   
 }
