@@ -86,7 +86,7 @@ int_data <- read_excel(
     total_points = sum(points * votes)
   ) %>%
   mutate(
-    intervention = stringr::str_wrap(intervention, width = 40)
+    intervention = stringr::str_wrap(intervention, width = 55)
   ) %>%
   arrange(total_points)
 
@@ -118,6 +118,6 @@ int_plot <- ggplot(
 ggsave(
   "figures/workshop/intervention-voting.pdf", 
   plot = int_plot,
-  width = 6, height = 3
+  width = 7, height = 3
 )
 

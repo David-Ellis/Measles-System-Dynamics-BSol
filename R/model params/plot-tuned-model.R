@@ -90,6 +90,27 @@ admissions %>%
 #                       Calculate weekly outcomes                              #
 ################################################################################
 
+sir_outcomes_weekly <- read_excel(
+  "data/stella outputs/basic-model-testing/tuned-SIR-output.xlsx"
+) %>% 
+  pivot_longer(
+    cols = c(SIR, `SIR + isolation`),
+    names_to = "Model",
+    values_to = "Value"
+  ) %>%
+  mutate(
+    Week = floor(Day/7) - 3
+  ) %>%
+  group_by(Model, Week) %>%
+  summarise(
+    Value = sum(Value),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    Outcome = "Infections"
+  )
+  
+
 sim_outcomes_weekly <- cases %>%
   left_join(
     admissions,
@@ -110,11 +131,16 @@ sim_outcomes_weekly <- cases %>%
     .groups = "drop"
   ) %>% 
   mutate(
-    Outcome = factor(Outcome, levels = c("Infections", "Admissions"))
+    Outcome = factor(Outcome, levels = c("Infections", "Admissions")),
+    Model = "Full model"
+  ) %>%
+  rbind(
+    sir_outcomes_weekly
   ) %>%
   filter(
-    Week < 30
-  )
+    Week < 30,
+    Value < 100
+  ) 
 
 ################################################################################
 #                    Plot simulated and observed outcomes                      #
@@ -127,7 +153,7 @@ plt <- ggplot(obs_outcomes_weekly, aes(x = Week, y = Value)) +
   geom_line(
     data = sim_outcomes_weekly,
     lwd = 1.3,
-    aes(color = "Simulated")
+    aes(color = Model, linetype = Model)
   ) +
   theme_bw() +
   facet_wrap(~Outcome, ncol = 1) +
@@ -135,10 +161,10 @@ plt <- ggplot(obs_outcomes_weekly, aes(x = Week, y = Value)) +
     expand = c(0,0)
   ) +
   scale_color_manual(
-    values = "#C20019"
+    values = c(uob_colors[1],  uob_colors[3], uob_colors[5])
   ) +
   scale_fill_manual(
-    values = "#2581C4"
+    values = uob_colors[8]
   ) +
   theme(
     strip.background = element_rect(fill="white"),
@@ -152,7 +178,8 @@ plt <- ggplot(obs_outcomes_weekly, aes(x = Week, y = Value)) +
   ) +
   labs(
     y = "",
-    color = "",
+    color = "Model",
+    linetype = "Model",
     fill = ""
   )
 plt
