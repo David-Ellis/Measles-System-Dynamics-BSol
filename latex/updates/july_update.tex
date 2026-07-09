@@ -43,9 +43,9 @@
 
 \newcommand{\diff}{\mathrm{d}}  
 
-\title{BSol Measles Participatory System Modelling (July Update)}
+\title{BSol Measles Participatory System Modelling\newline(July Progress Report)}
 \author{David Ellis}
-\date{30/04/2026}
+\date{}
 
 \begin{document}
 
@@ -53,29 +53,110 @@
 
 \section{Workshop Summary}
 
-A a participatory measles modelling workshop was held on the 20th of March 2026. This workshop, hosted by Birmingham City Council, brought together local experts to build a conceptual model of the local measles system, to identify behavioural and epidemiological factors that facilitate and block flows in the system, and to identify potential interventions to improve these flows.
+A a participatory measles modelling workshop was held on the 20th of March 2026. This workshop, hosted by Birmingham City Council, brought together local experts to build a conceptual model of the local measles system, to identify behavioural and epidemiological factors that facilitate and block flows in the system, and to identify potential interventions to improve these flows. Attendees to the workshop included employees from Birmingham City Council (7), Birmingham and Solihull Integrated Care Board (2), and Solihull Metropolitan Council (1).
 
-Due to the length of the workshop, Copilot was used to extract vocal contributions to supplement the written materials. The full output, along with all non-sensitive materials related to this project, can be viewed on  \href{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}{GitHub}.
+Due to the length of the workshop, Copilot was used to extract vocal contributions to supplement the written materials. The full output, along with all non-sensitive materials related to this project, can be viewed on  \href{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}{GitHub}. 
 
-\tkDE{Brief text summary.}
+\subsection{Barriers and Facilitators to Vaccination}
 
-The resulting models have been digitally transcribed and are presented in Appendix~\ref{app:trans-models} as Figures~\ref{fig:group1-model} and \ref{fig:group2-model}. Photographs of the models produced in the workshop can also be found on \href{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}{GitHub}.
+Workshop participants were separated into two groups and given a basic flow diagram for the local measles system with five connected population states: susceptible, vaccinated, infected, hospitalised, and recovered. The groups were asked to identify all the various factors influencing the rate of flow of people from one state to another. These factors were appended to the model at the flow point that they influence. The resulting models have been digitally transcribed and are presented in Appendix~\ref{app:trans-models} as Figures~\ref{fig:group1-model} and \ref{fig:group2-model}. Photographs of the models produced in the workshop can also be found on \href{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}{GitHub}.
 
-\begin{figure} [ht!]
+Once participants had collated all of the factors they could think of, they were asked to vote on which factors they thought were most important. Each participant was given three stickers which which they could vote on factors. These votes are also transcribed in Figures~\ref{fig:group1-model} and \ref{fig:group2-model}. After the workshop, these factors were grouped together and counted. The total number of vote for each flow factor is shown in Figure~\ref{fig:flow-factors}. 
+
+\begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/workshop/flow-factors.pdf}
-    \caption{Caption}
+    \includegraphics[width=0.8\linewidth]{figures/workshop/flow-factors.pdf}
+    \caption{Number of participant votes on factors believed to play an important role in influencing parents willingness to vaccinate their children against measles.}
     \label{fig:flow-factors}
 \end{figure}
 
-\begin{figure} [ht!]
+As shown in Figure~\ref{fig:flow-factors}, all of the factors voted on related to vaccination. The factor with the most votes was the accessibility of vaccination ($n=7$), followed by health literacy ($n=6$), the influence and previous experiences of family members ($n=4$), and community norms ($n=4$).
+
+\subsection{Prioritised Interventions}
+
+Participants were asked to review the models they had created, and identify the "problematic" flows within the system. In their groups, they were asked to brainstorm a list of potential interventions to improve vaccine uptake and which organisations they thought would be responsible for this intervention. These interventions are also shown in Figures~\ref{fig:group1-model} and \ref{fig:group2-model}.
+
+The groups were then asked to each choose the three of interventions that they thought were worth prioritising including in the model. These six interventions were then anonymously ranked by each of the workshop attendees using Mentimeter. The results were then aggregated using a Borda count approach, in which each ranked position was assigned a decreasing number of points and the total score for each option was used to generate the final ordering \cite{borda1784, taylor2005}. The total number of points for each intervention is shown in Figure~\ref{fig:int-voting}.
+
+\begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/workshop/flow-factors.pdf}
-    \caption{Caption}
-    \label{fig:flow-factors}
+    \includegraphics[width=1\linewidth]{figures/workshop/intervention-voting.pdf}
+    \caption{Anonymous participant priority ranking of interventions designed to improve measles vaccination uptake. Total score for each intervention calculated using a Borda count approach.}
+    \label{fig:int-voting}
 \end{figure}
+
+As shown in Figure~\ref{fig:int-voting}, most highly ranked intervention was an extension of the vaccination offer. This intervention, delivered jointly by the NHS and local authorities (LA), would involve expanding the avenues through which children could be vaccinated including community pharmacies (NHS), health visitors (LA), and nurseries and playgroups (NHS/LA).
+
+The second most highly ranked interventions was a local communications campaign to challenge misinformation and improve health literacy. Participants recommended that, while this work would be commissioned by the local authorities and/or the NHS, it would involve local influencers or marketing agencies. Doing so would help to ensure that campaigns are engaging, culturally relevant, and separate from formal government branding. It was noted that social media content that is humorous and relatable tends to outperform formal health messaging and that this should be harnessed in countering misinformation.  
+
+The third most highly ranked intervention was to provide a gelatine-free vaccine as standard. It was agreed that this would improve uptake by reducing confusion and removing the need for families to specifically request the gelatine-free option. This intervention would be led by national government, the Joint Committee on Vaccination and Immunisation, and the NHS. 
 
 \section{Basic Modelling}
+
+\subsection{Model tuning}
+
+To maximise the use of data, the model is tuned by minimising an error function. Since relative timing of the simulated is not \tkDE{important to this study}, a time-lag parameter $\tau$ is used so that the modelled outcomes are compared to observed outcomes occurring at the time time. The error function is then given by
+%
+\begin{equation}
+    E_V(p_i, \tau) = \sum_t\left( V_{t+\tau}^{\text{sim}}(p_i) - V_t^{\text{obs}}\right)^2 
+\end{equation}
+%
+where $p_i$ represents all free model parameters to be tuned, and $V_{t+\tau}^{\text{sim}}$ and $V^{\text{obs}}$ are the simulated and observed measurable values respectively. 
+
+There are two observable values for the model to be tuned to: measles infections and hospital admissions. Therefore, the full error function to be minimised is
+%
+\begin{equation}
+    E(p_i) = E_I(p_i) + \omega E_H(p_i)
+\end{equation}
+%
+where $E_I$ and $E_H$ are the error functions for infections and hospital admissions respectively and $\omega$ is a weighting parameter that encodes the relative importance of $E_H$ to $E_I$ in the error function calculation. 
+
+\subsection{SIR model}
+
+In order to first simulate the most basic system behaviour, only three population states were simulated: susceptible, infected, and recovered. These population states are connected by an infection rate determined by the basic reproduction number $R_0$ and the infectious period $1/\gamma$ and recovery rate which is also determined by the infectious period. The value for these parameters, as well as population values, were taken from the literature and are presented in Table~\ref{tab:model-params}. The proportional of the population initially susceptible to measles was taken to be 20\%.
+
+\tkDE{Talk about initial SIR modelling and how the behaviour didn't match observations.}
+
+\tkDE{Had to introduce mechanism to prevent continuous outbreak cycle.}
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{figures/model-diagrams/SIR+isolation.png}
+    \caption{Diagram of a basic SIR system with the ability to isolate infected individuals at a fixed daily proportion once the number of infections reaches a fixed threshold for action.}
+    \label{fig:SIR+isol}
+\end{figure}
+
+
+\subsection{Full model}
+
+
+
+\printbibliography
+
+\appendix
+
+\newpage
+\section{Transcribed Models}
+\label{app:trans-models}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=1\linewidth]{workshop/workshop-model-transcription-group1.pdf}
+    \caption{Caption}
+    \label{fig:group1-model}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=1\linewidth]{workshop/workshop-model-transcription-group2.pdf}
+    \caption{Caption}
+    \label{fig:group2-model}
+\end{figure}
+
+\newpage
+\section{Model Parameters}
 
 \begin{table}[ht!]
     \begin{tabular}{p{0.5\linewidth} | p{0.25\linewidth} | p{0.15\linewidth}}
@@ -110,73 +191,7 @@ The resulting models have been digitally transcribed and are presented in Append
     
     \end{tabular}
     \caption{Model parameter values for a basic measles system model (No ethnicity or behavioural factors).}
-    \label{tab:modelling-papers} 
+    \label{tab:model-params} 
 \end{table}
-
-\subsection{SIR model}
-
-\tkDE{Talk about initial SIR modelling and how the behaviour didn't match observations.}
-
-\subsection{SIR + Isolation}
-
-\tkDE{Had to introduce mechanism to prevent continuous outbreak cycle.}
-
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{figures/model-diagrams/SIR+isolation.png}
-    \caption{Diagram of a basic SIR system with the ability to isolate infected individuals at a fixed daily proportion once the number of infections reaches a fixed threshold for action.}
-    \label{fig:SIR+isol}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/model-params/SIR-isol-thresh.pdf}
-    \caption{Number of people infected each day for different isolation thresholds with $S(0)/N = 0.1$, $R_0 = 13.5$, and an isolation proportion of 0.1.}
-    \label{fig:isol-thresh}
-\end{figure}
-
-\subsection{Full model}
-
-\subsection{Model tuning}
-
-To maximise the use of data, the model is tuned by minimising an error function. Since relative timing of the simulated is not \tkDE{important to this study}, a time-lag parameter $\tau$ is used so that the modelled outcomes are compared to observed outcomes occurring at the time time. The error function is then given by
-%
-\begin{equation}
-    E_V(p_i, \tau) = \sum_t\left( V_{t+\tau}^{\text{sim}}(p_i) - V_t^{\text{obs}}\right)^2 
-\end{equation}
-%
-where $p_i$ represents all free model parameters to be tuned, and $V_{t+\tau}^{\text{sim}}$ and $V^{\text{obs}}$ are the simulated and observed measurable values respectively. 
-
-There are two observable values for the model to be tuned to: measles infections and hospital admissions. Therefore, the full error function to be minimised is
-%
-\begin{equation}
-    E(p_i) = E_I(p_i) + \omega E_H(p_i)
-\end{equation}
-%
-where $E_I$ and $E_H$ are the error functions for infections and hospital admissions respectively and $\omega$ is a weighting parameter that encodes the relative importance of $E_H$ to $E_I$ in the error function calculation. 
-
-\printbibliography
-
-\appendix
-
-\newpage
-\section{Transcribed Models}
-\label{app:trans-models}
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=1\linewidth]{workshop/workshop-model-transcription-group1.pdf}
-    \caption{Caption}
-    \label{fig:group1-model}
-\end{figure}
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=1\linewidth]{workshop/workshop-model-transcription-group2.pdf}
-    \caption{Caption}
-    \label{fig:group2-model}
-\end{figure}
 
 \end{document}
