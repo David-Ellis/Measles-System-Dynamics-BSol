@@ -5,6 +5,7 @@ WITH MeaslesAdmissions AS (
 		NHSNumber,
 		ROW_NUMBER() OVER (PARTITION BY NHSNumber ORDER BY AdmissionDate) AS MeaslesAdmissionNum,
 		AdmissionDate,
+		CAST(AdmissionDate - '2023-10-13' AS INT) AS Day,
 		AgeOnAdmission,
         CASE
             WHEN AgeOnAdmission = 0 THEN 'Under 1'
@@ -61,7 +62,8 @@ BSolStatuses AS (
 )
 
 SELECT 
-	AgeGroup,
+	Day,
+	LocalAuthority,
 	COUNT(*) AS N
 FROM
 	MeaslesAdmissions
@@ -72,4 +74,5 @@ WHERE
 	LocalAuthority in ('Birmingham', 'Solihull')
 	AND AdmissionDate >= '2023-10-13'
 	AND AdmissionDate < '2024-04-12'
-GROUP BY AgeGroup
+GROUP BY Day, LocalAuthority
+ORDER BY Day

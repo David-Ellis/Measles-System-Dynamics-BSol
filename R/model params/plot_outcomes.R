@@ -6,12 +6,12 @@ library(lubridate)
 library(janitor)
 source("R/config.R")
 
-birmingham_color = "#7B439A"
-solihull_color = "#84bc65"
+birmingham_color = "#5E4F9C"
+solihull_color = "#F07F3C"
 
 cases <- read_excel(
   "data/model params/BSol-outbreak-cases-oct23toapril24.xlsx",
-  sheet = "Data"
+  sheet = "cases"
   ) %>%
   clean_names() %>%
   rename(
@@ -117,7 +117,11 @@ ggplot(combined_data, aes(x = date_start, y = value, fill = local_authority)) +
     hjust = 1.05,
     color = "grey30",
     size = 2.5
+  ) +
+  scale_y_continuous(
+    expand = c(0,0),
+    limits = c(0, 60)
   )
 
 ggsave("figures/model-params/outbreak-outcomes.pdf", 
-       width = 6.5, height = 4)
+       width = 6, height = 4)
