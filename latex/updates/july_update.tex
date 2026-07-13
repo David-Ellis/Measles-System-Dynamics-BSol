@@ -17,6 +17,9 @@
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \hypersetup{colorlinks=true, breaklinks=true}
 
+\usepackage{annotate-equations}
+\usepackage{mathtools}
+
 \usepackage[    
     style=numeric-comp,
     sorting=none,
@@ -74,7 +77,7 @@ As shown in Figure~\ref{fig:flow-factors}, all of the factors voted on related t
 
 \subsection{Prioritised Interventions}
 
-Participants were asked to review the models they had created, and identify the "problematic" flows within the system. In their groups, they were asked to brainstorm a list of potential interventions to improve vaccine uptake and which organisations they thought would be responsible for this intervention. These interventions are also shown in Figures~\ref{fig:group1-model} and \ref{fig:group2-model}.
+Participants were asked to review the models they had created, and identify the ``problematic" flows within the system. In their groups, they were asked to brainstorm a list of potential interventions to improve vaccine uptake and which organisations they thought would be responsible for this intervention. These interventions are also shown in Figures~\ref{fig:group1-model} and \ref{fig:group2-model}.
 
 The groups were then asked to each choose the three of interventions that they thought were worth prioritising including in the model. These six interventions were then anonymously ranked by each of the workshop attendees using Mentimeter. The results were then aggregated using a Borda count approach, in which each ranked position was assigned a decreasing number of points and the total score for each option was used to generate the final ordering \cite{borda1784, taylor2005}. The total number of points for each intervention is shown in Figure~\ref{fig:int-voting}.
 
@@ -109,27 +112,48 @@ There are two observable values for the model to be tuned to: measles infections
     E(p_i) = E_I(p_i) + \omega E_H(p_i)
 \end{equation}
 %
-where $E_I$ and $E_H$ are the error functions for infections and hospital admissions respectively and $\omega$ is a weighting parameter that encodes the relative importance of $E_H$ to $E_I$ in the error function calculation. 
+where $E_I$ and $E_H$ are the error functions for infections and hospital admissions respectively and $\omega$ is a weighting parameter that encodes the relative importance of $E_H$ to $E_I$ in the error function calculation. Since this investigation is most interested in measles infections \tkDE{(why is this the case?)}, a value of $\omega = 0.5$ was chosen. However, it should be noted that this is a somewhat arbitrary choice and that a range of other values could also be considered appropriate. 
 
 \subsubsection{Data}
 
 Model parameters are tuned to data from large measles outbreak that occurred from late 2023 to 2024. Weekly lab-confirmed cases for Birmingham were extracted from \citeauthor{jary2025sociodemographic} \cite{jary2025sociodemographic}. Weekly case data for Solihull was not available. Therefore, a first order approximation was made using yearly data from the UK Health Security Agency \cite{ukhsa_measles_2023_2026}. Measles-related hospital admissions data were calculated using Secondary User Statistics (SUS) from the Birmingham and Solihull Integrated Care Board (BSol ICB) data warehouse. All dominant hospital episodes with an ICD-10 code starting in 'B05' were included. 
 
-The weekly lab-confirmed cases and hospital admissions are visualised in Figure~X, along with a full explanation of the Solihull case-approximation is in Appendix~\ref{app:cases-approx}. 
+The weekly lab-confirmed cases and hospital admissions are visualised in Figure~\ref{fig:2324-Outbreak}, along with a full explanation of the Solihull case-approximation is in Appendix~\ref{app:cases-approx}. 
 
 \subsection{SIR model}
 
-In order to first simulate the most basic system behaviour, only three population states were simulated: susceptible, infected, and recovered (SIR). These population states are connected by an infection rate determined by the basic reproduction number $R_0$ and the infectious period $1/\gamma$ and recovery rate which is also determined by the infectious period. 
+In order to first simulate the most basic system behaviour, only three population states were simulated: susceptible (S), infected (I), and recovered (R). It is assumed that these three populations are perfectly mixed and that everyone within the population has an equal probability of contacting each other person.
 
-\tkDE{Give basic equations.}
+The three population states are connected by an infection rate determined by the basic reproduction number $R_0$ and the infectious period $1/\gamma$ and recovery rate which is also determined by the infectious period. For this simple model, the transition between states can be described by the following set of ordinary differential equations
 
-The value for these parameters, as well as population values, were taken from the literature and are presented in Table~\ref{tab:model-params}. The proportional of the population initially susceptible to measles was taken to be 20\%. This basic SIR model is shown by the blue components of Figure~\ref{fig:SIR+isol}. It should be noted that this model has no free parameters to be tuned. 
+\vspace{0.5em}
+\begin{equation}
+    \frac{\diff S}{\diff t} = -\eqnmarkbox[blue]{inf1}{\frac{R_0\gamma SI}{N}}, 
+    \qquad 
+    \frac{\diff I}{\diff t} = \eqnmarkbox[blue]{inf2}{\frac{R_0\gamma SI}{N}} - \eqnmarkbox[magenta]{rec1}{\gamma I}, 
+    \qquad 
+    \frac{\diff R}{\diff t} = \eqnmarkbox[magenta]{rec2}{\gamma I}.
+    \label{eq:SIR}
+\end{equation}
+\annotatetwo[yshift=-1em]{below}{inf1}{inf2}{Infection rate}
+\annotatetwo[yshift=1em]{above}{rec1}{rec2}{Recovery rate}
+\vspace{1.5em}
 
-However, as shown in Figure~\ref{fig:model-outputs}, this model does not come close to reproducing the outbreak outcomes observed in during the 23/24 outbreak. Instead, the modelled outbreak continues to infect susceptible people until a large enough proportion of the population have obtained natural immunity from infection to achieve herd immunity. 
+Since this model does not include births or deaths $N = S + I + R$ is a fixed value.
 
-In reality, measles outbreaks are not left to infect people. Instead, authorities such as the UK Health Security Agency (UKHSA) intervene to break the spread of transmission by identifying and isolating infected individuals. A model that reproduces observed outcomes therefore requires a mechanism to model this isolation process. One of the simplest ways to model this, is to assume that once the total number of infections reaches some threshold $p_T$, the relevant authorities acknowledge the outbreak and intervene. Once this threshold is reached, the authorities then isolate a fixed proportion of infected people $p_I$. Standard practice for communicable disease is to only consider an outbreak "over" after two maximum incubation periods occurring without any new cases \citethis. Since the incubation period for measles is 7 to 18 days, the outbreak should be considered ongoing until 36 days have passed without a new case. After this point, authorities can stop looking for infected individuals.
+The values for $R_0$, $\gamma$, and $N$ are taken from the literature and are presented in Table~\ref{tab:model-params}. The proportion of the population initially susceptible to measles $S/N$ was taken to be 20\%. This basic SIR model is shown by the blue components of Figure~\ref{fig:SIR+isol}. 
 
-This can be modelled with an "isolation switch" given by
+Given that there exists one or more infected persons ($I>0$), more people will be infected so long as $\diff I / \diff t >0$. Therefore, from Equation~\ref{eq:SIR}, it can be seen that condition for an outbreak for an SIR model is that, 
+%
+\begin{equation}
+    \frac{S}{N} = \frac{1}{R_0}.
+\end{equation}
+%
+This is the SIR condition for herd immunity. For measles, $R_0=13.5$. Therefore, the SIR model predicts that an outbreak will continue until there are fewer than 7.5\% susceptible to infection. 
+
+In reality, measles outbreaks are not left to infect people until herd immunity is achieved through natural infection. Instead, authorities such as the UK Health Security Agency (UKHSA) intervene to break the spread of transmission by identifying and isolating infected individuals. A model that reproduces observed outcomes therefore requires a mechanism to model this isolation process. One of the simplest ways to model this, is to assume that once the total number of infections reaches some threshold $p_T$, the relevant authorities acknowledge the outbreak and intervene. Once this threshold is reached, the authorities then isolate a fixed proportion of infected people $p_I$. Standard practice for communicable disease is to only consider an outbreak ``over" after two maximum incubation periods occurring without any new cases \cite{UKHSA2026MeaslesGuidelines}. Since the incubation period for measles is 7 to 18 days, the outbreak should be considered ongoing until 36 days have passed without a new case. After this point, authorities can stop looking for infected individuals.
+
+This can be modelled with an ``isolation switch" given by
 
 \begin{equation}
     \text{Isolation switch} = \begin{cases}
@@ -194,10 +218,25 @@ The additional simulation components related to this isolation mechanism are pre
 
 \newpage
 
-\section{Estimating Historic Cases}
+\section{Calculating Outcomes from 23/24 Outbreak}
 \label{app:cases-approx}
 
+The number of weekly measles cases in Birmingham and the number of weekly hospital admissions (ICD10 code ``B05") in Birmingham and Solihull from 13/10/2023 to 12/04/2024 are shown in Figure~\ref{fig:2324-Outbreak}. Case data for Birmingham was extracted from \citeauthor{jary2025sociodemographic} who defined a case to be ``a Birmingham resident with laboratory confirmation (measles IgM in blood or oral fluid in the absence of recent vaccination (within 14 days) or confirmed wildtype measles RNA in any clinical specimen)" \cite{jary2025sociodemographic}. This definition differs from that used in UKHSA's public measles reports which only includes lab-confirmed cases. This can be seen from the fact that \citeauthor{jary2025sociodemographic} report 175 Birmingham cases in 2023 starting from October 13th, while UKHSA report only 118 for all of 2023 \cite{ukhsa_measles_2023_2026}.
 
+Weekly case-data for Solihull was not available. For 2023, annual data for Solihull was not reported since there were fewer than ten cases. For 2024, UKHSA reported a total of 364 and 16 lab-confirmed cases for Birmingham and Solihull respectively. Due to Solihull's geographical proximity to Birmingham, it is likely that the majority of the cases for the local authority occurred at the same time. If the weekly cases, reported for Birmingham by \citeauthor{jary2025sociodemographic} is $C_{B}$, then we can approximate the weekly cases in Solihull to be
+%
+\begin{equation}
+    C_S = \frac{16C_B}{364}.
+\end{equation}
+
+This approximation simultaneously accounts for the reduced reporting period and the additional cases not confirmed by a lab reported by \citeauthor{jary2025sociodemographic}. While this is a crude approximation, since Solihull contributed 4.2\% of the UKHSA-reported cases in 2024, it is unlikely that this will have a significant impact on the fitting of the model to these data.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/model-params/outbreak-outcomes.pdf}
+    \caption{Lab-confirmed measles cases (top) and measles-related hospital admissions (bottom) in Birmingham and Solihull from 13/10/2023 to 12/04/2024. Birmingham case data extracted from \citeauthor{jary2025sociodemographic} with Solihull data approximated from UKHSA annual data \cite{jary2025sociodemographic, ukhsa_measles_2023_2026}. Hospital SUS data extracted from the BSol ICB data warehouse.}
+    \label{fig:2324-Outbreak}
+\end{figure}
 
 \section{Model Parameters}
 
