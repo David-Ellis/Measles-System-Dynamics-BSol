@@ -26,7 +26,7 @@ cases <- read_excel(
   mutate(
     outcome = "Confirmed Measles Cases"
     ) %>%
-  select(-week_number)
+  select(-c(week_number, birmingham_2024_fraction))
 
 admissions <- read_excel(
   file.path(
@@ -84,7 +84,7 @@ annot_df <- data.frame(
   outcome = "Confirmed Measles Cases",  # <- replace with the actual value
   x = Inf,
   y = Inf,
-  label = "*Estimated case dates used for Solihull"
+  label = "*Solihull cases estimated based on annual statistics."
 )
 
 ggplot(combined_data, aes(x = date_start, y = value, fill = local_authority)) +
