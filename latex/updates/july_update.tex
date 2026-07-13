@@ -139,11 +139,9 @@ The three population states are connected by an infection rate determined by the
 \annotatetwo[yshift=1em]{above}{rec1}{rec2}{Recovery rate}
 \vspace{1.5em}
 
-Since this model does not include births or deaths $N = S + I + R$ is a fixed value.
+Since this model does not include births or deaths $N = S + I + R$ is a fixed value. The values for $R_0$, $\gamma$, and $N$ are taken from the literature and are presented in Table~\ref{tab:model-params}. The proportion of the population initially susceptible to measles $S/N$ was taken to be 20\%. This basic SIR model is shown by the blue components of Figure~\ref{fig:SIR+isol}. 
 
-The values for $R_0$, $\gamma$, and $N$ are taken from the literature and are presented in Table~\ref{tab:model-params}. The proportion of the population initially susceptible to measles $S/N$ was taken to be 20\%. This basic SIR model is shown by the blue components of Figure~\ref{fig:SIR+isol}. 
-
-Given that there exists one or more infected persons ($I>0$), more people will be infected so long as $\diff I / \diff t >0$. Therefore, from Equation~\ref{eq:SIR}, it can be seen that condition for an outbreak for an SIR model is that, 
+If there exists one or more infected persons ($I>0$), more people will be infected so long as $\diff I / \diff t >0$. Therefore, from Equation~\ref{eq:SIR}, it can be seen that condition for an outbreak for an SIR model is that, 
 %
 \begin{equation}
     \frac{S}{N} = \frac{1}{R_0}.
