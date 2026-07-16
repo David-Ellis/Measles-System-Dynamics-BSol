@@ -48,6 +48,10 @@ sim_data <- rbind(sim_cases, sim_admissions) %>%
   ) %>%
   filter(
     isolation_proportion > 0.08
+  ) %>%
+  mutate(
+    isolation_threshold_change = (isolation_threshold - 46.1) / 46.1,
+    isolation_proportion_change = (isolation_proportion - 0.1) / 0.1,
   )
 
 plts <- list()
@@ -56,7 +60,7 @@ palletes <- list(
   "Total Admissions" = viridis::mako(40)
 )
 ylab <- list(
-  "Total Cases" = "Isolation Threshold",
+  "Total Cases" = "Change in Isolation Threshold",
   "Total Admissions" = ""
 )
 
@@ -74,8 +78,8 @@ for (outcome_i in c("Total Cases", "Total Admissions")) {
     ) %>%
     ggplot(
       aes(
-        x = isolation_proportion,
-        y = isolation_threshold,
+        x = isolation_proportion_change,
+        y = isolation_threshold_change,
         fill = frac_diff,
         z = sim_val
       )
@@ -94,12 +98,12 @@ for (outcome_i in c("Total Cases", "Total Admissions")) {
       # ) +
       facet_wrap(~outcome) +
       theme_bw() +
-      scale_x_continuous(expand = c(0,0))  +
-      scale_y_continuous(expand = c(0,0)) +
+      scale_x_continuous(expand = c(0,0), labels = scales::percent)  +
+      scale_y_continuous(expand = c(0,0), labels = scales::percent) +
       scale_fill_continuous(palette = palletes[[outcome_i]]) +
       labs(
         y = ylab[[outcome_i]],
-        x = "Isolation Proportion",
+        x = "Change in Isolation Proportion",
         fill = outcome_i
       ) +
       theme(
@@ -114,11 +118,11 @@ for (outcome_i in c("Total Cases", "Total Admissions")) {
 
 out_plot <- cowplot::plot_grid(
   plts[[1]], NULL, plts[[2]], 
-  rel_widths = c(1, -0.1, 1),
+  rel_widths = c(1, -0.08, 1),
   nrow = 1
   ) 
 
 ggsave(
   "figures/results/outbreak-response.pdf",
-  width = 6, height = 3
+  width = 6, height = 2.8
 )
