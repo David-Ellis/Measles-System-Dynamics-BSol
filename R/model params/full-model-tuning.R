@@ -85,7 +85,7 @@ obs_admissions <- read_excel(
   ) %>%
   group_by(Week) %>%
   summarise(
-    ObsVal = sum(Admissions)
+    ObsVal = sum(N)
   )
 
 admission_errors <- calc_all_errors(
@@ -169,5 +169,5 @@ plt<-plot_tuned_params(
 )  
 plt
 
-ggsave("figures/model-params/three-param-beta-v2.pdf", plt, 
-       bg = "white", width = 5, height = 4)
+# ggsave("figures/model-params/three-param-beta-v2.pdf", plt, 
+#        bg = "white", width = 5, height = 4)

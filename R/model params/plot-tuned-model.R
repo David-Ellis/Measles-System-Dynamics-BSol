@@ -56,7 +56,7 @@ obs_outcomes_weekly <- obs_cases %>%
 ################################################################################
 
 cases <- read_excel(
-  "data/stella outputs/basic-model-testing/tuned-full-output.xlsx",
+  "data/stella outputs/results/tuned-full-output.xlsx",
   sheet = "infections"
   ) %>%
   mutate(
@@ -65,7 +65,7 @@ cases <- read_excel(
   )
 
 admissions <- read_excel(
-  "data/stella outputs/basic-model-testing/tuned-full-output.xlsx",
+  "data/stella outputs/results/tuned-full-output.xlsx",
   sheet = "hospitalisation"
 ) %>%
   rename(
@@ -92,7 +92,7 @@ admissions %>%
 ################################################################################
 
 sir_outcomes_weekly <- read_excel(
-  "data/stella outputs/basic-model-testing/tuned-SIR-output.xlsx"
+  "data/stella outputs/results/tuned-SIR-output.xlsx"
 ) %>% 
   pivot_longer(
     cols = c(SIR, `SIR + isolation`),
@@ -184,4 +184,4 @@ plt <- ggplot(obs_outcomes_weekly, aes(x = Week, y = Value)) +
     fill = ""
   )
 plt
-ggsave("figures/model-params/full-tuned.pdf", plt, width = 5, height = 4)
+ggsave("figures/results/full-tuned.pdf", plt, width = 5, height = 4)
