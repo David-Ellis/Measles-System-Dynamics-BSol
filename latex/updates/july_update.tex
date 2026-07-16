@@ -16,6 +16,7 @@
 \usepackage{amsmath}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \hypersetup{colorlinks=true, breaklinks=true}
+\usepackage{array}
 
 \usepackage{annotate-equations}
 \usepackage{mathtools}
@@ -155,18 +156,20 @@ This can be modelled with an ``isolation switch" given by
 
 \begin{equation}
     \text{Isolation switch} = \begin{cases}
-        p_I, & \text{if } \max\left(I(t)\right) > p_T \text{ and } \bar{I'}(t)^{(38)} > 1,\\
+        p_I, & \text{if } \max\left(I\right) > p_T \text{ and } \bar{I'}^{(38)} > 1,\\
         0, & \text{otherwise},
     \end{cases}
 \end{equation}
 %
-where $\max\left(I(t)\right)$ is the maximum number of people to have been infected at any one time during the simulation, and $\bar{I'}(t)^{(38)}$ is the average number of new cases in the last 38 days \tkDE{This nomenclature doesn't make too much sense}. The latter is taken to be a moving average because system dynamics works based on continuous values rather than discrete values representing individual people. 
+where $\max\left(I\right)$ is the maximum number of people to have been infected at any one time during the simulation, and $\bar{I'}^{(38)}$ is the average number of new cases in the last 38 days.
+% \tkDE{This nomenclature doesn't make too much sense}
+The latter is taken to be a moving average because system dynamics works based on continuous values rather than discrete values representing individual people. 
 
 For the same reason, after implementing this, it was necessary to modify the number of new cases to be
 
 \begin{equation}
-    \text{infections }(t) = \begin{cases}
-        R_0 \gamma S (t) I(t)/ N, & \text{if } I(t) \geq 1,\\
+    \text{Infection rate} = \begin{cases}
+        R_0 \gamma S  I/ N, & \text{if } I \geq 1,\\
         0, & \text{otherwise}.
     \end{cases}
 \end{equation}
@@ -184,6 +187,81 @@ The additional simulation components related to this isolation mechanism are pre
 
 
 \subsection{Full model}
+
+The full model, shown in Figure~\ref{fig:full-model}, is an extension of the SIR model with isolation to include three different age groups: babies (< one year), children (1 to 4 years), and "adults" (5+ years), as well as an additional hospitalised population state. This gives a total of 15 different population states (3 age groups $\times$ 5 states). In this model, hospitalised individuals are assumed to also be isolated. Therefore, the addition of this state will change the isolation threshold ($p_T$) and proportion ($p_P$) needed to fit the model to observational data. 
+
+The inclusion of a hospitalised state gives the model provides another output that can be compared and fitted to observed data. It is therefore necessary to include an additional free parameter $p_H$ which controls the rate of at which infected individuals are admitted to hospital. 
+
+\begin{figure}[ht!]
+    \centering
+    \hspace*{-1cm}
+    \includegraphics[trim=30pt 560pt 185pt 10pt, clip=true, width=1.2\linewidth]{figures/model-diagrams/full-model.pdf}
+    \caption{Caption}
+    \label{fig:full-model}
+\end{figure}
+
+\subsubsection{Age-specific rates}
+
+The probability of infection and the probability of hospital admission when infected are age-dependent \cite{jary2025sociodemographic, van2020explaining}. Following the approach of \citeauthor{van2020explaining}, the basic reproduction number can be written as 
+%
+\begin{equation}
+    R_0\gamma = \frac{\alpha_AP_A + \alpha_BP_B + \alpha_CP_C}{P_A + P_B + P_C},
+    \label{eq:R0-age}
+\end{equation}
+%
+where $\alpha_i$ and $P_i$ are the relative infection probability and population size respectively for adults (A), babies (B), and children (C) \cite{van2020explaining}.
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{
+    p{0.15\linewidth} |
+    >{\centering\arraybackslash}p{0.15\linewidth} |
+    >{\centering\arraybackslash}p{0.15\linewidth} |
+    >{\centering\arraybackslash}p{0.15\linewidth} |
+    >{\centering\arraybackslash}p{0.15\linewidth} |
+    >{\centering\arraybackslash}p{0.15\linewidth}
+}
+    \toprule
+    \textbf{Age Group} & \textbf{Population} & \textbf{Cases} & \textbf{Hospital Admissions} & \textbf{Unvaccinated \%} & \textbf{Infected per 1000 unvaccinated}\\ \midrule
+    $<$1 & 14,272 & 56 & 30 & 100 & 3.924 \\
+    1-4 & 60,751 & 124 & 33 & 21.1 & 9.674 \\
+    5+ & 1,069,893 & 226 & 64 & 10.7 & 1.974
+    \end{tabular}
+    \caption{Number of infections per 1000 unvaccinated persons. Populations from 2021 ONS census \cite{ONS2021census}, age-specific cases from \citeauthor{jary2025sociodemographic}, and vaccination coverage from NHS FDP \cite{NHSEngland2026FDP} and WHO Immunisation Portal \cite{WHO_measles_coverage}.}
+    \label{tab:age-inf-rates}
+\end{table}
+
+The number of infections per 1000 persons not vaccinated with at least one dose of MMR are presented in Table~\ref{tab:age-inf-rates} for each age group. From this, it can be deduced that
+
+\begin{equation}
+    \frac{\alpha_B}{\alpha_A} = 1.99,
+    \qquad 
+    \frac{\alpha_C}{\alpha_A} = 4.90.
+\end{equation}
+%
+Substituting into Equation~\ref{eq:R0-age}, it can be therefore be shown that $\alpha_A = 1.27$, $\alpha_B = 2.52$, and $\alpha_c = 6.20$. The age-specific infection rates can then be calculated by making the replacement $R_o \gamma \rightarrow \alpha_i$.
+
+Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital admission rates of infected babies and children are given by $h_B = 1.89 h_A$ and $0.940h_A$. However, to ensure that the modelled hospital admissions match the observed numbers, the infected adult daily hospitalisation proportion $h_A$ is left as a free parameter to be fitted.
+%
+
+\section{Preliminary Results}
+
+\subsection{Tuned Model}
+
+\begin{table}[ht!]
+\centering
+\begin{tabular}{
+    p{0.3\linewidth} |
+    >{\centering\arraybackslash}p{0.25\linewidth} |
+    >{\centering\arraybackslash}p{0.25\linewidth}
+}
+    \toprule
+    \textbf{Variable} & \textbf{SIR + Isolation} & \textbf{Full Model}\\ \midrule
+    Isolation Proportion, $p_P$ & 0.063 (0.058, 0.069) & 0.10 (0.08, 0.12) \\
+    Isolation Threshold, $p_T$ & 43.8 (39.7, 47.2) & 46.1 (38.9, 53.3) \\
+    Adult hospitalisation rate, $p_H$ & - & 0.038 (0.032, 0.049)
+    \end{tabular}
+\end{table}
 
 \begin{figure}[ht!]
     \centering
