@@ -84,7 +84,7 @@ annot_df <- data.frame(
   outcome = "Confirmed Measles Cases",  # <- replace with the actual value
   x = Inf,
   y = Inf,
-  label = "*Solihull cases estimated based on annual statistics."
+  label = "*Solihull cases estimated based on annual statistics"
 )
 
 ggplot(combined_data, aes(x = date_start, y = value, fill = local_authority)) +

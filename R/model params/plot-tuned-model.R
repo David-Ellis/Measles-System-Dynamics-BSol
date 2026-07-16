@@ -6,6 +6,7 @@ library(dplyr)
 library(tidyr)
 library(latex2exp)
 
+source("R/functions/styles.R")
 ################################################################################
 #                           Load Observed Data                                 #
 ################################################################################
@@ -31,7 +32,7 @@ obs_admissions <- read_excel(
   ) %>%
   group_by(Week) %>%
   summarise(
-    Admissions = sum(Admissions)
+    Admissions = sum(N)
   )
 
 obs_outcomes_weekly <- obs_cases %>%
@@ -99,7 +100,7 @@ sir_outcomes_weekly <- read_excel(
     values_to = "Value"
   ) %>%
   mutate(
-    Week = floor(Day/7) - 3
+    Week = floor(Day/7) - 2
   ) %>%
   group_by(Model, Week) %>%
   summarise(
@@ -148,7 +149,7 @@ sim_outcomes_weekly <- cases %>%
 
 plt <- ggplot(obs_outcomes_weekly, aes(x = Week, y = Value)) +
   geom_col(
-    aes(fill = "Observed")
+    aes()
   ) +
   geom_line(
     data = sim_outcomes_weekly,
