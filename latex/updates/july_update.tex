@@ -259,16 +259,49 @@ Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital
     \textbf{Variable} & \textbf{SIR + Isolation} & \textbf{Full Model}\\ \midrule
     Isolation Proportion, $p_P$ & 0.063 (0.058, 0.069) & 0.10 (0.08, 0.12) \\
     Isolation Threshold, $p_T$ & 43.8 (39.7, 47.2) & 46.1 (38.9, 53.3) \\
-    Adult hospitalisation rate, $p_H$ & - & 0.038 (0.032, 0.049)
+    Adult hospitalisation rate, $p_H$ & - & 0.038 (0.032, 0.049) \\
+    Time lag, $\tau$ (weeks) & -2  & 3 
     \end{tabular}
+    \caption{\tkDE{Add caption.}}
 \end{table}
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/model-params/full-tuned.pdf}
-    \caption{Caption \tkDE{Technically didn't use error function to fit SIR + isolation model.}}
+    \caption{\tkDE{Add caption.}}
     \label{fig:model-outputs}
 \end{figure}
+
+\begin{table}[]
+    \resizebox{\textwidth}{!}{%
+\begin{tabular}{ p{0.12\linewidth} |
+    >{\centering\arraybackslash}c{0.18\linewidth} |
+    >{\centering\arraybackslash}c{0.18\linewidth} |
+    >{\centering\arraybackslash}c{0.18\linewidth} |
+    >{\centering\arraybackslash}c{0.18\linewidth} 
+    }
+    \toprow
+\multirow{2}{*}{\begin{tabular}[]{@{}\centering@{}}\textbf{Age Group} \\ \textbf{(Years)}\end{tabular}} &
+  \multicolumn{2}{c|}{\textbf{Total Cases}} & 
+  \multicolumn{2}{c}{\textbf{Hospital Admissions}} \\
+ &
+  \textbf{Observed \;(23/24 outbreak)$^*$} &
+  \textbf{Simulated} &
+  \textbf{Observed \;(23/24 outbreak)$^\dagger$} &
+  \textbf{Simulated} \\
+  \midrule
+  \textless 1 & 56  & 50.8   & 30   & 26.9 \\
+  2-4         & 124 & 107.8 & 33 & 31.4 \\
+  5+          & 226 & 214.4 & 64 & 66.3 \\
+  \midrule
+  Total & 406 & 373 & 127 & 124.6
+\end{tabular}}
+\caption{Comparison between observed and simulated outcomes of the 23/24 measles outbreak in BSol. $^*$Observed age-specific cases reported for Birmingham only \cite{jary2025sociodemographic}. $^\dagger$calculated used SUS data from the BSol ICB data warehouse \citethis. \tkDE{Not sure why this table is still wrong.}}
+\end{table}
+
+\subsection{Outbreak Management}
+
+
 
 \printbibliography
 
