@@ -13,7 +13,7 @@ sim_cases <- load_sim_data(
 ) %>%
   janitor::clean_names() %>%
   group_by(
-    isolation_proportion, isolation_threshold
+    isolation_proportion, isolation_delay
   ) %>%
   summarise(
     sim_val = sum(sim_val),
@@ -21,7 +21,7 @@ sim_cases <- load_sim_data(
     ) %>%
   mutate(
     outcome = "Total Cases",
-    base_sim = 373
+    base_sim = 382.8
   )
 
 sim_admissions <- load_sim_data(
@@ -31,7 +31,7 @@ sim_admissions <- load_sim_data(
 ) %>%
   janitor::clean_names() %>%
   group_by(
-    isolation_proportion, isolation_threshold
+    isolation_proportion, isolation_delay
   ) %>%
   summarise(
     sim_val = sum(sim_val),
@@ -39,7 +39,7 @@ sim_admissions <- load_sim_data(
   ) %>%
   mutate(
     outcome = "Total Admissions",
-    base_sim = 124.6 
+    base_sim = 130.9
   )
 
 sim_data <- rbind(sim_cases, sim_admissions) %>%
@@ -50,8 +50,8 @@ sim_data <- rbind(sim_cases, sim_admissions) %>%
     isolation_proportion > 0.08
   ) %>%
   mutate(
-    isolation_threshold_change = (isolation_threshold - 46.1) / 46.1,
-    isolation_proportion_change = (isolation_proportion - 0.1) / 0.1,
+    isolation_delay_change = (isolation_delay - 55.2) / 55.2,
+    isolation_proportion_change = (isolation_proportion - 0.094) / 0.094,
   )
 
 plts <- list()
@@ -60,13 +60,13 @@ palletes <- list(
   "Total Admissions" = viridis::mako(40)
 )
 ylab <- list(
-  "Total Cases" = "Change in Isolation Threshold",
+  "Total Cases" = "Change in Isolation Delay",
   "Total Admissions" = ""
 )
 
 base_sim <- data.frame(
-  isolation_proportion = c(0.10),
-  isolation_threshold = c(46.1),
+  isolation_proportion = c(0.094),
+  isolation_delay = c(55.2),
   frac_diff = NA,
   sim_val = NA
 )
@@ -79,7 +79,7 @@ for (outcome_i in c("Total Cases", "Total Admissions")) {
     ggplot(
       aes(
         x = isolation_proportion_change,
-        y = isolation_threshold_change,
+        y = isolation_delay_change,
         fill = frac_diff,
         z = sim_val
       )
@@ -122,6 +122,7 @@ out_plot <- cowplot::plot_grid(
   nrow = 1
   ) 
 
+out_plot
 ggsave(
   "figures/results/outbreak-response.pdf",
   width = 6, height = 2.8
