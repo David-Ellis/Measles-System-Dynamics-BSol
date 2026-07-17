@@ -7,9 +7,9 @@
 		<vendor>isee systems, inc.</vendor>
 		<product version="3.8.1" isee:build_number="3623" isee:saved_by_v1="true" lang="en">Stella Architect</product>
 	</header>
-	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.000684932" isee:restore_on_start="false" method="RK2" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
+	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.00410959" isee:restore_on_start="false" method="RK2" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
 		<start>0</start>
-		<stop>2190</stop>
+		<stop>365</stop>
 		<dt reciprocal="true">4</dt>
 	</sim_specs>
 	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="false" rifp="true"/>
@@ -26,7 +26,9 @@
 	</data>
 	<isee:sensi_specs_list active_index="0">
 		<isee:sensi_specs name="Sensitivity" method="grid">
-			<isee:variable starting_value="0.8" ending_value="1.2" type="incremental" min="0.8" max="1.2" seed="12345" name="vaccination_scale_factor" num_samples="10"/>
+			<isee:variable starting_value="47" ending_value="65" type="incremental" min="47" max="65" seed="12345" name="Isolation_delay" num_samples="12"/>
+			<isee:variable starting_value="0.08" ending_value="0.11" type="incremental" min="0.08" max="0.11" seed="12345" name="Isolation_proportion" num_samples="12"/>
+			<isee:variable starting_value="0.025" ending_value="0.047" type="incremental" min="0.025" max="0.047" seed="12345" name="Hosp_rate_adult" num_samples="12"/>
 		</isee:sensi_specs>
 	</isee:sensi_specs_list>
 	<isee:optimizer_specs_list active_index="0">
@@ -157,7 +159,7 @@
 				<units>people</units>
 			</stock>
 			<stock name="Adults (I)">
-				<eqn>0</eqn>
+				<eqn>1</eqn>
 				<inflow>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</inflow>
 				<inflow>Adult_infections</inflow>
 				<inflow>Infected_adults_input</inflow>
@@ -512,32 +514,24 @@
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
-			<aux name="Isolation threshold">
-				<eqn>46.1</eqn>
+			<aux name="Isolation delay">
+				<eqn>55.18182</eqn>
 			</aux>
 			<aux name="Isolation proportion">
-				<eqn>0.1</eqn>
+				<eqn>0.09363636</eqn>
 			</aux>
 			<aux name="isolation switch">
-				<eqn>IF (run_max_infections &gt; Isolation_threshold AND new_case_average &gt; 1/38) THEN Isolation_proportion ELSE 0</eqn>
-			</aux>
-			<aux name="run max infections">
-				<eqn>RUNMAX(Total_infected)</eqn>
-				<isee:delay_aux/>
+				<eqn>IF Total_infected &gt;= 1 THEN DELAY(Isolation_proportion, Isolation_delay,  0) ELSE 
+
+(IF PREVIOUS(SELF, 0) = Isolation_proportion AND Total_infected &lt; 1 THEN DELAY(0,  38,  Isolation_proportion) ELSE 0)</eqn>
 			</aux>
 			<group name="Isolation Switch Model" run="false">
+				<entity name="Isolation_delay"/>
 				<entity name="Isolation_proportion"/>
 				<entity name="isolation_switch"/>
-				<entity name="Isolation_threshold"/>
-				<entity name="new_case_average"/>
-				<entity name="run_max_infections"/>
 			</group>
-			<aux name="new case average">
-				<eqn>SMTH1(New_cases,  38,  0)</eqn>
-				<isee:delay_aux/>
-			</aux>
 			<flow name="Infected adults input">
-				<eqn>PULSE(1,  365*3,  0)</eqn>
+				<eqn>0</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -660,7 +654,7 @@
 				<units>Per Year</units>
 			</aux>
 			<aux name="Hosp rate adult">
-				<eqn>0.038</eqn>
+				<eqn>0.039</eqn>
 				<units>Per Year</units>
 			</aux>
 			<aux name="New Admissions">
@@ -718,7 +712,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="4" isee:scroll_y="801.667" zoom="60" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="4" isee:scroll_x="1551.67" isee:scroll_y="151.667" zoom="120" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -1175,7 +1169,7 @@
 					</from>
 					<to>Baby_infections</to>
 				</connector>
-				<connector uid="127" angle="38.7371">
+				<connector uid="127" angle="1.97539">
 					<from>
 						<alias uid="128"/>
 					</from>
@@ -1502,32 +1496,17 @@
 						<pt x="1035.18" y="913.833"/>
 					</pts>
 				</flow>
-				<aux x="2097.44" y="536.95" name="Isolation threshold"/>
+				<aux x="2097.44" y="536.95" name="Isolation delay"/>
 				<aux x="2259.84" y="536.95" name="Isolation proportion"/>
-				<aux x="2177.18" y="609.067" name="isolation switch"/>
-				<connector uid="202" angle="359.175">
-					<from>Isolation_threshold</from>
-					<to>isolation_switch</to>
-				</connector>
-				<connector uid="203" angle="191.931">
+				<aux x="2160.93" y="642.192" name="isolation switch"/>
+				<connector uid="203" angle="197.604">
 					<from>Isolation_proportion</from>
 					<to>isolation_switch</to>
 				</connector>
-				<aux x="2249.35" y="664.15" name="run max infections"/>
 				<group locked="true" x="2015.84" y="499.233" width="309.333" height="440.133" name="Isolation Switch Model">
-					<item uid="250"/>
 					<item uid="255"/>
-					<item uid="308"/>
+					<item uid="342"/>
 				</group>
-				<aux x="2140.51" y="698.567" name="new case average"/>
-				<connector uid="212" angle="36.0126">
-					<from>new_case_average</from>
-					<to>isolation_switch</to>
-				</connector>
-				<connector uid="214" angle="96.7992">
-					<from>run_max_infections</from>
-					<to>isolation_switch</to>
-				</connector>
 				<connector uid="215" angle="43.4141">
 					<from>
 						<alias uid="216"/>
@@ -1641,12 +1620,6 @@
 				<connector uid="249" angle="93.7903">
 					<from>Total_isolated</from>
 					<to>Total_infected</to>
-				</connector>
-				<connector uid="251" angle="79.992">
-					<from>
-						<alias uid="250"/>
-					</from>
-					<to>run_max_infections</to>
 				</connector>
 				<connector uid="252" angle="243.1">
 					<from>
@@ -1946,12 +1919,6 @@
 					</from>
 					<to>New_cases</to>
 				</connector>
-				<connector uid="309" angle="42.8102">
-					<from>
-						<alias uid="308"/>
-					</from>
-					<to>new_case_average</to>
-				</connector>
 				<stacked_container uid="310" x="1758" y="1261.25" width="513" height="303">
 					<table width="513" height="303">
 						<item type="time"/>
@@ -2096,6 +2063,16 @@
 					<from>vaccination_scale_factor</from>
 					<to>Child_vaccination</to>
 				</connector>
+				<connector uid="343" angle="313.637">
+					<from>Isolation_delay</from>
+					<to>isolation_switch</to>
+				</connector>
+				<connector uid="344" angle="164.99">
+					<from>
+						<alias uid="342"/>
+					</from>
+					<to>isolation_switch</to>
+				</connector>
 				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="69" x="585" y="487" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>
@@ -2159,7 +2136,7 @@
 					<shape type="circle" radius="18"/>
 					<of>Total_population</of>
 				</alias>
-				<alias font_style="italic" uid="128" x="254" y="555" width="18" height="18">
+				<alias font_style="italic" uid="128" x="212" y="521" width="18" height="18">
 					<of>Total_infectious</of>
 				</alias>
 				<alias font_style="italic" uid="132" x="351.024" y="609" width="18" height="18">
@@ -2257,10 +2234,6 @@
 				<alias font_style="italic" uid="246" x="1892.57" y="521.298" width="40.1904" height="32.9524">
 					<of>&quot;Adults_(X)&quot;</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="250" x="2238.34" y="733.9" width="18" height="18">
-					<shape type="circle" radius="18"/>
-					<of>Total_infected</of>
-				</alias>
 				<alias color="blue" background="white" font_style="italic" uid="253" x="1894" y="891.2" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>Total_infected</of>
@@ -2320,10 +2293,6 @@
 				<alias font_style="italic" uid="306" x="1834" y="1115.25" width="18" height="18">
 					<of>Child_infections</of>
 				</alias>
-				<alias color="blue" background="white" font_style="italic" uid="308" x="2046.17" y="689.567" width="18" height="18">
-					<shape type="circle" radius="18"/>
-					<of>New_cases</of>
-				</alias>
 				<alias font_style="italic" uid="311" x="2050" y="1014.67" width="18" height="18">
 					<of>Baby_hospitalisation</of>
 				</alias>
@@ -2356,6 +2325,9 @@
 				</alias>
 				<alias font_style="italic" uid="336" x="2516.75" y="1111.25" width="18" height="18">
 					<of>Adult_hospitalisation_total</of>
+				</alias>
+				<alias font_style="italic" uid="342" x="2254.75" y="611.625" width="18" height="18">
+					<of>Total_infected</of>
 				</alias>
 			</view>
 		</views>

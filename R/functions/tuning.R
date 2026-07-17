@@ -3,7 +3,7 @@ library(readxl)
 library(foreach)
 library(doParallel)
 library(geomtextpath)
-
+source("R/functions/styles.R")
 load_sim_data <- function(
     path,
     data_sheet,
@@ -219,21 +219,24 @@ plot_param_pair <- function(
       plot_data,
       aes(x = !!sym(param_pair[1]),
           y = !!sym(param_pair[2]),
-          color = min_error_fraction)
+          fill = min_error_fraction,
+          z = min_error_fraction)
       ) + 
-      geom_point(alpha = 1) +
-      # geom_textcontour(
-      #   aes(label = paste0(after_stat(level), "%")),
-      #   breaks = contour_fracs,
-      #   linetype = "dashed"
-      # ) +
+      geom_raster(
+        interpolate = T
+        ) +
+      geom_textcontour(
+        aes(label = paste0(after_stat(level), "%")),
+        breaks = contour_fracs,
+        linetype = "dashed"
+      ) +
       geom_point(
       data = min_error_coord,
       aes(
         x =  !!sym(param_pair[1]),
         y = !!sym(param_pair[2]),
         ),
-      color = "orange"
+      color = uob_colors[1]
       ) +
       theme_bw() +
       scale_x_continuous(
@@ -242,7 +245,7 @@ plot_param_pair <- function(
       scale_y_continuous(
         expand = c(0,0)
       ) +
-      scale_color_continuous(
+      scale_fill_continuous(
         palette = palette,
         limits = c(0, max(contour_fracs)),
         trans = 'reverse',

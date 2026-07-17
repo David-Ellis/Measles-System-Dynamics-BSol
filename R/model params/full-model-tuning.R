@@ -14,23 +14,24 @@ source("R/functions/tuning.R")
 
 
 sim_cases <- load_sim_data(
-  "data/stella outputs/basic-model-testing/full-isol-hosp-params.xlsx",
+  "data/stella outputs/basic-model-testing/full-isol-hosp-params-zoom.xlsx",
   "run-cases",
   "run-params"
-  ) %>%
-  # Add extra simulation data
-  rbind(
-    load_sim_data(
-      "data/stella outputs/basic-model-testing/full-isol-hosp-params-extra.xlsx",
-      "run-cases",
-      "run-params"
-    ) %>%
-      mutate(
-        RunNum = as.numeric(stringr::str_extract(Run, "\\d+")) + 1000,
-        Run = paste("Run", RunNum)
-      ) %>%
-      select(-RunNum)
-  )
+  ) 
+# %>%
+#   # Add extra simulation data
+#   rbind(
+#     load_sim_data(
+#       "data/stella outputs/basic-model-testing/full-isol-hosp-params-extra.xlsx",
+#       "run-cases",
+#       "run-params"
+#     ) %>%
+#       mutate(
+#         RunNum = as.numeric(stringr::str_extract(Run, "\\d+")) + 1000,
+#         Run = paste("Run", RunNum)
+#       ) %>%
+#       select(-RunNum)
+#   )
 
 obs_cases <- read_excel(
   "data/model params/BSol-outbreak-cases-oct23toapril24.xlsx",
@@ -57,23 +58,24 @@ incidence_errors <- calc_all_errors(
 
 
 sim_admissions <- load_sim_data(
-  "data/stella outputs/basic-model-testing/full-isol-hosp-params.xlsx",
+  "data/stella outputs/basic-model-testing/full-isol-hosp-params-zoom.xlsx",
   "run-admissions",
   "run-params"
-) %>%
-  # Add extra simulation data
-  rbind(
-    load_sim_data(
-      "data/stella outputs/basic-model-testing/full-isol-hosp-params-extra.xlsx",
-      "run-admissions",
-      "run-params"
-    ) %>%
-      mutate(
-        RunNum = as.numeric(stringr::str_extract(Run, "\\d+")) + 1000,
-        Run = paste("Run", RunNum)
-      ) %>%
-      select(-RunNum)
-  )
+) 
+# %>%
+#   # Add extra simulation data
+#   rbind(
+#     load_sim_data(
+#       "data/stella outputs/basic-model-testing/full-isol-hosp-params-extra.xlsx",
+#       "run-admissions",
+#       "run-params"
+#     ) %>%
+#       mutate(
+#         RunNum = as.numeric(stringr::str_extract(Run, "\\d+")) + 1000,
+#         Run = paste("Run", RunNum)
+#       ) %>%
+#       select(-RunNum)
+#   )
 
 
 obs_admissions <- read_excel(
@@ -107,7 +109,7 @@ comb_errors <- incidence_errors %>%
   left_join(
     admission_errors %>%
       select(
-        -c("Isolation proportion","Isolation threshold","Hosp rate adult")
+        -c("Isolation proportion","Isolation delay","Hosp rate adult")
         )%>%
       rename(
         hosp_error = Error,
@@ -119,7 +121,10 @@ comb_errors <- incidence_errors %>%
     case_error = case_error / sd(case_error),
     hosp_error = hosp_error / sd(hosp_error),
     Error =  case_error + 0.5 * hosp_error
-  ) 
+  ) %>%
+  rename(
+    `Adult Admission Proportion` = `Hosp rate adult`
+  )
 
 mins <- comb_errors %>%
   filter(
@@ -135,39 +140,22 @@ errors10perc <- comb_errors %>%
     Error < 1.1*min(Error)
   ) 
 print(range(errors10perc$`Isolation proportion`))
-print(range(errors10perc$`Isolation threshold`))
-print(range(errors10perc$`Hosp rate adult`))
-
-param_pair <- c("Isolation proportion",
-                "Hosp rate adult")
-
-plot_data <- comb_errors %>%
-  group_by(
-    !!sym(param_pair[1]), 
-    !!sym(param_pair[2])
-  ) %>%
-  summarise(
-    min_error = min(Error),
-    .groups = "drop"
-  ) %>%
-  ungroup() %>%
-  mutate(
-    min_error_fraction = 100 * (min_error - min(min_error)) / min(min_error)
-  ) 
-
+print(range(errors10perc$`Isolation delay`))
+print(range(errors10perc$`Adult Admission Proportion`))
 
 source("R/functions/tuning.R")
-
+palette <- ggpubr::get_palette((c("#FFFFFF", uob_colors[3])), 20)
 plt<-plot_tuned_params(
     comb_errors, 
     param_pairs = list(
-      c("Isolation threshold", "Isolation proportion"),
-      c("Hosp rate adult", "Isolation proportion"),
-      c("Isolation threshold", "Hosp rate adult")
+      c("Isolation delay", "Isolation proportion"),
+      c("Adult Admission Proportion", "Isolation proportion"),
+      c("Isolation delay", "Adult Admission Proportion")
     ),
-    c(10, 30)
+    c(10, 30, 100),
+    palette = palette
 )  
 plt
 
-# ggsave("figures/model-params/three-param-beta-v2.pdf", plt, 
-#        bg = "white", width = 5, height = 4)
+ggsave("figures/model-params/three-param-contour-zoom.pdf", plt,
+       bg = "white", width = 6, height = 5)

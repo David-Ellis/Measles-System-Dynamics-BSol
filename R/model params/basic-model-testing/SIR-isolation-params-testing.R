@@ -6,25 +6,11 @@ library(latex2exp)
 
 source("R/functions/tuning.R")
 
-sim_cases <- read_excel(
-  "data/stella outputs/basic-model-testing/SIR-isolation-params-both.xlsx",
-  sheet = "run-data2"
-) %>%
-  pivot_longer(
-    cols = contains("Run"),
-    names_to = "Run",
-    values_to = "Infections"
-  ) %>%
-  left_join(
-    read_excel(
-      "data/stella outputs/basic-model-testing/SIR-isolation-params-both.xlsx",
-      sheet = "run-params2"
-    ),
-    by = join_by("Run")
-  ) %>%
-  rename(
-    SimVal = Infections
-  )
+sim_cases <- load_sim_data(
+  "data/stella outputs/basic-model-testing/SIR-isol-delay.xlsx",
+  "cases",
+  "params"
+)
 
 obs_cases <- read_excel(
   "data/model params/BSol-outbreak-cases-oct23toapril24.xlsx",
@@ -53,10 +39,21 @@ mins <- incidence_errors %>%
   )
 print(mins)
 
+ggplot(incidence_errors, 
+       aes(
+         x = `isolation proportion`, 
+         y = `isolation delay`,
+         fill = log10(Error),
+         z = log10(Error)
+         )) +
+  geom_raster(
+    interpolate = T
+  ) +
+  geom_contour()
 
 errors10perc <- incidence_errors %>%
   filter(
     Error < 1.1*min(Error)
   ) 
 print(range(errors10perc$`isolation proportion`))
-print(range(errors10perc$`isolation threshold`))
+print(range(errors10perc$`isolation delay`))
