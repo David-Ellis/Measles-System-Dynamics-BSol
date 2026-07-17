@@ -244,9 +244,19 @@ Substituting into Equation~\ref{eq:R0-age}, it can be therefore be shown that $\
 Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital admission rates of infected babies and children are given by $h_B = 1.89 h_A$ and $0.940h_A$. However, to ensure that the modelled hospital admissions match the observed numbers, the infected adult daily hospitalisation proportion $h_A$ is left as a free parameter to be fitted.
 %
 
+
+\newpage
 \section{Preliminary Results}
 
 \subsection{Tuned Model}
+
+Parameters were tuned. The SIR models were initialised with a single infected person in the system. The full model was initialised with a single infected adult. \tkDE{Might need to move to methods.}
+
+These are shown in Table~\ref{tab:tuned-params}... Confidence intervals are calculated as the region of the parameter space which in which the error function is within 10\% of its global minimum.
+
+The ''adult" hospitalisation proportion $p_H$ was found to be 0.038 (0.032, 0.049). This means that an infected person aged 5 years or older has between a 3.2\% and 4.9\% probability of being admitted to hospital each day while infected. 
+
+
 
 \begin{table}[ht!]
 \centering
@@ -259,18 +269,23 @@ Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital
     \textbf{Variable} & \textbf{SIR + Isolation} & \textbf{Full Model}\\ \midrule
     Isolation Proportion, $p_P$ & 0.063 (0.058, 0.069) & 0.10 (0.08, 0.12) \\
     Isolation Threshold, $p_T$ & 43.8 (39.7, 47.2) & 46.1 (38.9, 53.3) \\
-    Adult hospitalisation rate, $p_H$ & - & 0.038 (0.032, 0.049) \\
+    ''Adult" hospitalisation rate, $p_H$ & - & 0.038 (0.032, 0.049) \\
     Time lag, $\tau$ (weeks) & -2  & 3 
     \end{tabular}
     \caption{\tkDE{Add caption.}}
+    \label{tab:tuned-params}
 \end{table}
+
+Figure~\ref{fig:epi-curve} compares the epidemic curves for the three models discussed with that observed during the 23/24 outbreak.
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/model-params/full-tuned.pdf}
     \caption{\tkDE{Add caption.}}
-    \label{fig:model-outputs}
+    \label{fig:epi-curve}
 \end{figure}
+
+For the full model shown in Figure~\ref{fig:full-model}, the age-specific number of cases and hospital admissions across the outbreak are compared to the 23/24 outbreak in Table~\ref{tab:summary-stat-comp}.
 
 \begin{table}[]
     \resizebox{\textwidth}{!}{%
@@ -296,12 +311,18 @@ Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital
   \midrule
   Total & 406 & 373 & 127 & 124.6
 \end{tabular}}
+\label{tab:summary-stat-comp}
 \caption{Comparison between observed and simulated outcomes of the 23/24 measles outbreak in BSol. $^*$Observed age-specific cases reported for Birmingham only \cite{jary2025sociodemographic}. $^\dagger$calculated used SUS data from the BSol ICB data warehouse \citethis. \tkDE{Not sure why this table is still wrong.}}
 \end{table}
 
 \subsection{Outbreak Management}
 
-
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/results/outbreak-response.pdf}
+    \caption{Caption}
+    \label{fig:outbreak-management}
+\end{figure}
 
 \printbibliography
 
