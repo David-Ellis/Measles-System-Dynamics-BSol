@@ -74,7 +74,8 @@ base_sim <- data.frame(
 for (outcome_i in c("Total Cases", "Total Admissions")) {
   plts[[outcome_i]] <- sim_data %>% 
     filter(
-      outcome == outcome_i
+      outcome == outcome_i,
+      isolation_delay_change > -0.4
     ) %>%
     ggplot(
       aes(
