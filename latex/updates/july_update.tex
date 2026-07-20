@@ -98,7 +98,7 @@ The third most highly ranked intervention was to provide a gelatine-free vaccine
 \section{Basic Modelling}
 
 \subsection{Model tuning}
-
+\label{sec:tuning}
 To maximise the use of data, the model is tuned by minimising an error function. Since relative timing of the simulated is not \tkDE{important to this study}, a time-lag parameter $\tau$ is used so that the modelled outcomes are compared to observed outcomes occurring at the time time. The error function is then given by
 %
 \begin{equation}
@@ -110,10 +110,10 @@ where $p_i$ represents all free model parameters to be tuned, and $V_{t+\tau}^{\
 There are two observable values for the model to be tuned to: measles infections and hospital admissions. Therefore, the full error function to be minimised is
 %
 \begin{equation}
-    E(p_i) = E_I(p_i) + \omega E_H(p_i)
+    E(p_i) = \frac{E_I(p_i)}{\mathrm{sd}(E_I)} + \omega \frac{E_H(p_i)}{\mathrm{sd}(E_H)}
 \end{equation}
 %
-where $E_I$ and $E_H$ are the error functions for infections and hospital admissions respectively and $\omega$ is a weighting parameter that encodes the relative importance of $E_H$ to $E_I$ in the error function calculation. Since this investigation is most interested in measles infections \tkDE{(why is this the case?)}, a value of $\omega = 0.5$ was chosen. However, it should be noted that this is a somewhat arbitrary choice and that a range of other values could also be considered appropriate. 
+where $E_I$ and $E_H$ are the error functions for infections and hospital admissions respectively and $\omega$ is a weighting parameter that encodes the relative importance of $E_I$ to $E_H$ in the error function calculation. The error functions $E_I$ and $E_H$ are normalised by dividing by their standard deviation across all parameters. Since this investigation is most interested in measles infections \tkDE{(why is this the case?)}, a value of $\omega = 0.5$ was chosen. However, it should be noted that this is a somewhat arbitrary choice and that a range of other values could also be considered appropriate. 
 
 \subsubsection{Data}
 
@@ -150,22 +150,22 @@ If there exists one or more infected persons ($I>0$), more people will be infect
 %
 This is the SIR condition for herd immunity. For measles, $R_0=13.5$. Therefore, the SIR model predicts that an outbreak will continue until there are fewer than 7.5\% susceptible to infection. 
 
-In reality, measles outbreaks are not left to infect people until herd immunity is achieved through natural infection. Instead, authorities such as the UK Health Security Agency (UKHSA) intervene to break the spread of transmission by identifying and isolating infected individuals. A model that reproduces observed outcomes therefore requires a mechanism to model this isolation process. One of the simplest ways to model this, is to assume that once the total number of infections reaches some threshold $p_T$, the relevant authorities acknowledge the outbreak and intervene. Once this threshold is reached, the authorities then isolate a fixed proportion of infected people $p_I$. Standard practice for communicable disease is to only consider an outbreak ``over" after two maximum incubation periods occurring without any new cases \cite{UKHSA2026MeaslesGuidelines}. Since the incubation period for measles is 7 to 18 days, the outbreak should be considered ongoing until 36 days have passed without a new case. After this point, authorities can stop looking for infected individuals.
+In reality, measles outbreaks are not left to infect people until herd immunity is achieved through natural infection. Instead, authorities such as the UK Health Security Agency (UKHSA) intervene to break the spread of transmission by identifying and isolating infected individuals. A model that reproduces observed outcomes therefore requires a mechanism to model this isolation process. 
 
-This can be modelled with an ``isolation switch" given by
+One of simple ways to model this is to implement an ``isolation mode" that turns on a fixed number of days after the first measles case. Once this mode is activated, a daily fixed proportion of infected persons are moved to an isolated state in which they can no longer infect others. The time delay to response $p_D$ and the isolation proportion $p_P$ are free model parameters. Their values will be tuned to observed data as outlined in Section~\ref{sec:tuning}. 
 
-\begin{equation}
-    \text{Isolation switch} = \begin{cases}
-        p_I, & \text{if } \max\left(I\right) > p_T \text{ and } \bar{I'}^{(38)} > 1,\\
-        0, & \text{otherwise},
-    \end{cases}
-\end{equation}
-%
-where $\max\left(I\right)$ is the maximum number of people to have been infected at any one time during the simulation, and $\bar{I'}^{(38)}$ is the average number of new cases in the last 38 days.
-% \tkDE{This nomenclature doesn't make too much sense}
-The latter is taken to be a moving average because system dynamics works based on continuous values rather than discrete values representing individual people. 
+Standard practice for communicable disease is to only consider an outbreak ``over" after two maximum incubation periods occurring without any new cases \cite{UKHSA2026MeaslesGuidelines}. Since the incubation period for measles is 7 to 18 days, the outbreak should be considered ongoing until 36 days have passed without a new case. After this point, authorities can stop looking for infected individuals.
 
-For the same reason, after implementing this, it was necessary to modify the number of new cases to be
+This can be modelled with an ``isolation switch". The mechanics of this switch are demonstrated in Figure~\ref{fig:switch-model}. If there is at least one person currently infected, and the switch isn't currently on, then after a fixed delay $p_D$ the switch turns ``on" and a fixed proportion of infected persons are isolated each day. However, if there are no infected persons ($I(t)<1$), then the switch will turn off after two maximum incubation periods (36 days).
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[trim=10pt 250pt 480pt 10pt, clip=true, width=0.7\linewidth]{figures/model-diagrams/switch-diagram.pdf}
+    \caption{Flow diagram outlining the mechanics of the measles isolation switch.}
+    \label{fig:switch-model}
+\end{figure}
+
+Since the simulation deals in continuous values rather than discrete units representing individual people, it is necessary to modify the number of new cases to be
 
 \begin{equation}
     \text{Infection rate} = \begin{cases}
@@ -174,7 +174,7 @@ For the same reason, after implementing this, it was necessary to modify the num
     \end{cases}
 \end{equation}
 % 
-This means that new infections can only occur if the number of people infected is equal to or greater than one. This prevents the unrealistic case of new outbreaks occurring as due the number of infected people in the model being above zero although less than one. 
+This means that new infections can only occur if the number of people infected is equal to or greater than one. This prevents the unrealistic case of new outbreaks occurring due to less than one infected person. 
 
 The additional simulation components related to this isolation mechanism are presented in green in Figure~\ref{fig:SIR+isol}.
 
@@ -188,7 +188,7 @@ The additional simulation components related to this isolation mechanism are pre
 
 \subsection{Full model}
 
-The full model, shown in Figure~\ref{fig:full-model}, is an extension of the SIR model with isolation to include three different age groups: babies (< one year), children (1 to 4 years), and "adults" (5+ years), as well as an additional hospitalised population state. This gives a total of 15 different population states (3 age groups $\times$ 5 states). In this model, hospitalised individuals are assumed to also be isolated. Therefore, the addition of this state will change the isolation threshold ($p_T$) and proportion ($p_P$) needed to fit the model to observational data. 
+The full model, shown in Figure~\ref{fig:full-model}, is an extension of the SIR model with isolation to include three different age groups: babies ($<$ one year), children (1 to 4 years), and "adults" (5+ years), as well as an additional hospitalised population state. This gives a total of 15 different population states (3 age groups $\times$ 5 states). In this model, hospitalised individuals are assumed to also be isolated. Therefore, the addition of this state will change the isolation threshold ($p_T$) and proportion ($p_P$) needed to fit the model to observational data. 
 
 The inclusion of a hospitalised state gives the model provides another output that can be compared and fitted to observed data. It is therefore necessary to include an additional free parameter $p_H$ which controls the rate of at which infected individuals are admitted to hospital. 
 
@@ -196,7 +196,7 @@ The inclusion of a hospitalised state gives the model provides another output th
     \centering
     \hspace*{-1cm}
     \includegraphics[trim=30pt 560pt 185pt 10pt, clip=true, width=1.2\linewidth]{figures/model-diagrams/full-model.pdf}
-    \caption{Caption}
+    \caption{Full measles system model with five population states across three age groups. Boxes represent population stocks, taps represent population flows, blue and gray circles show model variables, and pink and gray arrows indicate information connections.}
     \label{fig:full-model}
 \end{figure}
 
@@ -225,7 +225,8 @@ where $\alpha_i$ and $P_i$ are the relative infection probability and population
     \textbf{Age Group} & \textbf{Population} & \textbf{Cases} & \textbf{Hospital Admissions} & \textbf{Unvaccinated \%} & \textbf{Infected per 1000 unvaccinated}\\ \midrule
     $<$1 & 14,272 & 56 & 30 & 100 & 3.924 \\
     1-4 & 60,751 & 124 & 33 & 21.1 & 9.674 \\
-    5+ & 1,069,893 & 226 & 64 & 10.7 & 1.974
+    5+ & 1,069,893 & 226 & 64 & 10.7 & 1.974\\
+    \bottomrule
     \end{tabular}
     \caption{Number of infections per 1000 unvaccinated persons. Populations from 2021 ONS census \cite{ONS2021census}, age-specific cases from \citeauthor{jary2025sociodemographic}, and vaccination coverage from NHS FDP \cite{NHSEngland2026FDP} and WHO Immunisation Portal \cite{WHO_measles_coverage}.}
     \label{tab:age-inf-rates}
@@ -244,8 +245,6 @@ Substituting into Equation~\ref{eq:R0-age}, it can be therefore be shown that $\
 Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital admission rates of infected babies and children are given by $h_B = 1.89 h_A$ and $0.940h_A$. However, to ensure that the modelled hospital admissions match the observed numbers, the infected adult daily hospitalisation proportion $h_A$ is left as a free parameter to be fitted.
 %
 
-
-\newpage
 \section{Preliminary Results}
 
 \subsection{Tuned Model}
@@ -267,10 +266,11 @@ The ''adult" hospitalisation proportion $p_H$ was found to be 0.038 (0.032, 0.04
 }
     \toprule
     \textbf{Variable} & \textbf{SIR + Isolation} & \textbf{Full Model}\\ \midrule
-    Isolation Proportion, $p_P$ & 0.063 (0.058, 0.069) & 0.10 (0.08, 0.12) \\
-    Isolation Threshold, $p_T$ & 43.8 (39.7, 47.2) & 46.1 (38.9, 53.3) \\
-    ''Adult" hospitalisation rate, $p_H$ & - & 0.038 (0.032, 0.049) \\
-    Time lag, $\tau$ (weeks) & -2  & 3 
+    Isolation Proportion, $p_P$ & 0.063 (0.058, 0.069) & 0.094 (0.038, 0.105) \\
+    Isolation Delay, $p_D$ (days)& 94.7 (92.6, 496.8) & 55.2 (48.6, 60.1) \\
+    ''Adult" hospitalisation rate, $p_H$ & - & 0.039 (0.031, 0.045) \\
+    Time lag, $\tau$ (weeks) & -2  & 3 \\
+    \bottomrule
     \end{tabular}
     \caption{\tkDE{Add caption.}}
     \label{tab:tuned-params}
@@ -295,6 +295,7 @@ For the full model shown in Figure~\ref{fig:full-model}, the age-specific number
     >{\centering\arraybackslash}c{0.18\linewidth} |
     >{\centering\arraybackslash}c{0.18\linewidth} 
     }
+    \toprule
     \toprow
 \multirow{2}{*}{\begin{tabular}[]{@{}\centering@{}}\textbf{Age Group} \\ \textbf{(Years)}\end{tabular}} &
   \multicolumn{2}{c|}{\textbf{Total Cases}} & 
@@ -309,13 +310,23 @@ For the full model shown in Figure~\ref{fig:full-model}, the age-specific number
   2-4         & 124 & 107.8 & 33 & 31.4 \\
   5+          & 226 & 214.4 & 64 & 66.3 \\
   \midrule
-  Total & 406 & 373 & 127 & 124.6
+  Total & 406 & 373 & 127 & 124.6 \\
+  \bottomrule
 \end{tabular}}
 \label{tab:summary-stat-comp}
 \caption{Comparison between observed and simulated outcomes of the 23/24 measles outbreak in BSol. $^*$Observed age-specific cases reported for Birmingham only \cite{jary2025sociodemographic}. $^\dagger$calculated used SUS data from the BSol ICB data warehouse \citethis. \tkDE{Not sure why this table is still wrong.}}
 \end{table}
 
 \subsection{Outbreak Management}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/results/outbreak-response.pdf}
+    \caption{Caption}
+    \label{fig:outbreak-management}
+\end{figure}
+
+\subsection{Outbreak Preparation}
 
 \begin{figure}
     \centering
