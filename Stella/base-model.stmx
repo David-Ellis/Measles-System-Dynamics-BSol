@@ -7,9 +7,9 @@
 		<vendor>isee systems, inc.</vendor>
 		<product version="3.8.1" isee:build_number="3623" isee:saved_by_v1="true" lang="en">Stella Architect</product>
 	</header>
-	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.00410959" isee:restore_on_start="false" method="RK2" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
+	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.000684932" isee:restore_on_start="false" method="RK2" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
 		<start>0</start>
-		<stop>365</stop>
+		<stop>2190</stop>
 		<dt reciprocal="true">4</dt>
 	</sim_specs>
 	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="false" rifp="true"/>
@@ -26,9 +26,10 @@
 	</data>
 	<isee:sensi_specs_list active_index="0">
 		<isee:sensi_specs name="Sensitivity" method="grid">
-			<isee:variable starting_value="47" ending_value="65" type="incremental" min="47" max="65" seed="12345" name="Isolation_delay" num_samples="12"/>
-			<isee:variable starting_value="0.08" ending_value="0.11" type="incremental" min="0.08" max="0.11" seed="12345" name="Isolation_proportion" num_samples="12"/>
-			<isee:variable starting_value="0.025" ending_value="0.047" type="incremental" min="0.025" max="0.047" seed="12345" name="Hosp_rate_adult" num_samples="12"/>
+			<isee:variable starting_value="0.8" ending_value="1.2" type="incremental" min="0.8" max="1.2" seed="12345" name="vaccination_scale_factor" num_samples="10"/>
+			<isee:variable type="adhoc" name="Isolation_delay">48.6, 55.2, 60.1</isee:variable>
+			<isee:variable type="adhoc" name="Isolation_proportion">0.083, 0.094, 0.105</isee:variable>
+			<isee:variable type="adhoc" name="Hosp_rate_adult">0.031, 0.039, 0.045</isee:variable>
 		</isee:sensi_specs>
 	</isee:sensi_specs_list>
 	<isee:optimizer_specs_list active_index="0">
@@ -159,7 +160,7 @@
 				<units>people</units>
 			</stock>
 			<stock name="Adults (I)">
-				<eqn>1</eqn>
+				<eqn>0</eqn>
 				<inflow>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</inflow>
 				<inflow>Adult_infections</inflow>
 				<inflow>Infected_adults_input</inflow>
@@ -518,12 +519,12 @@
 				<eqn>55.18182</eqn>
 			</aux>
 			<aux name="Isolation proportion">
-				<eqn>0.09363636</eqn>
+				<eqn>0.093636368</eqn>
 			</aux>
 			<aux name="isolation switch">
-				<eqn>IF Total_infected &gt;= 1 THEN DELAY(Isolation_proportion, Isolation_delay,  0) ELSE 
+				<eqn>IF Total_infected &gt;= 1 THEN DELAY(Total_infected &gt;= 1, Isolation_delay,  0) ELSE 
 
-(IF PREVIOUS(SELF, 0) = Isolation_proportion AND Total_infected &lt; 1 THEN DELAY(0,  38,  Isolation_proportion) ELSE 0)</eqn>
+(IF PREVIOUS(SELF, 0) &gt; 0 AND Total_infected &lt; 1 THEN DELAY(Total_infected &gt; 1,  36,  Isolation_proportion) ELSE 0)</eqn>
 			</aux>
 			<group name="Isolation Switch Model" run="false">
 				<entity name="Isolation_delay"/>
@@ -531,7 +532,7 @@
 				<entity name="isolation_switch"/>
 			</group>
 			<flow name="Infected adults input">
-				<eqn>0</eqn>
+				<eqn>PULSE(1, 5*365, 0)</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -712,7 +713,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="4" isee:scroll_x="1551.67" isee:scroll_y="151.667" zoom="120" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="4" isee:scroll_y="1660" zoom="60" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -1499,10 +1500,6 @@
 				<aux x="2097.44" y="536.95" name="Isolation delay"/>
 				<aux x="2259.84" y="536.95" name="Isolation proportion"/>
 				<aux x="2160.93" y="642.192" name="isolation switch"/>
-				<connector uid="203" angle="197.604">
-					<from>Isolation_proportion</from>
-					<to>isolation_switch</to>
-				</connector>
 				<group locked="true" x="2015.84" y="499.233" width="309.333" height="440.133" name="Isolation Switch Model">
 					<item uid="255"/>
 					<item uid="342"/>
@@ -1647,6 +1644,7 @@
 					<graph legend_position="none" isee:transparent="false" isee:hide_border="false" axis_title_font_size="10pt" width="272.079" height="115.59" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
 							<entity name="isolation_switch"/>
+							<scale min="0.000002"/>
 						</plot>
 					</graph>
 				</stacked_container>
@@ -1990,7 +1988,7 @@
 					<entity name="Measles_Deaths"/>
 				</numeric_display>
 				<stacked_container uid="325" x="500.167" y="1703" width="1504.17" height="540">
-					<table width="1504.17" height="540" comparative="true">
+					<table orientation="vertical" interval="1" report_balances="beginning" report_flows="instantaneous" width="1504.17" height="540" comparative="true" isee:export_name="Top-Level Table 3" isee:mark_for_export="true">
 						<item type="time"/>
 						<item>
 							<entity name="New_cases"/>
@@ -2071,6 +2069,10 @@
 					<from>
 						<alias uid="342"/>
 					</from>
+					<to>isolation_switch</to>
+				</connector>
+				<connector uid="203" angle="197.604">
+					<from>Isolation_proportion</from>
 					<to>isolation_switch</to>
 				</connector>
 				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="69" x="585" y="487" width="18" height="18">
