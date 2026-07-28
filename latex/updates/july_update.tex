@@ -99,10 +99,11 @@ The third most highly ranked intervention was to provide a gelatine-free vaccine
 
 \subsection{Model tuning}
 \label{sec:tuning}
-To maximise the use of data, the model is tuned by minimising an error function. Since relative timing of the simulated is not \tkDE{important to this study}, a time-lag parameter $\tau$ is used so that the modelled outcomes are compared to observed outcomes occurring at the time time. The error function is then given by
+To maximise the use of data, the model is tuned by minimising an error function. As the objective is to reproduce the outbreak dynamics rather than the calendar timing of the outbreak, a time-lag parameter, $\tau$, is included so that simulated outcomes are compared with observed outcomes at the corresponding point in the epidemic. The error function is then given by
 %
 \begin{equation}
     E_V(p_i, \tau) = \sum_t\left( V_{t+\tau}^{\text{sim}}(p_i) - V_t^{\text{obs}}\right)^2 
+    \label{eq:error}
 \end{equation}
 %
 where $p_i$ represents all free model parameters to be tuned, and $V_{t+\tau}^{\text{sim}}$ and $V^{\text{obs}}$ are the simulated and observed measurable values respectively. 
@@ -111,9 +112,10 @@ There are two observable values for the model to be tuned to: measles infections
 %
 \begin{equation}
     E(p_i) = \frac{E_I(p_i)}{\mathrm{sd}(E_I)} + \omega \frac{E_H(p_i)}{\mathrm{sd}(E_H)}
+    \label{eq:error-comb}
 \end{equation}
 %
-where $E_I$ and $E_H$ are the error functions for infections and hospital admissions respectively and $\omega$ is a weighting parameter that encodes the relative importance of $E_I$ to $E_H$ in the error function calculation. The error functions $E_I$ and $E_H$ are normalised by dividing by their standard deviation across all parameters. Since this investigation is most interested in measles infections \tkDE{(why is this the case?)}, a value of $\omega = 0.5$ was chosen. However, it should be noted that this is a somewhat arbitrary choice and that a range of other values could also be considered appropriate. 
+where $E_I$ and $E_H$ are the error functions for infections and hospital admissions respectively and $\omega$ is a weighting parameter that encodes the relative importance of $E_I$ to $E_H$ in the error function calculation. The error functions $E_I$ and $E_H$ are normalised by dividing by their standard deviation across all parameters. Since this investigation is most interested in measles infections \tkDE{(why is this the case?)}, a value of $\omega = 0.5$ was chosen. However, it should be noted that this is a somewhat arbitrary choice and that a range of other values could also be considered appropriate.  
 
 \subsubsection{Data}
 
@@ -122,6 +124,7 @@ Model parameters are tuned to data from large measles outbreak that occurred fro
 The weekly lab-confirmed cases and hospital admissions are visualised in Figure~\ref{fig:2324-Outbreak}, along with a full explanation of the Solihull case-approximation is in Appendix~\ref{app:cases-approx}. 
 
 \subsection{SIR model}
+\label{sec:sir}
 
 In order to first simulate the most basic system behaviour, only three population states were simulated: susceptible (S), infected (I), and recovered (R). It is assumed that these three populations are perfectly mixed and that everyone within the population has an equal probability of contacting each other person.
 
@@ -181,16 +184,19 @@ The additional simulation components related to this isolation mechanism are pre
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=1\linewidth]{figures/model-diagrams/SIR+isolation.png}
-    \caption{Diagram of a basic SIR system with the ability to isolate infected individuals at a fixed daily proportion once the number of infections reaches a fixed threshold for action. \tkDE{update this caption}}
+    \caption{Diagram of a basic SIR system (blue) extended to include the ability to isolate infected individuals (green) at a fixed daily proportion $p_P$. This isolation mode is activated $p_D$ days after the first infection has occurred.}
     \label{fig:SIR+isol}
 \end{figure}
 
+When fitting the free parameters of the extended SIR model, the system was initialised with a single infected person. The error function for weekly incidence $E_I$ was then calculated using Equation~\ref{eq:error} for a range of isolation delay $p_D$ and proportion $p_P$ values. From this, the combination of parameters that minimise the error function was calculated.
 
 \subsection{Full model}
 
 The full model, shown in Figure~\ref{fig:full-model}, is an extension of the SIR model with isolation to include three different age groups: babies ($<$ one year), children (1 to 4 years), and "adults" (5+ years), as well as an additional hospitalised population state. This gives a total of 15 different population states (3 age groups $\times$ 5 states). In this model, hospitalised individuals are assumed to also be isolated. Therefore, the addition of this state will change the isolation threshold ($p_T$) and proportion ($p_P$) needed to fit the model to observational data. 
 
 The inclusion of a hospitalised state gives the model provides another output that can be compared and fitted to observed data. It is therefore necessary to include an additional free parameter $p_H$ which controls the rate of at which infected individuals are admitted to hospital. 
+
+Importantly, the full model also includes childhood vaccinations. Vaccinations are modelled as a fixed number of daily children moving to the "recovered" state. This number is taken to be the average number of vaccines given to children aged 1 to 4 years old in BSol between 2021 and 2025 \cite{NHSEngland2026FDP}. It also includes age-specific migration into Birmingham with vaccination proportions estimated by combining \tkDE{migration estimates with WHO vaccination estimates} as outlined in Appendix~\ref{app:migration}. Finally, the model includes age-specific all-cause mortality calculated using data from the deaths register for deaths recorded between 2022 and 2025 \cite{BSolICBWarehouse2026}. This date range was chosen to avoid the impact of the Covid-19 pandemic on the mortality estimates.
 
 \begin{figure}[ht!]
     \centering
@@ -235,6 +241,7 @@ where $\alpha_i$ and $P_i$ are the relative infection probability and population
 The number of infections per 1000 persons not vaccinated with at least one dose of MMR are presented in Table~\ref{tab:age-inf-rates} for each age group. From this, it can be deduced that
 
 \begin{equation}
+    \label{eq:inf-rates}
     \frac{\alpha_B}{\alpha_A} = 1.99,
     \qquad 
     \frac{\alpha_C}{\alpha_A} = 4.90.
@@ -242,19 +249,23 @@ The number of infections per 1000 persons not vaccinated with at least one dose 
 %
 Substituting into Equation~\ref{eq:R0-age}, it can be therefore be shown that $\alpha_A = 1.27$, $\alpha_B = 2.52$, and $\alpha_c = 6.20$. The age-specific infection rates can then be calculated by making the replacement $R_o \gamma \rightarrow \alpha_i$.
 
-Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital admission rates of infected babies and children are given by $h_B = 1.89 h_A$ and $0.940h_A$. However, to ensure that the modelled hospital admissions match the observed numbers, the infected adult daily hospitalisation proportion $h_A$ is left as a free parameter to be fitted.
-%
+Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital admission rates of infected babies and children are given by 
+\begin{equation}
+    \label{eq:hosp-rates}
+    h_B = 1.89 h_A,
+    \qquad 
+    h_C = 0.940h_A
+\end{equation}
+
+However, to ensure that the modelled hospital admissions match the observed numbers, the infected adult daily hospitalisation proportion $h_A$ is left as a free parameter to be fitted.
+
+When fitting the free parameters of the extended full model, the system was initialised with a single infected ''adult". The error function for weekly incidence $E_I$ and hospital admissions $E_H$ were then calculated using Equation~\ref{eq:error} for a range of values for the isolation delay $p_D$, isolation proportion $p_P$, and adult hospitalisation proportion $p_H$. From this, the combination of parameters that minimise the combined error function was calculated.
 
 \section{Preliminary Results}
 
 \subsection{Tuned Model}
 
-Parameters were tuned. The SIR models were initialised with a single infected person in the system. The full model was initialised with a single infected adult. \tkDE{Might need to move to methods.}
-
-These are shown in Table~\ref{tab:tuned-params}... Confidence intervals are calculated as the region of the parameter space which in which the error function is within 10\% of its global minimum.
-
-The ''adult" hospitalisation proportion $p_H$ was found to be 0.038 (0.032, 0.049). This means that an infected person aged 5 years or older has between a 3.2\% and 4.9\% probability of being admitted to hospital each day while infected. 
-
+For the extended SIR model and the full model, the free model parameters were fitted to observed data from the 2023/24 outbreak by minimising the error function as outlined in Section~\ref{sec:tuning}. The calculated values are shown in Table~\ref{tab:tuned-params}. Confidence intervals were calculated as the region of the parameter space which in which the error function is within 10\% of its global minimum.
 
 
 \begin{table}[ht!]
@@ -266,45 +277,49 @@ The ''adult" hospitalisation proportion $p_H$ was found to be 0.038 (0.032, 0.04
 }
     \toprule
     \textbf{Variable} & \textbf{SIR + Isolation} & \textbf{Full Model}\\ \midrule
-    Isolation Proportion, $p_P$ & 0.063 (0.058, 0.069) & 0.094 (0.038, 0.105) \\
-    Isolation Delay, $p_D$ (days)& 94.7 (92.6, 496.8) & 55.2 (48.6, 60.1) \\
+    Isolation Proportion, $p_P$ & 0.063 (0.058, 0.069) & 0.094 (0.083, 0.105) \\
+    Isolation Delay, $p_D$ (days)& 94.7 (92.6, 96.8) & 55.2 (48.6, 60.1) \\
     ''Adult" hospitalisation rate, $p_H$ & - & 0.039 (0.031, 0.045) \\
     Time lag, $\tau$ (weeks) & -2  & 3 \\
     \bottomrule
     \end{tabular}
-    \caption{\tkDE{Add caption.}}
+    \caption{Free parameter values for the expanded SIR full system dynamics models. Model parameters are calculated by minimising the error function using data from the 23/24 measles outbreak in Birmingham and Solihull \cite{jary2025sociodemographic, BSolICBWarehouse2026}.}
     \label{tab:tuned-params}
 \end{table}
+
+For the SIR model, the isolation proportion was found to be 0.063 (0.058, 0.069) and the isolation delay was found to be 94.7 (92.6, 96.8). This means that, with the isolation mechanism modelled as outlined in Section~\ref{sec:sir}, 94.7 days after the first infection occurred 6.3\% of infected individuals were isolated each day. 
+
+For the full model, the isolation proportion was found to be 0.094 (0.083, 0.105) and the isolation delay was found to be 55.2 (48.6, 60.1). This means that, as modelled, 55.2 days after the first infection occurred 9.4\% of infected individuals were isolated each day. Additionally, the ''adult" hospitalisation proportion was found to be 0.039 (0.031, 0.045). This means that an infected person aged 5 years or older has 3.9\% probability of being admitted to hospital each day while infected. From Equation~\ref{eq:hosp-rates}, this means that the daily hospitalisation proportions for babies and children are 7.4\% and 3.7\% respectively. 
 
 Figure~\ref{fig:epi-curve} compares the epidemic curves for the three models discussed with that observed during the 23/24 outbreak.
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/model-params/full-tuned.pdf}
-    \caption{\tkDE{Add caption.}}
+    \caption{Weekly number of measles cases (top) and measles-related hospital admissions (bottom) during the 23/24 outbreak in Birmingham and Solihull \cite{jary2025sociodemographic, BSolICBWarehouse2026}. The solid red, green dashed, and blue dotted lines show the predicted epidemic curves from the full, expanded SIR, and SIR models respectively.}
     \label{fig:epi-curve}
 \end{figure}
 
 For the full model shown in Figure~\ref{fig:full-model}, the age-specific number of cases and hospital admissions across the outbreak are compared to the 23/24 outbreak in Table~\ref{tab:summary-stat-comp}.
 
-\begin{table}[]
-    \resizebox{\textwidth}{!}{%
+\begin{table}[ht!]
+    \centering
 \begin{tabular}{ p{0.12\linewidth} |
-    >{\centering\arraybackslash}c{0.18\linewidth} |
-    >{\centering\arraybackslash}c{0.18\linewidth} |
-    >{\centering\arraybackslash}c{0.18\linewidth} |
-    >{\centering\arraybackslash}c{0.18\linewidth} 
+    >{\centering\arraybackslash}p{0.18\linewidth} |
+    >{\centering\arraybackslash}p{0.18\linewidth} |
+    >{\centering\arraybackslash}p{0.18\linewidth} |
+    >{\centering\arraybackslash}p{0.18\linewidth} 
     }
     \toprule
-    \toprow
-\multirow{2}{*}{\begin{tabular}[]{@{}\centering@{}}\textbf{Age Group} \\ \textbf{(Years)}\end{tabular}} &
+%    \toprow
+\multirow{2}{*}{\begin{tabular}{@{}c@{}}\textbf{Age Group} \\ \textbf{(Years)}\end{tabular}} &
   \multicolumn{2}{c|}{\textbf{Total Cases}} & 
   \multicolumn{2}{c}{\textbf{Hospital Admissions}} \\
  &
-  \textbf{Observed \;(23/24 outbreak)$^*$} &
-  \textbf{Simulated} &
-  \textbf{Observed \;(23/24 outbreak)$^\dagger$} &
-  \textbf{Simulated} \\
+  Observed \;\;(23/24 outbreak)$^*$ &
+  Simulated &
+  Observed \;\;(23/24 outbreak)$^\dagger$ &
+  Simulated \\
   \midrule
   \textless 1 & 56  & 50.8   & 30   & 26.9 \\
   2-4         & 124 & 107.8 & 33 & 31.4 \\
@@ -312,29 +327,35 @@ For the full model shown in Figure~\ref{fig:full-model}, the age-specific number
   \midrule
   Total & 406 & 373 & 127 & 124.6 \\
   \bottomrule
-\end{tabular}}
-\label{tab:summary-stat-comp}
-\caption{Comparison between observed and simulated outcomes of the 23/24 measles outbreak in BSol. $^*$Observed age-specific cases reported for Birmingham only \cite{jary2025sociodemographic}. $^\dagger$calculated used SUS data from the BSol ICB data warehouse \citethis. \tkDE{Not sure why this table is still wrong.}}
+\end{tabular}
+%}
+
+\caption{Comparison between observed and simulated outcomes of the 23/24 measles outbreak in BSol. $^*$Observed age-specific cases reported for Birmingham only \cite{jary2025sociodemographic}. $^\dagger$Calculated used SUS data from the BSol ICB data warehouse \cite{BSolICBWarehouse2026}. \label{tab:summary-stat-comp}}
 \end{table}
 
 \subsection{Outbreak Management}
 
-\begin{figure}
+
+
+\begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/results/outbreak-response.pdf}
+    \includegraphics[width=0.95\linewidth]{figures/results/outbreak-response.pdf}
     \caption{Caption}
     \label{fig:outbreak-management}
 \end{figure}
 
 \subsection{Outbreak Preparation}
 
-\begin{figure}
+\begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/results/outbreak-response.pdf}
+    \includegraphics[width=0.9\linewidth]{figures/results/outbreak-prep.pdf}
     \caption{Caption}
-    \label{fig:outbreak-management}
+    \label{fig:outbreak-prep}
 \end{figure}
 
+We see that by increasing the number of vaccinations by 10\%, after five years, the estimated number of cases reduces to just \tkDE{24.1} with \tkDE{8.7} estimated hospital admissions.
+
+\newpage
 \printbibliography
 
 \appendix
@@ -381,6 +402,8 @@ This approximation simultaneously accounts for the reduced reporting period and 
 
 \section{Model Parameters}
 
+A full list of parameters used in the full system dynamics model are presented in Table~\ref{tab:model-params}. 
+
 \begin{table}[ht!]
     \begin{tabular}{p{0.5\linewidth} | p{0.25\linewidth} | p{0.15\linewidth}}
     \toprule
@@ -416,5 +439,12 @@ This approximation simultaneously accounts for the reduced reporting period and 
     \caption{Model parameter values for a basic measles system model (No ethnicity or behavioural factors).}
     \label{tab:model-params} 
 \end{table}
+
+\subsection{Migration}
+\label{app:migration}
+
+\subsection{Sensitivity Analysis}
+
+\begin{}
 
 \end{document}
