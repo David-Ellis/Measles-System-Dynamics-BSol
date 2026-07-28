@@ -46,9 +46,9 @@ sim_data <- rbind(sim_cases, sim_admissions) %>%
   mutate(
     frac_diff = 100 * sim_val / base_sim
   ) %>%
-  filter(
-    isolation_proportion > 0.08
-  ) %>%
+  # filter(
+  #   isolation_proportion > 0.08
+  # ) %>%
   mutate(
     isolation_delay_change = (isolation_delay - 55.2) / 55.2,
     isolation_proportion_change = (isolation_proportion - 0.094) / 0.094,
@@ -75,7 +75,8 @@ for (outcome_i in c("Total Cases", "Total Admissions")) {
   plts[[outcome_i]] <- sim_data %>% 
     filter(
       outcome == outcome_i,
-      isolation_delay_change > -0.4
+      isolation_delay_change > -0.4,
+      isolation_proportion_change>-0.2
     ) %>%
     ggplot(
       aes(
