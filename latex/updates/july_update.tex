@@ -155,7 +155,14 @@ This is the SIR condition for herd immunity. For measles, $R_0=13.5$. Therefore,
 
 In reality, measles outbreaks are not left to infect people until herd immunity is achieved through natural infection. Instead, authorities such as the UK Health Security Agency (UKHSA) intervene to break the spread of transmission by identifying and isolating infected individuals. A model that reproduces observed outcomes therefore requires a mechanism to model this isolation process. 
 
-One of simple ways to model this is to implement an ``isolation mode" that turns on a fixed number of days after the first measles case. Once this mode is activated, a daily fixed proportion of infected persons are moved to an isolated state in which they can no longer infect others. The time delay to response $p_D$ and the isolation proportion $p_P$ are free model parameters. Their values will be tuned to observed data as outlined in Section~\ref{sec:tuning}. 
+One of simple ways to model this is to implement an ``isolation mode" that turns on a fixed number of days after the first measles case. Once this mode is activated, a daily fixed proportion of infected persons are moved to an isolated state in which they can no longer infect others. The time delay to response $p_D$ and the isolation proportion $p_P$ are free model parameters. Their values will be tuned to observed data as outlined in Section~\ref{sec:tuning}. When the ``isolation mode" is activated, the rate of change of infected persons is modified to be
+
+\begin{equation}
+    \frac{\diff I}{\diff t} \rightarrow \frac{R_0\gamma SI}{N} - \gamma I - \eqnmarkbox[red]{inf3}{p_P I}
+    \label{eq:isolation}
+\end{equation}
+\annotate[yshift=-1em]{below}{inf3}{Isolation}
+\vspace{1.5em}
 
 Standard practice for communicable disease is to only consider an outbreak ``over" after two maximum incubation periods occurring without any new cases \cite{UKHSA2026MeaslesGuidelines}. Since the incubation period for measles is 7 to 18 days, the outbreak should be considered ongoing until 36 days have passed without a new case. After this point, authorities can stop looking for infected individuals.
 
@@ -346,7 +353,17 @@ Figure~\ref{fig:outbreak-management} shows the number of estimates cases and adm
     \label{fig:outbreak-management}
 \end{figure}
 
-\tkDE{Describe the figure.}
+Figure~\ref{fig:outbreak-management} shows that a small reduction in isolation proportion could greatly increase the number measles cases. For example, a 20\% decrease in the daily proportion of infected individuals being isolated results in 300.3 (+83.8\%) more cases and 102.6 (+83.6\%) more hospital admissions. However, increasing the isolation proportion provides diminishing returns on improvements in outcomes. For example, a 20\% increase in the daily proportion of infected individuals being isolated results in 88 (-24.5\%) fewer cases and 32 (-24.5\%) fewer hospital admissions.
+
+In contrast, a 20\% reduction in the isolation delay (11.6 days) results in 191.6 (-53.4\%) fewer cases and 65.4 (-53.3\%) fewer admissions. A 20\% increase in the isolation delay, however, results in 378.4 (105.6\%) more cases and 129.2 (105.3\%) more hospital admissions.
+
+This analysis highlights that detecting an outbreak early (encoded in this model via $p_D$) has a greater potential for suppressing the overall outbreak than improving the effectiveness of the case-finding efforts (encoded in this model via $p_P$). This finding is consistent with a 2021 evidence-based review of the effectiveness of contact tracing for the mitigation and suppression of viral diseases, as well as a 2021 systematic review of contact tracing methods for controlling measles outbreaks in low and middle-income countries \cite{craig2021effectiveness, mbivnjo2022measles}. 
+
+%However, this also arises mathematically from the exponential nature of infectious disease. For a simple SIR system with isolation, it follows from Equation.~\ref{eq:isolation} that $I\propto \mathrm{e}^{R_{\mathrm{eff}} - \gamma -p_P}$ where $R_{\rm{eff}} = R_0\gamma SI/N$. The number of infected persons increases so long as the exponent is positive
+
+However, this also arises mathematically from the exponential nature of infectious disease \cite{zhang2024seir}. Consider a single case of measles (basic reproduction number $R_0 = 13.5$) in a fully susceptible population. Each infectious generation increases the number of cases by more than an order of magnitude. After two generations, there are approximately $13.5^2 = 182$ cases. After four generations, there are approximately $13.5^4 = 33,215$ cases. While the \textit{effective} reproduction number is much smaller than 13.5, this highlights how quickly the number of infected persons can increase. Once there are many infectious people, any intervention becomes less effective.
+
+For these reason, the World Health Organisation recommends that to create surveillance system capable of eliminating measles and rubella, the early detection of outbreaks should be given the highest priority \cite{world2024eliminating}.
 
 \subsection{Outbreak Preparation}
 
