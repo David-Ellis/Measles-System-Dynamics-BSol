@@ -335,14 +335,18 @@ For the full model shown in Figure~\ref{fig:full-model}, the age-specific number
 
 \subsection{Outbreak Management}
 
+Within the presented model, outbreak management is controlled by the isolation delay $p_D$ and isolation proportion $p_P$. By varying these values it is possible to estimate how different outbreak management scenarios changes the number of people estimated to be infected and hospitalised during an outbreak. 
 
+Figure~\ref{fig:outbreak-management} shows the number of estimates cases and admissions associated with changes in the isolation delay and proportion parameters from those derived from fitting to data from the 23/24 outbreak shown in Table~\ref{tab:tuned-params}. The isolation delay was varied from 35.5 days (-36\%) to 75 days (+36\%), and the isolation proportion was varied from 0.0763 (-19\%) to 0.150 (60\%). 
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.95\linewidth]{figures/results/outbreak-response.pdf}
-    \caption{Caption}
+    \caption{Estimates number of cases (left) and hospital admissions (right) with changing isolation delay and proportion parameters compared to the 23/24 outbreak.}
     \label{fig:outbreak-management}
 \end{figure}
+
+\tkDE{Describe the figure.}
 
 \subsection{Outbreak Preparation}
 
@@ -445,6 +449,13 @@ A full list of parameters used in the full system dynamics model are presented i
 
 \subsection{Sensitivity Analysis}
 
-\begin{}
+Figure~\ref{fig:omega-sensitivity} shows that the free parameters $p_D$, $p_P$, and $p_H$, vary only marginally with changes in $\omega$. Importantly, at this resolution, the parameters are the same for $\omega=0.5$ and for $\omega=1$.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/results/omega-sensitivity.pdf}
+    \caption{Caption}
+    \label{fig:omega-sensitivity}
+\end{figure}
 
 \end{document}
