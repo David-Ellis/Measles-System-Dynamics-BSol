@@ -121,7 +121,7 @@ for (i in 1:2) {
     facet_wrap(~outcome) +
     coord_cartesian(
       expand = F,
-      ylim = c(0, c(300, 80)[i]))
+      ylim = c(0, c(600, 200)[i]))
   plts[[i]] <- plt_i 
 }
 

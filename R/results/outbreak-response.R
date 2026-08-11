@@ -74,9 +74,7 @@ base_sim <- data.frame(
 for (outcome_i in c("Total Cases", "Total Admissions")) {
   plts[[outcome_i]] <- sim_data %>% 
     filter(
-      outcome == outcome_i,
-      isolation_delay_change > -0.4,
-      isolation_proportion_change>-0.2
+      outcome == outcome_i
     ) %>%
     ggplot(
       aes(
@@ -129,3 +127,4 @@ ggsave(
   "figures/results/outbreak-response.pdf",
   width = 6, height = 2.8
 )
+

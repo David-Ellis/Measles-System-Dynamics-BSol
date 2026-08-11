@@ -14,7 +14,7 @@ source("R/functions/tuning.R")
 
 
 sim_cases <- load_sim_data(
-  "data/stella outputs/basic-model-testing/full-isol-hosp-params-zoom.xlsx",
+  "data/stella outputs/basic-model-testing/full-isol-hosp-params.xlsx",
   "run-cases",
   "run-params"
   ) 
@@ -58,7 +58,7 @@ incidence_errors <- calc_all_errors(
 
 
 sim_admissions <- load_sim_data(
-  "data/stella outputs/basic-model-testing/full-isol-hosp-params-zoom.xlsx",
+  "data/stella outputs/basic-model-testing/full-isol-hosp-params.xlsx",
   "run-admissions",
   "run-params"
 ) 
@@ -145,7 +145,7 @@ print(range(errors10perc$`Adult Admission Proportion`))
 
 palette <- ggpubr::get_palette((c("#FFFFFF", uob_colors[3])), 20)
 plt<-plot_tuned_params(
-    comb_errors, 
+    comb_errors %>% filter(Run != "Run 1001"), 
     param_pairs = list(
       c("Isolation delay", "Isolation proportion"),
       c("Adult Admission Proportion", "Isolation proportion"),
@@ -156,8 +156,8 @@ plt<-plot_tuned_params(
 )  
 plt
 
-ggsave("figures/model-params/three-param-contour-zoom.pdf", plt,
-       bg = "white", width = 6, height = 5)
+# ggsave("figures/model-params/three-param-contour.pdf", plt,
+#        bg = "white", width = 6, height = 5)
 
 # Omega sensitivity test
 
@@ -217,8 +217,8 @@ ggplot(omega_sens_data, aes(x = Omega, y = Value)) +
     x = TeX("Hospital Adission Error Weight, \\omega")
   )
 
-ggsave("figures/results/omega-sensitivity.pdf",
-       width = 6, height = 5)
+# ggsave("figures/results/omega-sensitivity.pdf",
+#        width = 6, height = 5)
 
 
 
