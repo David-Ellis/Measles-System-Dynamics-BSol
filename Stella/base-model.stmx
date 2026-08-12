@@ -7,9 +7,9 @@
 		<vendor>isee systems, inc.</vendor>
 		<product version="3.8.1" isee:build_number="3623" isee:saved_by_v1="true" lang="en">Stella Architect</product>
 	</header>
-	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.000684932" isee:restore_on_start="false" method="RK2" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
+	<sim_specs isee:sim_duration="1.5" isee:run_prefix="Run" isee:simulation_delay="0.00410959" isee:restore_on_start="false" method="RK2" time_units="days" isee:instantaneous_flows="false" isee:ignore_module_errors="true" isee:strict_units="true" isee:loop_scores="true" isee:loop_exhaustive_allowed="1000" isee:analyze_mode="false">
 		<start>0</start>
-		<stop>2190</stop>
+		<stop>365</stop>
 		<dt reciprocal="true">4</dt>
 	</sim_specs>
 	<isee:prefs saved_runs="5" keep="false" show_module_prefix="true" live_update_on_drag="true" show_restore_buttons="false" layer="model" isee:design="Deluxe Prev-Next Blue Green Pastel" isee:design_custom="false" interface_scale_ui="true" interface_max_page_width="10000" interface_max_page_height="10000" interface_min_page_width="0" interface_min_page_height="0" rerun_on_structure_change="false" rifp="true"/>
@@ -19,17 +19,11 @@
 	</isee:time_formats>
 	<isee:number_format_extenders/>
 	<default_format/>
-	<data>
-		<export enabled="false" resource="r../test-output.xlsx" type="Excel" worksheet="Sheet1" interval="DT" precomputed="false" isee:format="numbers">
-			<all/>
-		</export>
-	</data>
 	<isee:sensi_specs_list active_index="0">
 		<isee:sensi_specs name="Sensitivity" method="grid">
-			<isee:variable starting_value="0.8" ending_value="1.2" type="incremental" min="0.8" max="1.2" seed="12345" name="vaccination_scale_factor" num_samples="10"/>
-			<isee:variable type="adhoc" name="Isolation_delay">48.6, 55.2, 60.1</isee:variable>
-			<isee:variable type="adhoc" name="Isolation_proportion">0.083, 0.094, 0.105</isee:variable>
-			<isee:variable type="adhoc" name="Hosp_rate_adult">0.031, 0.039, 0.045</isee:variable>
+			<isee:variable starting_value="0.07" ending_value="0.11" type="incremental" min="0.07" max="0.11" seed="12345" name="Isolation_proportion" num_samples="20"/>
+			<isee:variable starting_value="40" ending_value="65" type="incremental" min="40" max="65" seed="12345" name="Isolation_delay" num_samples="20"/>
+			<isee:variable starting_value="0.028" ending_value="0.048" type="incremental" min="0.028" max="0.048" seed="12345" name="Hosp_rate_adult" num_samples="20"/>
 		</isee:sensi_specs>
 	</isee:sensi_specs_list>
 	<isee:optimizer_specs_list active_index="0">
@@ -160,7 +154,7 @@
 				<units>people</units>
 			</stock>
 			<stock name="Adults (I)">
-				<eqn>0</eqn>
+				<eqn>1</eqn>
 				<inflow>&quot;age_up_to_\&quot;adult\&quot;_(I)&quot;</inflow>
 				<inflow>Adult_infections</inflow>
 				<inflow>Infected_adults_input</inflow>
@@ -522,9 +516,9 @@
 				<eqn>0.093636368</eqn>
 			</aux>
 			<aux name="isolation switch">
-				<eqn>IF Total_infected &gt;= 1 THEN DELAY(Total_infected &gt;= 1, Isolation_delay,  0) ELSE 
+				<eqn>IF Total_infected &gt;= 1 THEN DELAY(Total_infected &gt;= 1, Isolation_delay,  0)*Isolation_proportion ELSE 
 
-(IF PREVIOUS(SELF, 0) &gt; 0 AND Total_infected &lt; 1 THEN DELAY(Total_infected &gt; 1,  36,  Isolation_proportion) ELSE 0)</eqn>
+(IF PREVIOUS(SELF, 0) &gt; 0 AND Total_infected &lt; 1 THEN DELAY(Total_infected &gt; 1,  36,  1)*Isolation_proportion ELSE 0)</eqn>
 			</aux>
 			<group name="Isolation Switch Model" run="false">
 				<entity name="Isolation_delay"/>
@@ -532,7 +526,7 @@
 				<entity name="isolation_switch"/>
 			</group>
 			<flow name="Infected adults input">
-				<eqn>PULSE(1, 5*365, 0)</eqn>
+				<eqn>0 {PULSE(1, 0, 0)}</eqn>
 				<non_negative/>
 				<units>people/days</units>
 			</flow>
@@ -662,7 +656,7 @@
 				<eqn>Adult_hospitalisation_total + Baby_hospitalisation_total + Child_hospitalisation_total</eqn>
 			</aux>
 			<aux name="vaccination scale factor">
-				<eqn>0.9</eqn>
+				<eqn>1</eqn>
 			</aux>
 		</variables>
 		<views>
@@ -713,7 +707,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="4" isee:scroll_y="1660" zoom="60" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="3" isee:page_rows="4" isee:scroll_y="1155" zoom="40" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -1917,7 +1911,7 @@
 					</from>
 					<to>New_cases</to>
 				</connector>
-				<stacked_container uid="310" x="1758" y="1261.25" width="513" height="303">
+				<stacked_container uid="310" x="1758" y="1263.92" width="513" height="303">
 					<table width="513" height="303">
 						<item type="time"/>
 						<item>
@@ -2048,14 +2042,6 @@
 					</from>
 					<to>New_Admissions</to>
 				</connector>
-				<stacked_container uid="340" x="499.166" y="2277" width="1504.17" height="540">
-					<table width="1504.17" height="540" comparative="true">
-						<item type="time"/>
-						<item>
-							<entity name="New_Admissions"/>
-						</item>
-					</table>
-				</stacked_container>
 				<aux x="851.667" y="390.75" name="vaccination scale factor"/>
 				<connector uid="341" angle="166.054">
 					<from>vaccination_scale_factor</from>
@@ -2075,6 +2061,14 @@
 					<from>Isolation_proportion</from>
 					<to>isolation_switch</to>
 				</connector>
+				<stacked_container uid="340" x="491.166" y="2277" width="1504.17" height="540">
+					<table width="1504.17" height="540" comparative="true">
+						<item type="time"/>
+						<item>
+							<entity name="New_Admissions"/>
+						</item>
+					</table>
+				</stacked_container>
 				<alias color="#B6B6B6" background="white" font_style="italic" font_color="#B6B6B6" uid="69" x="585" y="487" width="18" height="18">
 					<shape type="circle" radius="18"/>
 					<of>&quot;baby_age-up_rate&quot;</of>

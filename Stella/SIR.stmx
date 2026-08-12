@@ -22,7 +22,6 @@
 	<isee:sensi_specs_list active_index="0">
 		<isee:sensi_specs name="Sensitivity" method="grid">
 			<isee:variable starting_value="0" ending_value="20" type="incremental" min="0" max="20" seed="12345" name="isolation_delay" num_samples="5"/>
-			<isee:variable type="adhoc" name="outbreak_start">0, 50, 100, 150, 200, 250</isee:variable>
 		</isee:sensi_specs>
 	</isee:sensi_specs_list>
 	<isee:optimizer_specs_list active_index="0">
@@ -84,7 +83,6 @@
 			<stock name="Infected">
 				<eqn>0</eqn>
 				<inflow>infections</inflow>
-				<inflow>Flow_5</inflow>
 				<outflow>recovery</outflow>
 				<outflow>isolation</outflow>
 				<non_negative/>
@@ -113,40 +111,60 @@
 			<aux name="N">
 				<eqn>1.3e5 + 1.17e6</eqn>
 			</aux>
+			<aux name="Total infected">
+				<eqn>Infected + Isolated</eqn>
+			</aux>
+			<flow name="isolation">
+				<eqn>Infected * isolation_switch * isolation_proportion</eqn>
+				<non_negative/>
+			</flow>
+			<flow name="recovery from isolation">
+				<eqn>Isolated / infectious_period</eqn>
+				<non_negative/>
+			</flow>
 			<stock name="Isolated">
 				<eqn>0</eqn>
 				<inflow>isolation</inflow>
 				<outflow>recovery_from_isolation</outflow>
 				<non_negative/>
 			</stock>
-			<flow name="recovery from isolation">
-				<eqn>Isolated / infectious_period</eqn>
-				<non_negative/>
-			</flow>
-			<flow name="isolation">
-				<eqn>Infected * isolation_switch * isolation_proportion</eqn>
-				<non_negative/>
-			</flow>
-			<aux name="isolation proportion">
-				<eqn>0.078</eqn>
-			</aux>
-			<aux name="isolation delay">
-				<eqn>50</eqn>
-			</aux>
 			<aux name="isolation switch">
 				<eqn>IF Infected &gt;= 1 THEN DELAY(Infected &gt;= 1, isolation_delay,  0) ELSE 
 
 (IF PREVIOUS(SELF, 0) = 1 AND Infected &lt; 1 THEN DELAY(Infected &gt; 1,  36,  1) ELSE 0)</eqn>
 			</aux>
-			<aux name="Total infected">
-				<eqn>Infected + Isolated</eqn>
+			<aux name="isolation delay">
+				<eqn>50</eqn>
 			</aux>
-			<flow name="Flow 5">
-				<eqn>PULSE(1,  outbreak_start,  0)</eqn>
-				<non_negative/>
-			</flow>
-			<aux name="outbreak start">
-				<eqn>40</eqn>
+			<aux name="isolation proportion">
+				<eqn>0.078</eqn>
+			</aux>
+			<aux name="parents willingness to vaccinate">
+				<eqn>Health_literacy</eqn>
+			</aux>
+			<aux name="Recent cases/admissions">
+				<eqn>100</eqn>
+			</aux>
+			<aux name="Misinformation">
+				<eqn>100</eqn>
+			</aux>
+			<aux name="accessibility">
+				<eqn>100</eqn>
+			</aux>
+			<aux name="Vaccination rate">
+				<eqn>accessibility</eqn>
+			</aux>
+			<aux name="Fear of the vaccine">
+				<eqn>recent_adverse_reactions</eqn>
+			</aux>
+			<aux name="recent adverse reactions">
+				<eqn>100</eqn>
+			</aux>
+			<aux name="Health literacy">
+				<eqn>100</eqn>
+			</aux>
+			<aux name="Fear of the disease">
+				<eqn>&quot;Recent_cases/admissions&quot;</eqn>
 			</aux>
 		</variables>
 		<views>
@@ -197,7 +215,7 @@
 				<isee:iframe color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt" border_width="thin" border_style="solid"/>
 				<isee:financial_table color="black" background="#E0E0E0" text_align="right" font_size="12pt" hide_border="false" auto_fit="true" first_column_width="250" other_column_width="100" header_font_style="normal" header_font_weight="bold" header_text_decoration="none" header_text_align="center" header_vertical_text_align="center" header_font_color="black" header_font_family="Arial" header_font_size="14pt" header_text_padding="2" header_text_border_color="black" header_text_border_width="thin" header_text_border_style="none"/>
 			</style>
-			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="2" isee:page_rows="3" isee:scroll_y="994.167" zoom="120" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
+			<view isee:show_pages="false" background="white" page_width="1122" page_height="793" isee:page_cols="2" isee:page_rows="3" isee:scroll_x="7.14286" isee:scroll_y="1777.86" zoom="140" isee:popup_graphs_are_comparative="true" isee:enable_non_negative_highlights="false" type="stock_flow">
 				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
 					<stock color="blue" background="white" font_color="blue" font_size="9pt" label_side="top">
 						<shape type="rectangle" width="45" height="35"/>
@@ -356,22 +374,6 @@
 					<from>N</from>
 					<to>infections</to>
 				</connector>
-				<stock color="#3AAA35" font_color="#3AAA35" font_size="16pt" label_side="top" x="362.467" y="1350.78" width="121" height="89.4" name="Isolated"/>
-				<flow color="#3AAA35" font_color="#3AAA35" font_size="11pt" x="561.617" y="1395.48" name="recovery from isolation">
-					<pts>
-						<pt x="483.467" y="1395.48"/>
-						<pt x="639.767" y="1395.48"/>
-						<pt x="639.767" y="1246.07"/>
-					</pts>
-				</flow>
-				<connector uid="68" color="#B3B3B3" font_color="#B3B3B3" angle="301.4">
-					<from>infectious_period</from>
-					<to>recovery_from_isolation</to>
-				</connector>
-				<connector uid="69" color="#B3B3B3" font_color="#B3B3B3" angle="339.872">
-					<from>Isolated</from>
-					<to>recovery_from_isolation</to>
-				</connector>
 				<stacked_container uid="74" x="861.683" y="1225.26" width="467.833" height="198">
 					<graph width="467.833" height="198" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
 						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
@@ -384,7 +386,29 @@
 					<from>R0</from>
 					<to>infections</to>
 				</connector>
-				<flow color="#3AAA35" font_color="#3AAA35" font_size="11pt" x="416.301" y="1292.42" name="isolation">
+				<stacked_container uid="89" x="1570" y="1229">
+					<table width="350" height="250">
+						<item type="time"/>
+						<item>
+							<entity name="infections"/>
+						</item>
+					</table>
+				</stacked_container>
+				<aux x="910" y="1112" name="Total infected"/>
+				<connector uid="106" angle="316.757">
+					<from>
+						<alias uid="107"/>
+					</from>
+					<to>Total_infected</to>
+				</connector>
+				<stacked_container uid="111" x="859.167" y="1454.17" width="392.5" height="195">
+					<graph width="392.5" height="195" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
+						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
+							<entity name="isolation_switch"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<flow color="#3AAA35" font_color="#3AAA35" font_size="11pt" x="416.301" y="1292.43" name="isolation">
 					<pts>
 						<pt x="416.301" y="1246.07"/>
 						<pt x="416.301" y="1350.78"/>
@@ -394,17 +418,35 @@
 					<from>Infected</from>
 					<to>isolation</to>
 				</connector>
-				<stacked_container uid="89" x="1570" y="1229">
-					<table width="350" height="250">
-						<item type="time"/>
-						<item>
-							<entity name="infections"/>
-						</item>
-					</table>
-				</stacked_container>
-				<aux color="#3AAA35" font_color="#3AAA35" x="335.167" y="1315.93" name="isolation proportion"/>
-				<connector uid="95" color="#B3B3B3" font_color="#B3B3B3" angle="35.929">
-					<from>isolation_proportion</from>
+				<flow color="#3AAA35" font_color="#3AAA35" font_size="11pt" x="561.617" y="1395.48" name="recovery from isolation">
+					<pts>
+						<pt x="483.467" y="1395.48"/>
+						<pt x="639.767" y="1395.48"/>
+						<pt x="639.767" y="1246.07"/>
+					</pts>
+				</flow>
+				<connector uid="68" color="#B3B3B3" font_color="#B3B3B3" angle="301.4">
+					<from>infectious_period</from>
+					<to>recovery_from_isolation</to>
+				</connector>
+				<stock color="#3AAA35" font_color="#3AAA35" font_size="16pt" label_side="top" x="362.467" y="1350.78" width="121" height="89.4" name="Isolated"/>
+				<connector uid="108" angle="228.945">
+					<from>
+						<alias uid="109"/>
+					</from>
+					<to>Total_infected</to>
+				</connector>
+				<connector uid="69" color="#B3B3B3" font_color="#B3B3B3" angle="339.872">
+					<from>Isolated</from>
+					<to>recovery_from_isolation</to>
+				</connector>
+				<aux color="#3AAA35" font_color="#3AAA35" x="317.167" y="1271.15" name="isolation switch"/>
+				<connector uid="105" color="#B3B3B3" font_color="#B3B3B3" angle="207.974">
+					<from>Infected</from>
+					<to>isolation_switch</to>
+				</connector>
+				<connector uid="102" color="#B3B3B3" font_color="#B3B3B3" angle="7.24797">
+					<from>isolation_switch</from>
 					<to>isolation</to>
 				</connector>
 				<aux color="#3AAA35" font_color="#3AAA35" x="261.867" y="1297.93" name="isolation delay"/>
@@ -412,46 +454,52 @@
 					<from>isolation_delay</from>
 					<to>isolation_switch</to>
 				</connector>
-				<aux color="#3AAA35" font_color="#3AAA35" x="317.167" y="1271.15" name="isolation switch"/>
-				<connector uid="102" color="#B3B3B3" font_color="#B3B3B3" angle="7.24797">
-					<from>isolation_switch</from>
+				<aux color="#3AAA35" font_color="#3AAA35" x="335.167" y="1315.93" name="isolation proportion"/>
+				<connector uid="95" color="#B3B3B3" font_color="#B3B3B3" angle="35.929">
+					<from>isolation_proportion</from>
 					<to>isolation</to>
 				</connector>
-				<connector uid="105" color="#B3B3B3" font_color="#B3B3B3" angle="207.974">
-					<from>Infected</from>
-					<to>isolation_switch</to>
+				<aux x="306.286" y="1893.57" name="parents willingness to vaccinate"/>
+				<aux x="404" y="1806.71" name="Recent cases/admissions"/>
+				<aux x="458.857" y="1968.43" name="Misinformation"/>
+				<aux x="158.857" y="1932.71" name="accessibility"/>
+				<aux x="216" y="1860.43" name="Vaccination rate"/>
+				<connector uid="113" angle="152.7">
+					<from>parents_willingness_to_vaccinate</from>
+					<to>Vaccination_rate</to>
 				</connector>
-				<aux x="910" y="1112" name="Total infected"/>
-				<connector uid="106" angle="316.757">
-					<from>
-						<alias uid="107"/>
-					</from>
-					<to>Total_infected</to>
+				<connector uid="112" angle="67.7984">
+					<from>accessibility</from>
+					<to>Vaccination_rate</to>
 				</connector>
-				<connector uid="108" angle="228.945">
-					<from>
-						<alias uid="109"/>
-					</from>
-					<to>Total_infected</to>
+				<aux x="368" y="1932.71" name="Fear of the vaccine"/>
+				<connector uid="119" angle="158.541">
+					<from>Misinformation</from>
+					<to>Fear_of_the_vaccine</to>
 				</connector>
-				<flow x="375.833" y="1117.08" name="Flow 5">
-					<pts>
-						<pt x="375.833" y="1077.5"/>
-						<pt x="375.833" y="1156.67"/>
-					</pts>
-				</flow>
-				<aux x="441.801" y="1071.25" name="outbreak start"/>
-				<connector uid="110" angle="200.323">
-					<from>outbreak_start</from>
-					<to>Flow_5</to>
+				<connector uid="116" angle="147.615">
+					<from>Fear_of_the_vaccine</from>
+					<to>parents_willingness_to_vaccinate</to>
 				</connector>
-				<stacked_container uid="111" x="859.167" y="1454.17" width="392.5" height="195">
-					<graph width="392.5" height="195" comparative="true" type="time_series" show_grid="false" isee:tick_type="none" include_units_in_legend="false" plot_numbers="false" isee:label_pie_slices="false" isee:show_pie_borders="true" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="5" num_y_labels="3" isee:fill_intensity="0.1" isee:allow_zero_axis="true" left_axis_multi_scale="false" left_axis_auto_scale="true" left_include_units="true" right_axis_multi_scale="false" right_axis_auto_scale="true" right_include_units="true">
-						<plot color="blue" isee:keep_zero_visible="true" pen_width="1" index="0" show_y_axis="true">
-							<entity name="isolation_switch"/>
-						</plot>
-					</graph>
-				</stacked_container>
+				<aux x="458.857" y="1893.57" name="recent adverse reactions"/>
+				<connector uid="118" angle="184.59">
+					<from>recent_adverse_reactions</from>
+					<to>Fear_of_the_vaccine</to>
+				</connector>
+				<aux x="314.286" y="1830.71" name="Health literacy"/>
+				<connector uid="114" angle="274.538">
+					<from>Health_literacy</from>
+					<to>parents_willingness_to_vaccinate</to>
+				</connector>
+				<aux x="382.857" y="1860.43" name="Fear of the disease"/>
+				<connector uid="117" angle="278.259">
+					<from>&quot;Recent_cases/admissions&quot;</from>
+					<to>Fear_of_the_disease</to>
+				</connector>
+				<connector uid="115" angle="228.879">
+					<from>Fear_of_the_disease</from>
+					<to>parents_willingness_to_vaccinate</to>
+				</connector>
 				<alias color="#2581C4" font_style="italic" font_color="#2581C4" font_size="16pt" uid="107" x="859.5" y="1058.63" width="31" height="25.2333">
 					<of>Infected</of>
 				</alias>

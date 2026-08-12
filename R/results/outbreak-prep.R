@@ -68,7 +68,10 @@ sim_admissions <- rbind(
     outcome = "Total Hospital Admissions"
   )
 
-plot_data <- rbind(sim_cases, sim_admissions)
+plot_data <- rbind(sim_cases, sim_admissions) %>%
+  mutate(
+    YearlyVaccinations = vaccination_scale_factor * 15360
+  )
 
 plts <- list()
 
@@ -78,29 +81,38 @@ for (i in 1:2) {
     filter(outcome == outcome_i) %>%
     ggplot( 
          aes(
-           x = vaccination_scale_factor - 1,
+           x = YearlyVaccinations,
            y = sim_val,
            color = lead_in,
            linetype = lead_in,
            fill = lead_in)
   ) +
+    geom_vline(
+      xintercept = c(0.9, 1, 1.1) * 15360,
+      color = uob_colors[[8]],
+      linetype = "dotted"
+    ) +
+    annotate(
+      "text", 
+      x = c(0.9, 1+0.007, 1.1) * 15360 - 250,
+      y = c(500,500,500),
+      label = c("-10%", "0%", "+10%"),
+      color = uob_colors[[8]]
+      ) +
     geom_ribbon(
       aes(ymax = sim_val_upper, ymin = sim_val_lower),
       alpha = 0.3,
       lwd = 0,
       color = NA
     ) +
-    geom_line(lwd = 1.3) +
+    geom_line(lwd = 1.3) + 
     theme_bw() +
     labs(
       y = "",
-      x = c("","Change in Number of Yearly MMR(V) Vaccinations")[i],
+      x = c("","Yearly MMR(V) Vaccinations")[i],
       color = "Outbreak after",
       fill = "Outbreak after",
       linetype = "Outbreak after"
-    ) +
-    scale_x_continuous(
-      labels = scales::percent,
     ) +
     scale_color_manual(
       values = uob_colors
@@ -121,7 +133,7 @@ for (i in 1:2) {
     facet_wrap(~outcome) +
     coord_cartesian(
       expand = F,
-      ylim = c(0, c(600, 200)[i]))
+      ylim = c(0, c(600, 600)[i]))
   plts[[i]] <- plt_i 
 }
 
