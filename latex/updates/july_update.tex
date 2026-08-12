@@ -367,6 +367,8 @@ For these reason, the World Health Organisation recommends that to create survei
 
 \subsection{Outbreak Preparation}
 
+Given the tuned model, it is also possible to predict what future measles outbreaks might look like given different levels of child vaccination. Figure~\ref{fig:outbreak-prep} shows the estimated number of measles infections and measles-related hospital admissions after one and five years as a function of changing relative number of MMR(V) vaccinations. For 0\% change, the number of yearly vaccinations is fixed to the average annual number of vaccines given to children aged 1 to 4 years old within BSol between 2021 and 2025. 
+
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/results/outbreak-prep.pdf}
@@ -374,7 +376,9 @@ For these reason, the World Health Organisation recommends that to create survei
     \label{fig:outbreak-prep}
 \end{figure}
 
-We see that by increasing the number of vaccinations by 10\%, after five years, the estimated number of cases reduces to just \tkDE{24.1} with \tkDE{8.7} estimated hospital admissions.
+It is estimated that, at current birth and vaccination rates, the number of people that would be infected in an outbreak reduces over time. After one year the estimated number of measles infections and hospital admissions are 179.6 (78.3, 567.7) and 61.9 (30.9, 158.1) respectively, which are 193.4 (51.8\%) and 62.7 (50.3\%) fewer than the simulated estimate for today (See Table~\ref{tab:summary-stat-comp}). After five years, the estimated number of infections and hospital admissions fall to 42.9 (23.9, 92.8) and 15.2 (9.8, 26.4) respectively. This implies that Birmingham and Solihull is currently on a path towards measles elimination. 
+
+However, Figure~\ref{fig:outbreak-prep} also how the number of estimated infections and hospital admissions rises rapidly with falling yearly MMR(V) vaccinations. If MMR(V) vaccinations are 10\% (\tkDE{X}) or 20\% (\tkDE{X}) then the estimated number of infections after one year are estimated to be 295.9 (115.3, 1174.9) and 517.2 (174.9, 2949.5) respectively, and after five years to be 171.8 (73.7, 551.8) and 1028.1 (285.4, 6815.9) respectively. It can be seen from the larger confidence intervals, that the estimates relating to lower child vaccination rates are much more dependent on the specific model parameters. 
 
 \newpage
 \printbibliography
