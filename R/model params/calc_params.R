@@ -2,7 +2,7 @@ library(readxl)
 library(dplyr)
 library(janitor)
 library(ggplot2)
-
+source("R/functions/styles.R")
 # Initial population sizes
 
 bsol_ages <- read_excel("data/model params/BSol-Ages.xlsx") %>%
@@ -138,6 +138,7 @@ bsol_migrant_plus %>%
     aes(x = region, y =  count, fill = status)) +
   geom_col() +
   theme_bw() +
+  scale_fill_manual(values = uob_colors) +
   facet_wrap(~age_group, ncol = 1) +
   labs(
     y = "Estimated Yearly Migrants",
@@ -151,7 +152,7 @@ bsol_migrant_plus %>%
   )
 
 ggsave("figures/model-params/migration-estimates.pdf", width = 6.5, height = 5)
-
+ 
 # Print overall vaccinated child migration percentage
 
 bsol_migrant_plus %>%
@@ -163,6 +164,7 @@ bsol_migrant_plus %>%
   mutate(
     overall_perc = Vaccinated / (Vaccinated + Unvaccinated)
   )
+
 
 ################################################################################
 #                        Yearly Vaccination Averages                           #
