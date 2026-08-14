@@ -47,9 +47,9 @@
 
 \newcommand{\diff}{\mathrm{d}}  
 
-\title{BSol Measles Participatory System Modelling\newline(July Progress Report)}
+\title{BSol Measles Participatory System Modelling\newline(Progress Report)}
 \author{David Ellis}
-\date{}
+\date{14/08/2026}
 
 \begin{document}
 
@@ -227,10 +227,10 @@ where $\alpha_i$ and $P_i$ are the relative infection probability and population
 \begin{table}[ht!]
 \centering
 \begin{tabular}{
-    p{0.15\linewidth} |
-    >{\centering\arraybackslash}p{0.15\linewidth} |
-    >{\centering\arraybackslash}p{0.15\linewidth} |
-    >{\centering\arraybackslash}p{0.15\linewidth} |
+    p{0.13\linewidth} |
+    >{\centering\arraybackslash}p{0.13\linewidth} |
+    >{\centering\arraybackslash}p{0.13\linewidth} |
+    >{\centering\arraybackslash}p{0.13\linewidth} |
     >{\centering\arraybackslash}p{0.15\linewidth} |
     >{\centering\arraybackslash}p{0.15\linewidth}
 }
@@ -257,13 +257,14 @@ The number of infections per 1000 persons not vaccinated with at least one dose 
 Substituting into Equation~\ref{eq:R0-age}, it can be therefore be shown that $\alpha_A = 1.27$, $\alpha_B = 2.52$, and $\alpha_c = 6.20$. The age-specific infection rates can then be calculated by making the replacement $R_o \gamma \rightarrow \alpha_i$.
 
 Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital admission rates of infected babies and children are given by 
+%
 \begin{equation}
     \label{eq:hosp-rates}
     h_B = 1.89 h_A,
     \qquad 
-    h_C = 0.940h_A
+    h_C = 0.940h_A.
 \end{equation}
-
+%
 However, to ensure that the modelled hospital admissions match the observed numbers, the infected adult daily hospitalisation proportion $h_A$ is left as a free parameter to be fitted.
 
 When fitting the free parameters of the extended full model, the system was initialised with a single infected ''adult". The error function for weekly incidence $E_I$ and hospital admissions $E_H$ were then calculated using Equation~\ref{eq:error} for a range of values for the isolation delay $p_D$, isolation proportion $p_P$, and adult hospitalisation proportion $p_H$. From this, the combination of parameters that minimise the combined error function was calculated.
@@ -296,9 +297,14 @@ For the extended SIR model and the full model, the free model parameters were fi
 
 For the SIR model, the isolation proportion was found to be 0.063 (0.058, 0.069) and the isolation delay was found to be 94.7 (92.6, 96.8). This means that, with the isolation mechanism modelled as outlined in Section~\ref{sec:sir}, 94.7 days after the first infection occurred 6.3\% of infected individuals were isolated each day. 
 
-For the full model, the isolation proportion was found to be 0.094 (0.083, 0.105) and the isolation delay was found to be 55.2 (48.6, 60.1). This means that, as modelled, 55.2 days after the first infection occurred 9.4\% of infected individuals were isolated each day. Additionally, the ''adult" hospitalisation proportion was found to be 0.039 (0.031, 0.045). This means that an infected person aged 5 years or older has 3.9\% probability of being admitted to hospital each day while infected. From Equation~\ref{eq:hosp-rates}, this means that the daily hospitalisation proportions for babies and children are 7.4\% and 3.7\% respectively. 
+For the full model, the isolation proportion was found to be 0.094 (0.083, 0.105) and the isolation delay was found to be 55.2 (48.6, 60.1). This means that, as modelled, 55.2 days after the first infection occurred 9.4\% of infected individuals were isolated each day. Additionally, the ''adult" hospitalisation proportion was found to be 0.039 (0.031, 0.045). This means that an infected person aged 5 years or older has 3.9\% probability of being admitted to hospital each day while infected. From Equation~\ref{eq:hosp-rates}, this means that the daily hospitalisation proportions for babies and children are 7.4\% and 3.7\% respectively. A two-dimensional projection of the minimum value of the error function along each axis of the three-dimensional parameter space is shown in Figure~\ref{fig:param-contour}.
 
-Figure~\ref{fig:epi-curve} compares the epidemic curves for the three models discussed with that observed during the 23/24 outbreak.
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/model-params/three-param-contour.pdf}
+    \caption{Two-dimensional projection of the minimum error function value along each axis of the three-dimensional parameter space for the full model presented in Figure~\ref{fig:full-model}. Darker shaded regions indicate where the error function is closer to the global minimum.}
+    \label{fig:param-contour}
+\end{figure}
 
 \begin{figure}[ht!]
     \centering
@@ -307,7 +313,7 @@ Figure~\ref{fig:epi-curve} compares the epidemic curves for the three models dis
     \label{fig:epi-curve}
 \end{figure}
 
-For the full model shown in Figure~\ref{fig:full-model}, the age-specific number of cases and hospital admissions across the outbreak are compared to the 23/24 outbreak in Table~\ref{tab:summary-stat-comp}.
+Figure~\ref{fig:epi-curve} compares the epidemic curves for the three models discussed with that observed during the 23/24 outbreak. For the full model shown in Figure~\ref{fig:full-model}, the age-specific number of cases and hospital admissions across the outbreak are compared to the 23/24 outbreak in Table~\ref{tab:summary-stat-comp}.
 
 \begin{table}[ht!]
     \centering
@@ -340,6 +346,7 @@ For the full model shown in Figure~\ref{fig:full-model}, the age-specific number
 \caption{Comparison between observed and simulated outcomes of the 23/24 measles outbreak in BSol. $^*$Observed age-specific cases reported for Birmingham only \cite{jary2025sociodemographic}. $^\dagger$Calculated used SUS data from the BSol ICB data warehouse \cite{BSolICBWarehouse2026}. \label{tab:summary-stat-comp}}
 \end{table}
 
+\newpage
 \subsection{Outbreak Management}
 
 Within the presented model, outbreak management is controlled by the isolation delay $p_D$ and isolation proportion $p_P$. By varying these values it is possible to estimate how different outbreak management scenarios changes the number of people estimated to be infected and hospitalised during an outbreak. 
@@ -372,13 +379,21 @@ Given the tuned model, it is also possible to predict what future measles outbre
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/results/outbreak-prep.pdf}
-    \caption{Caption}
+    \caption{Total number of estimated measles cases (top) and hospital admissions (bottom) over an outbreak occurring in one (red) or five (purple) years as a function of the number of yearly child MMR(V) vaccinations distributed.}
     \label{fig:outbreak-prep}
 \end{figure}
 
-It is estimated that, at current birth and vaccination rates, the number of people that would be infected in an outbreak reduces over time. After one year the estimated number of measles infections and hospital admissions are 179.6 (78.3, 567.7) and 61.9 (30.9, 158.1) respectively, which are 193.4 (51.8\%) and 62.7 (50.3\%) fewer than the simulated estimate for today (See Table~\ref{tab:summary-stat-comp}). After five years, the estimated number of infections and hospital admissions fall to 42.9 (23.9, 92.8) and 15.2 (9.8, 26.4) respectively. This implies that Birmingham and Solihull is currently on a path towards measles elimination. 
+It is estimated that, at current birth and vaccination rates, the number of people that would be infected in an outbreak reduces over time. After one year the estimated number of measles infections and hospital admissions are 179.6 (78.3, 567.7) and 61.9 (30.9, 158.1) respectively, which are 193.4 (51.8\%) and 62.7 (50.3\%) fewer than the simulated estimate for today (see Table~\ref{tab:summary-stat-comp}). After five years, the estimated number of infections and hospital admissions fall to 42.9 (23.9, 92.8) and 15.2 (9.8, 26.4) respectively. This implies that Birmingham and Solihull is currently on a path towards measles elimination. 
 
-However, Figure~\ref{fig:outbreak-prep} also how the number of estimated infections and hospital admissions rises rapidly with falling yearly MMR(V) vaccinations. If MMR(V) vaccinations are 10\% (\tkDE{X}) or 20\% (\tkDE{X}) then the estimated number of infections after one year are estimated to be 295.9 (115.3, 1174.9) and 517.2 (174.9, 2949.5) respectively, and after five years to be 171.8 (73.7, 551.8) and 1028.1 (285.4, 6815.9) respectively. It can be seen from the larger confidence intervals, that the estimates relating to lower child vaccination rates are much more dependent on the specific model parameters. 
+However, Figure~\ref{fig:outbreak-prep} also how the number of estimated infections and hospital admissions rises rapidly with falling yearly MMR(V) vaccinations. If yearly MMR(V) vaccinations were reduced by 10\% (1,536) or 20\% (3,072) then the estimated number of infections after one year are estimated to be 295.9 (115.3, 1174.9) and 517.2 (174.9, 2949.5) respectively, and after five years to be 171.8 (73.7, 551.8) and 1028.1 (285.4, 6815.9) respectively. It can be seen from the larger confidence intervals, that the estimates relating to lower child vaccination rates are much more dependent on the specific model parameters. 
+
+Lastly, as expected, increasing the number of yearly MMR(V) vaccination is estimated to further reduce the number of infections and hospital admissions in the event of an outbreak. If yearly MMR(V) vaccinations were increased by 10\% (1,536) or 20\% (3,072) then the estimated number of infections after one year are estimated to be 113.5 (54.2, 306.4) and 74.1 (38.3, 177.5) respectively, and after five years to be just 13.5 (9.1, 23.1) for a 10\% increase. For a 20\% increase, after five years, it is estimated that herd immunity is reached an no infections occur. 
+
+It should be noted, that these simulations assume that the susceptible persons are mixed homogeneously amongst the population. In reality, this is known not to be the case due to the cultural, demographic, and socioeconomic trends in vaccine hesitancy and vaccine access. Therefore, even if, at a population level, the BSol area has reached the threshold for ``herd immunity", this may not be true for all areas across the region meaning that outbreaks are still possible. 
+
+\section{Next Steps}
+
+\tkDE{I haven't done anywhere near what I set out to do, but I need to submit my thesis.}
 
 \newpage
 \printbibliography
@@ -392,14 +407,14 @@ However, Figure~\ref{fig:outbreak-prep} also how the number of estimated infecti
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=1\linewidth]{workshop/workshop-model-transcription-group1.pdf}
-    \caption{Caption}
+    \caption{Factors influencing population flows and potential interventions for the BSol measles vaccination, infection, and hospitalisation system. Digitally transcribed from the notes taken by group one at the stakeholder system modelling workshop.}
     \label{fig:group1-model}
 \end{figure}
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=1\linewidth]{workshop/workshop-model-transcription-group2.pdf}
-    \caption{Caption}
+    \caption{Factors influencing population flows and potential interventions for the BSol measles vaccination, infection, and hospitalisation system. Digitally transcribed from the notes taken by group two at the stakeholder system modelling workshop.}
     \label{fig:group2-model}
 \end{figure}
 
@@ -420,7 +435,7 @@ This approximation simultaneously accounts for the reduced reporting period and 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/model-params/outbreak-outcomes.pdf}
+    \includegraphics[width=0.9\linewidth]{figures/model-params/outbreak-outcomes.pdf}
     \caption{Lab-confirmed measles cases (top) and measles-related hospital admissions (bottom) in Birmingham and Solihull from 13/10/2023 to 12/04/2024. Birmingham case data extracted from \citeauthor{jary2025sociodemographic} with Solihull data approximated from UKHSA annual data \cite{jary2025sociodemographic, ukhsa_measles_2023_2026}. Hospital SUS data extracted from the BSol ICB data warehouse.}
     \label{fig:2324-Outbreak}
 \end{figure}
@@ -468,14 +483,29 @@ A full list of parameters used in the full system dynamics model are presented i
 \subsection{Migration}
 \label{app:migration}
 
-\subsection{Sensitivity Analysis}
+A relatively crude method was used to estimate the number of vaccinated and unvaccinated persons entering BSol from abroad. Firstly, the 2021 census was used to calculate the number of babies (aged $<$ 1 year) and children (aged 1-4 years) living in BSol from each major world region: Africa, Antarctica and Oceania, Europe (not UK), Middle East and Asia, The Americas and Caribbean \cite{ONS2011census, ONS2021census}. The counted babies had only one year to enter the country while the children had four years. Therefore, the yearly migration numbers for babies and children where taken to be the number of babies and the number of children divided by four respectively. 
+
+It was then assumed that the all babies were unvaccinated and that children were vaccinated at the same proportion as the WHO estimates for the percentage of the population from each region that have received at least one dose of measles-containing vaccine. 
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/model-params/migration-estimates.pdf}
+    \caption{Caption}
+    \label{fig:migration}
+\end{figure}
+
+Does not account for migration out of BSol or for migration from within the UK.
+
+We know there's more internal migration % https://www.nomisweb.co.uk/sources/census_2021_od
+
+\section{Sensitivity Analysis}
 
 Figure~\ref{fig:omega-sensitivity} shows that the free parameters $p_D$, $p_P$, and $p_H$, vary only marginally with changes in $\omega$. Importantly, at this resolution, the parameters are the same for $\omega=0.5$ and for $\omega=1$.
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/results/omega-sensitivity.pdf}
-    \caption{Caption}
+    \caption{Variation in the derived values for free model parameters adult admission proportion $p_H$ (top), isolation delay $p_D$ (middle), and isolation proportion $p_P$ as a function of the relative weight of the hospital data in the error function calculation $\omega$.}
     \label{fig:omega-sensitivity}
 \end{figure}
 
