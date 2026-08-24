@@ -107,6 +107,7 @@
     \xspace
 }
 
+
 \title{Ethnicity-based System Dynamics Model of Measles Vaccinations in Birmingham and Solihull}
 \author{David Ellis}
 
@@ -294,19 +295,19 @@ The additional simulation components related to this isolation mechanism are pre
 
 \subsubsection{Base Model}
 
-The full model, shown in Figure~\ref{fig:full-model}, is an extension of the SIR model with isolation to include three different age groups: babies ($<$ one year), children (1 to 4 years), and "adults" (5+ years), as well as an additional hospitalised population state. This gives a total of 15 different population states (3 age groups $\times$ 5 states). In this model, hospitalised individuals are assumed to also be isolated. Therefore, the addition of this state will change the isolation threshold ($p_T$) and proportion ($p_P$) needed to fit the model to observational data. 
+The base model, shown in Figure~\ref{fig:base-model}, is an extension of the SIR model with isolation to include three different age groups: babies ($<$ one year), children (1 to 4 years), and "adults" (5+ years), as well as an additional hospitalised population state. This gives a total of 15 different population states (3 age groups $\times$ 5 states). In this model, hospitalised individuals are assumed to also be isolated. Therefore, the addition of this state will change the isolation threshold ($p_T$) and proportion ($p_P$) needed to fit the model to observational data. 
 
 The inclusion of a hospitalised state gives the model another output that can be compared and fitted to observed data. It is therefore necessary to include an additional free parameter $p_H$ which controls the rate of at which infected individuals are admitted to hospital. 
 
-Importantly, the full model also includes childhood vaccinations. 
+Importantly, the base model also includes childhood vaccinations. 
 Vaccination is modelled as movement into the vaccinated/recovered state, since vaccinated individuals are assumed to have equivalent protection against measles infection to recovered individuals. Since only children aged one to four years old are routinely vaccinated, only this group includes a path between the susceptible and recovered state in the base model. This number is taken to be the average number of vaccines given to children aged 1 to 4 years old in BSol between 2021 and 2025 \cite{NHSEngland2026FDP}. It also includes age-specific migration into Birmingham with vaccination proportions estimated by combining migration estimates calculated from the 2011 and 2021 censuses with WHO vaccination estimates as outlined in Appendix~\ref{app:migration} \cite{ONS2011census, ONS2021census, WHO_measles_coverage}. However, importantly, the model does not account for migration out of BSol or internal migration to and from other areas within the UK. Finally, the model includes age-specific all-cause mortality calculated using data from the deaths register for deaths recorded between 2022 and 2025 \cite{BSolICBWarehouse2026}. This date range was chosen to avoid the impact of the Covid-19 pandemic on the mortality estimates.
 
 \begin{figure}[ht!]
     \centering
     \hspace*{-1cm}
     \includegraphics[trim=30pt 560pt 185pt 10pt, clip=true, width=1.2\linewidth]{figures/model-diagrams/full-model.pdf}
-    \caption{Full measles system model with five population states across three age groups. Boxes represent population stocks, taps represent population flows, blue and gray circles show model variables, and pink and gray arrows indicate information connections.}
-    \label{fig:full-model}
+    \caption{Base measles system model with five population states across three age groups. Boxes represent population stocks, taps represent population flows, blue and gray circles show model variables, and pink and gray arrows indicate information connections.}
+    \label{fig:base-model}
 \end{figure}
 
 \subsubsection{Age-specific rates}
@@ -363,7 +364,7 @@ Similarly, from Table~\ref{tab:age-inf-rates}, it can be shown that the hospital
 %
 However, to ensure that the modelled hospital admissions match the observed numbers, the infected adult daily hospitalisation proportion $h_A$ is left as a free parameter to be fitted.
 
-When fitting the free parameters of the extended full model, the system was initialised with a single infected ''adult". The error function for weekly incidence $E_I$ and hospital admissions $E_H$ were then calculated using Equation~\ref{eq:error} for a range of values for the isolation delay $p_D$, isolation proportion $p_P$, and adult hospitalisation proportion $p_H$. From this, the combination of parameters that minimises the combined error function was calculated.
+\tkDE{When fitting the free parameters of the extended SIR and base model, the system was initialised with a single infected ''adult".} The error function for weekly incidence $E_I$ and hospital admissions $E_H$ were then calculated using Equation~\ref{eq:error} for a range of values for the isolation delay $p_D$, isolation proportion $p_P$, and adult hospitalisation proportion $p_H$. From this, the combination of parameters that minimises the combined error function was calculated.
 
 These parameters should be interpreted as effective age-specific transmission and hospital admission rates incorporating differences in exposure, susceptibility, and vulnerability rather than as estimates of biological susceptibility alone.
 
@@ -435,7 +436,7 @@ The third most highly ranked intervention was to provide a gelatine-free vaccine
 
 \subsection{Tuned Model}
 
-For the extended SIR model and the full model, the free model parameters were fitted to observed data from the 2023/24 outbreak by minimising the error function as outlined in Section~\ref{sec:tuning}. The calculated values are shown in Table~\ref{tab:tuned-params}. Model-derived uncertainty ranges were calculated as the region of the parameter space in which the error function is within 10\% of its global minimum.
+For the extended SIR model and the base model, the free model parameters were fitted to observed data from the 2023/24 outbreak by minimising the error function as outlined in Section~\ref{sec:tuning}. The calculated values are shown in Table~\ref{tab:tuned-params}. Model-derived uncertainty ranges were calculated as the region of the parameter space in which the error function is within 10\% of its global minimum.
 
 
 \begin{table}[ht!]
@@ -446,7 +447,7 @@ For the extended SIR model and the full model, the free model parameters were fi
     >{\centering\arraybackslash}p{0.25\linewidth}
 }
     \toprule
-    \textbf{Variable} & \textbf{SIR + Isolation} & \textbf{Full Model}\\ \midrule
+    \textbf{Variable} & \textbf{SIR + Isolation} & \textbf{Base Model}\\ \midrule
     Isolation Proportion, $p_P$ & 0.063 (0.058, 0.069) & 0.094 (0.083, 0.105) \\
     Isolation Delay, $p_D$ (days)& 94.7 (92.6, 96.8) & 55.2 (48.6, 60.1) \\
     ''Adult" hospitalisation rate, $p_H$ & - & 0.039 (0.031, 0.045) \\
@@ -461,12 +462,12 @@ For the SIR model, the isolation proportion was found to be 0.063 (0.058, 0.069)
 
 The fitted isolation delays $p_D$ should not be interpreted as estimates of the actual time taken by local health protection teams to detect or respond to cases. Instead, they represent effective model parameters capturing the aggregate effect of detection, reporting, investigation and intervention processes.
 
-For the full model, the isolation proportion was found to be 0.094 (0.083, 0.105) and the isolation delay was found to be 55.2 (48.6, 60.1). This means that, as modelled, 55.2 days after the first infection occurred 9.4\% of infected individuals were isolated each day. Additionally, the ''adult" hospitalisation proportion was found to be 0.039 (0.031, 0.045). This means that an infected person aged 5 years or older has 3.9\% probability of being admitted to hospital each day while infected. From Equation~\ref{eq:hosp-rates}, this means that the daily hospitalisation proportions for babies and children are 7.4\% and 3.7\% respectively. A two-dimensional projection of the minimum value of the error function along each axis of the three-dimensional parameter space is shown in Figure~\ref{fig:param-contour}.
+For the base model, the isolation proportion was found to be 0.094 (0.083, 0.105) and the isolation delay was found to be 55.2 (48.6, 60.1). This means that, as modelled, 55.2 days after the first infection occurred 9.4\% of infected individuals were isolated each day. Additionally, the ''adult" hospitalisation proportion was found to be 0.039 (0.031, 0.045). This means that an infected person aged 5 years or older has 3.9\% probability of being admitted to hospital each day while infected. From Equation~\ref{eq:hosp-rates}, this means that the daily hospitalisation proportions for babies and children are 7.4\% and 3.7\% respectively. A two-dimensional projection of the minimum value of the error function along each axis of the three-dimensional parameter space is shown in Figure~\ref{fig:param-contour}.
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.85\linewidth]{figures/model-params/three-param-contour.pdf}
-    \caption{Two-dimensional projection of the minimum error function value along each axis of the three-dimensional parameter space for the full model presented in Figure~\ref{fig:full-model}. Darker shaded regions indicate where the error function is closer to the global minimum.}
+    \caption{Two-dimensional projection of the minimum error function value along each axis of the three-dimensional parameter space for the base model presented in Figure~\ref{fig:base-model}. Darker shaded regions indicate where the error function is closer to the global minimum.}
     \label{fig:param-contour}
 \end{figure}
 
@@ -477,7 +478,7 @@ For the full model, the isolation proportion was found to be 0.094 (0.083, 0.105
     \label{fig:epi-curve}
 \end{figure}
 
-Figure~\ref{fig:epi-curve} compares the epidemic curves for the three models discussed with that observed during the 23/24 outbreak. For the full model shown in Figure~\ref{fig:full-model}, the age-specific number of cases and hospital admissions across the outbreak are compared to the 23/24 outbreak in Table~\ref{tab:summary-stat-comp}.
+Figure~\ref{fig:epi-curve} compares the epidemic curves for the three models discussed with that observed during the 23/24 outbreak. For the base model shown in Figure~\ref{fig:base-model}, the age-specific number of cases and hospital admissions across the outbreak are compared to the 23/24 outbreak in Table~\ref{tab:summary-stat-comp}. \tkDE{Describe this. Total number of cases modelled around 92\% of what was observed. Relative proportion of infections by age consistent with observations. Total number of estimated hospital admissions closer to observation (98\%). Estimated hospital admissions were also in good agreement but a little low for babies.}
 
 \begin{table}[ht!]
     \centering
@@ -570,23 +571,24 @@ The discrepancy may indicate that stakeholders' prioritisation of interventions 
 
 Stakeholders also identified a potential challenge with offering a gelatine-free MMR vaccine as the default since, at the time of writing, UKHSA guidance only permits GP practices to order up to 10 doses of the gelatine-free vaccine per account per week \cite{UKHSA2025VaccineUpdate364}.  Addressing such supply-side constraints would require action beyond individual GP practices and may therefore require consideration of national vaccine procurement and supply arrangements.
 
+% General model fit?
+The free parameters of the extended SIR model and base model were both tuned to data from the 23/24 outbreak, as outlined in Section \ref{sec:tuning}. Both models produced weekly case estimates that were in strong agreement with the observed epidemic curve. The base model additionally showed strong agreement with the weekly number of measles-related hospital admissions. The base model underestimated the cumulative number of cases by around 10\%. However, the distribution of cases across the three modelled age groups was broadly consistent with observations. Age-dependent hospital admissions also closely matched observations, but were slightly low for babies.
+
+The model was calibrated and assessed against the same outbreak from which its parameters were tuned, meaning that its performance on independent outbreaks has not been assessed. As shown in Figure~\ref{fig:measles-background}, the 23/24 outbreak resulted in many more cases than the three outbreaks preceding it. Potential explanations for the increased impact of the 23/24 outbreak include the large clusters of susceptible individuals in places like Birmingham following prolonged suboptimal vaccination coverage, potentially exacerbated by the disruptive impact of the COVID-19 pandemic on routine immunisations \cite{jary2025sociodemographic, UKHSA2024AnnualReport}. Therefore, rather than providing a generic representation of a measles outbreak, the model should be considered a representation of the transmission dynamics observed in \bsol during the 23/24 outbreak.
+
 % Outbreak management
 
-\tkDE{Overarching summary.}
+By varying the parameters of the model, estimates were made about how responding to an outbreak differently would impact the number of measles infections. The model predicted that if the proportion of infected people isolated each day fell, it could result in a big increase in infections, however, increasing the proportion isolated $p_P$ only produced a marginal reduction in cases. Meanwhile, reducing the delay in isolation $p_D$ was estimated to have a big impact in reducing the number of cases. 
 
-The outbreak management analysis highlights that reducing the delay between outbreak onset and implementation of isolation (encoded in this model via $p_D$) has a greater potential for suppressing the overall outbreak than improving the effectiveness of the case-finding efforts (encoded in this model via $p_P$). This finding is consistent with a 2021 evidence-based review of the effectiveness of contact tracing for the mitigation and suppression of viral diseases, as well as a 2021 systematic review of contact tracing methods for controlling measles outbreaks in low and middle-income countries \cite{craig2021effectiveness, mbivnjo2022measles}. 
+This outbreak management modelling highlights that reducing the effective delay between outbreak onset and implementation of isolation (encoded in this model via $p_D$) has a greater potential for suppressing the overall outbreak than improving the effectiveness of the case-finding efforts (encoded in this model via $p_P$). This finding is consistent with a 2021 evidence-based review of the effectiveness of contact tracing for the mitigation and suppression of viral diseases, as well as a 2021 systematic review of contact tracing methods for controlling measles outbreaks in low and middle-income countries \cite{craig2021effectiveness, mbivnjo2022measles}. This also arises mathematically from the exponential nature of infectious disease \cite{zhang2024seir}. For these reason, the World Health Organisation recommends that to create surveillance system capable of eliminating measles and rubella, the early detection of outbreaks should be given the highest priority \cite{world2024eliminating}.
 
-However, this also arises mathematically from the exponential nature of infectious disease \cite{zhang2024seir}. Consider a single case of measles (basic reproduction number $R_0 = 13.5$) in a fully susceptible population. Each infectious generation increases the number of cases by more than an order of magnitude. After two generations, there are approximately $13.5^2 = 182$ cases. After four generations, there are approximately $13.5^4 = 33,215$ cases. While the \textit{effective} reproduction number is much smaller than 13.5, this highlights how quickly the number of infected persons can increase. Once there are many infectious people, any intervention becomes less effective.
+%Consider a single case of measles (basic reproduction number $R_0 = 13.5$) in a fully susceptible population. Each infectious generation increases the number of cases by more than an order of magnitude. After two generations, there are approximately $13.5^2 = 182$ cases. After four generations, there are approximately $13.5^4 = 33,215$ cases. While the \textit{effective} reproduction number is much smaller than 13.5, this highlights how quickly the number of infected persons can increase. Once there are many infectious people, any intervention becomes less effective.
 
-For these reason, the World Health Organisation recommends that to create surveillance system capable of eliminating measles and rubella, the early detection of outbreaks should be given the highest priority \cite{world2024eliminating}.
+However, it is important to note that $p_D$ encodes all of the delays in people being isolated. For example, as well as the time it takes for health protection teams to identify that an outbreak is taking place, it also include the time taken to identify contacts and communicate their exposure to them.
 
-As well as rapidly identifying contacts, it is also essential to communicate this exposure to the contacts as quickly as possible. The National Measles Guidelines recommend using mass messaging such as email, text or letter \cite{UKHSA2026MeaslesGuidelines}. A retrospective of the impact of the 23/24 outbreak on the Birmingham Children's Hospital Emergency Department recommended that text messages should replace exposure letters to speed up communication \cite{HARRIS202541, 10.1093/jamia/ocac242}. \tkDE{$p_D$ also includes this communication time.}
+The National Measles Guidelines recommend using mass messaging such as email, text or letter \cite{UKHSA2026MeaslesGuidelines}. During the 23/24 outbreak, Birmingham Children's Hospital Emergency Department contacted patients that had potentially been expose to measles via letter. A retrospective study of the impact of the on the Department recommended that text messages should replace exposure letters to speed up communication \cite{HARRIS202541, 10.1093/jamia/ocac242}. Overall, a review should be conducted into the methods used by all part of the healthcare system to communicate exposure to highly communicable diseases such as measles. This review should then look for ways to reduce delays in communication. 
 
-% vvv IMPORTANT CITATION for isolation vvv
-% Thirteen confirmed cases had a symptom onset seven to 21 days after receiving an exposure letter. https://www.sciencedirect.com/science/article/pii/S0195670125002361
-
-Text message alerts should replace these to speed up 
-communication to contacts 
+Additionally, the effective time to isolation can be reduced by increasing public awareness of the symptoms of measles. Such public awareness campaigns should focus on communities with the lowest MMR uptake. Doing so has a dual benefit. Firstly it increases the probability that cases are seen by health professionals as early as possible and thus reported to the local authority (as required by the Health Protection Regulations 2010 \cite{hpnr_2010}). Secondly, due to the success of vaccination programmes, vaccine preventable diseases like measles become less visible which can reduce the perceived risk from the disease \cite{Dube08082013}. Sharing materials to help parents identify measles symptoms because of the increasing outbreak frequency could help to challenge this belief.
 
 % Measles, because of its high transmissibility, acts as an early warning system, quickly exposing immunity gaps in the population." https://www.who.int/news-room/fact-sheets/detail/immunization-coverage
 
@@ -601,6 +603,8 @@ communication to contacts
 The process of voting on the ``most important'' factors may have been subject to several sources of potential bias, including the size and legibility of the handwriting on each sticky note, as well as its placement and colour. Given more time, a more comprehensive approach for eliciting stakeholders' views on the relative importance of the identified factors would be pairwise comparison. In this, stakeholders are presented with two factors at a time and asked to choose which is most important. The individual choices can then be aggregated into an overall ordering \cite{van2014does}. The challenge for this method is that for a moderate number of factors, the number of comparisons can quickly become very cumbersome. A less labour-intensive approach might be the Best–Worst Scaling method. This method presents stakeholders with a series of smaller subsets of factors and asks them to identify the most and least important factor within each subset. The resulting choices could then be analysed to estimate a latent importance score for each factor, providing a more systematic basis for ranking the factors to be included within the model \cite{hollin2022best}. 
 
 The model assumes that patients in hospital are effectively isolated and therefore do not contribute to measles transmission. However, during the 23/24 outbreak, Birmingham Children's Hospital Emergency Department identified in-hospital contacts 95 of the 161 hospital-confirmed cases included in the study. A resulting 2397 exposure letters were sent out \cite{HARRIS202541}. This highlights the limitation of ignoring the potential role of in-hospital transmission in the model. 
+
+\tkDE{BSol isn't actually an isolated system. During an outbreak within the area, there will also likely be increased transmission elsewhere globally. This means that as well as community transmission, some cases will be imported from elsewhere around the world. However, while this is an important omission within the model, evidence suggests that imported cases play a sub-dominant role in overall measles transmission. For example, \ukhsa estimates that, in the first quarter of 2024, only 6.1\% of cases were imported or import-related \cite{UKHSA2024MeaslesMumpsRubellaQ1}}
 
 The literature review focused on barriers rather than facilitators. 
 
