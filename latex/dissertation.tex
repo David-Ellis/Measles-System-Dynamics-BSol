@@ -665,27 +665,10 @@ This approximation simultaneously accounts for the reduced reporting period and 
     \label{fig:2324-Outbreak}
 \end{figure}
 
-\subsection{Migration}
-\label{app:migration}
-
-A relatively crude method was used to estimate the number of vaccinated and unvaccinated persons entering BSol from abroad. Firstly, the 2021 census was used to calculate the number of babies (aged $<$ 1 year) and children (aged 1-4 years) living in BSol from each major world region: Africa, Antarctica and Oceania, Europe (not UK), Middle East and Asia, The Americas and Caribbean \cite{ONS2011census, ONS2021census}. The counted babies had only one year to enter the country, while the children had four years. Therefore, the yearly migration numbers for babies and children where taken to be the number of babies and the number of children divided by four, respectively. 
-
-It was then assumed that all babies were unvaccinated and that children were vaccinated at the same proportion as the WHO estimates for the percentage of the population from each region that have received at least one dose of measles-containing vaccine \cite{WHO_measles_coverage}. The region-specific estimates are shown in Figure~\ref{fig:migration}. From this, it is estimated that there are 226 babies and 882 children entering BSol from abroad each year, with 90.9\% of the children having received at least one measles-containing vaccine.
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=0.8\linewidth]{figures/model-params/migration-estimates.pdf}
-    \caption{Estimated number of vaccinated (blue) and unvaccinated (red) babies (top) and children (bottom) migrating each year to BSol from each of the WHO regions \cite{ONS2011census, ONS2021census, WHO_measles_coverage}.}
-    \label{fig:migration}
-\end{figure}
-
-The above estimate for child migration assumes that children migrated into the country at a consistent rate over the four years preceding the census. While this is a reasonable approximation over a four-year time scale, it is inappropriate to make the same assumption for all adults. Therefore, the "adult" migration rate was estimated by comparing the number of people aged five years or more who were born outside of the UK living in BSol in the 2011 and 2021 censuses \cite{ONS2011census, ONS2021census}. From this, it is estimated that 6305.2 adults migrate into BSol each year. It is then assumed that the current pattern of migration origins for adults matches that of children and that therefore 90.9\% of these adults are vaccinated. 
-
-These estimates should should reflect the rough ball-park figures for migration into BSol. However, importantly, they do not account for migration out of BSol or for internal migration to and from other areas within the UK. The latter is the most significant omission, as it is known that more people enter BSol from other areas of the UK than abroad \cite{nomis_census2021_od}. Future models should take this additional incoming population source into account.
-
 \section{Model Parameters}
 
-A full list of parameters used in the full system dynamics model are presented in Table~\ref{tab:model-params}. 
+A full list of parameters used in the full system dynamics model are presented in Table~\ref{tab:model-params}. The methods used to calculate parameters relating to vaccinations  and migration are outlined below in Sections~\ref{app:vaccinations}
+and~\ref{app:migration} respectively.
 
 \begin{table}[ht!]
     \begin{tabular}{p{0.5\linewidth} | p{0.25\linewidth} | p{0.15\linewidth}}
@@ -729,6 +712,34 @@ A full list of parameters used in the full system dynamics model are presented i
     \caption{Model parameter values for a used in the measles system model presented in Figure~\ref{fig:full-model}.}
     \label{tab:model-params} 
 \end{table}
+
+\subsection{Vaccination}
+\label{app:vaccinations}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/model-params/yearly-vaccinations.pdf}
+    \caption{Caption}
+    \label{fig:placeholder}
+\end{figure}
+
+\subsection{Migration}
+\label{app:migration}
+
+A relatively crude method was used to estimate the number of vaccinated and unvaccinated persons entering BSol from abroad. Firstly, the 2021 census was used to calculate the number of babies (aged $<$ 1 year) and children (aged 1-4 years) living in BSol from each major world region: Africa, Antarctica and Oceania, Europe (not UK), Middle East and Asia, The Americas and Caribbean \cite{ONS2011census, ONS2021census}. The counted babies had only one year to enter the country, while the children had four years. Therefore, the yearly migration numbers for babies and children where taken to be the number of babies and the number of children divided by four, respectively. 
+
+It was then assumed that all babies were unvaccinated and that children were vaccinated at the same proportion as the WHO estimates for the percentage of the population from each region that have received at least one dose of measles-containing vaccine \cite{WHO_measles_coverage}. The region-specific estimates are shown in Figure~\ref{fig:migration}. From this, it is estimated that there are 226 babies and 882 children entering BSol from abroad each year, with 90.9\% of the children having received at least one measles-containing vaccine.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/model-params/migration-estimates.pdf}
+    \caption{Estimated number of vaccinated (blue) and unvaccinated (red) babies (top) and children (bottom) migrating each year to BSol from each of the WHO regions \cite{ONS2011census, ONS2021census, WHO_measles_coverage}.}
+    \label{fig:migration}
+\end{figure}
+
+The above estimate for child migration assumes that children migrated into the country at a consistent rate over the four years preceding the census. While this is a reasonable approximation over a four-year time scale, it is inappropriate to make the same assumption for all adults. Therefore, the "adult" migration rate was estimated by comparing the number of people aged five years or more who were born outside of the UK living in BSol in the 2011 and 2021 censuses \cite{ONS2011census, ONS2021census}. From this, it is estimated that 6305.2 adults migrate into BSol each year. It is then assumed that the current pattern of migration origins for adults matches that of children and that therefore 90.9\% of these adults are vaccinated. 
+
+These estimates should should reflect the rough ball-park figures for migration into BSol. However, importantly, they do not account for migration out of BSol or for internal migration to and from other areas within the UK. The latter is the most significant omission, as it is known that more people enter BSol from other areas of the UK than abroad \cite{nomis_census2021_od}. Future models should take this additional incoming population source into account.
 
 \newpage
 \section{Sensitivity Analysis}
