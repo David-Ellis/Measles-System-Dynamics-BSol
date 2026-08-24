@@ -132,13 +132,14 @@ bsol_migrant_plus %>%
     values_to = "count"
   ) %>%
   mutate(
-    region = stringr::str_wrap(region, 15)
+    region = stringr::str_wrap(region, 12)
   ) %>%
   ggplot(
     aes(x = region, y =  count, fill = status)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0, 500)) +
   geom_col() +
   theme_bw() +
-  scale_fill_manual(values = uob_colors) +
+  scale_fill_manual(values = c(uob_colors[[1]], uob_colors[[3]])) +
   facet_wrap(~age_group, ncol = 1) +
   labs(
     y = "Estimated Yearly Migrants",
@@ -151,7 +152,8 @@ bsol_migrant_plus %>%
     legend.box.margin = margin(0,0,-10,0)
   )
 
-ggsave("figures/model-params/migration-estimates.pdf", width = 6.5, height = 5)
+ggsave("figures/model-params/migration-estimates.pdf", 
+       width = 6, height = 4)
  
 # Print overall vaccinated child migration percentage
 
@@ -187,10 +189,20 @@ vaccinations <- read_excel(
   summarise(
     valid_dose = sum(valid_dose),
     .groups = "drop"
+  ) %>%
+  mutate(
+    age_group = case_when(
+      age_bracket_activity == "1 years to <5 years" ~ "1 to 4 years",
+      age_bracket_activity == "5 years to 25 years" ~ "5 to 25 years",
+      age_bracket_activity == "Over 25" ~ "Over 25 years"
+    ),
+    age_group = factor(age_group, levels = c(
+      "Over 25 years", "5 to 25 years","1 to 4 years"
+    ))
   )
 
 ggplot(vaccinations, 
-       aes(x = year, y = valid_dose, fill = age_bracket_activity)) +
+       aes(x = year, y = valid_dose, fill = age_group)) +
   geom_col() +
   theme_bw() +
   labs(
