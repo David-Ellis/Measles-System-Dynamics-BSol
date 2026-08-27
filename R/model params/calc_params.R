@@ -206,7 +206,7 @@ ggplot(vaccinations,
   geom_col() +
   theme_bw() +
   labs(
-    y = "Valid MMR or MMRV Doses",
+    y = "Patients Recieving first Dose of MMR(V)",
     fill = "",
     x = "Year"
   ) +
@@ -214,10 +214,12 @@ ggplot(vaccinations,
     legend.position = "top",
     legend.box.margin = margin(0,0,-10,0)
   ) +
-  scale_fill_brewer()
+  scale_fill_manual(values = ggpubr::get_palette((c(uob_colors[3], "#FFFFFF")), 5)[1:3]
+                    ) +
+  scale_y_continuous(expand = c(0,0), limits = c(0, 22500))
 
 ggsave("figures/model-params/yearly-vaccinations.pdf", 
-       width = 6.5, height = 4)
+       width = 6, height = 3.5)
 
 yearly_vacc_average <- vaccinations %>%
   group_by(age_bracket_activity) %>%
