@@ -147,7 +147,9 @@
 \textbf{Student Contribution}:
 I was responsible for the research idea, study design, recruitment of stakeholders to the collaborative modelling workshop, data collection, model development, statistical analysis, data visualisation, and the preparation and writing of the dissertation. 
 
-
+\vspace{1em}
+\noindent
+\textbf{Word count}: 9304
 
 \newpage
 \tableofcontents
@@ -393,7 +395,7 @@ The base model, shown in Figure~\ref{fig:base-model}, is an extension of the SIR
 
 Importantly, the base model also includes childhood vaccinations. A simplifying assumption was made that those who receive a single dose of MMR become fully protected from measles infection. This assumption is justified since MMR is estimated to 92\% effective after just one dose \cite{10.1086/498902}. This vaccination is therefore modelled as movement into the vaccinated/recovered state, since vaccinated individuals are assumed to have equivalent protection against measles infection to recovered individuals. Since only children aged one to four years old are routinely vaccinated, only this group includes a path between the susceptible and recovered state in the base model. This number is taken to be the average number of vaccines given to children aged 1 to 4 years old in BSol between 2021 and 2025 \cite{NHSEngland2026FDP}. 
 
-The model also includes age-specific migration into Birmingham with vaccination proportions estimated by combining migration estimates with WHO vaccination estimates as outlined in Appendix~\ref{app:migration} \cite{ONS2011census, ONS2021census, WHO_measles_coverage}. However, importantly, the model does not account for migration out of BSol or internal migration to and from other areas within the UK. Finally, the model includes age-specific all-cause mortality calculated using data from the deaths register for deaths recorded between 2022 and 2025 \cite{BSolICBWarehouse2026}. This date range was chosen to avoid the impact of the Covid-19 pandemic on the mortality estimates.
+The model also includes age-specific migration into Birmingham with vaccination proportions estimated by combining migration estimates with WHO vaccination estimates as outlined in Appendix~\ref{app:model-params} \cite{ONS2011census, ONS2021census, WHO_measles_coverage}. However, importantly, the model does not account for migration out of BSol or internal migration to and from other areas within the UK. Finally, the model includes age-specific all-cause mortality calculated using data from the deaths register for deaths recorded between 2022 and 2025 \cite{BSolICBWarehouse2026}. This date range was chosen to avoid the impact of the Covid-19 pandemic on the mortality estimates.
 
 \begin{figure}[ht!]
     \centering
@@ -631,6 +633,7 @@ Given the calibrated model, it is also possible to predict what future measles o
 
 For each  annual vaccination rate value simulated, the simulation was repeated for every combination of the model parameters value including their maximum and minimum uncertainty values presented in Table~\ref{tab:tuned-params} giving a total of 3 $\times$ 3 $\times$ 3 = 29 simulations per vaccination rate. The uncertainty range shown was then determined by calculating the maximum and minimum number of cases and admissions for each vaccination rate.
 
+\vspace{-0.5em}
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/results/outbreak-prep.pdf}
@@ -752,15 +755,16 @@ However, the present model was calibrated and assessed against data from the sam
 
 This study demonstrates the potential for a system dynamics model built in collaboration with local system experts to model population susceptibility, measles transmission, and hospital admission. Following further development, including incorporating the behavioural factors and potential interventions identified by stakeholders, such a model could provide a valuable decision-support tool for intervention planning and outbreak response.
 
-\subsection*{Acknowledgements}
+\subsubsection*{Ethical Approval}
+Ethical approval was not required for this study. The data were routinely collected for health service evaluation and were provided in either pseudonymised or fully anonymised form. The NHS Health Research Authority's self-assessment tool indicated that NHS Research Ethics Committee review was not required.
 
-\subsection*{Ethical Approval}
-\tkDE{Ethical approval was not required for the study involving humans in accordance with the local legislation and institutional requirements. Written informed consent to participate in this study was not required from the participants or the participants’ legal guardians/next of kin in accordance with the national legislation and the institutional requirements.}
-
-\subsection*{Generative AI statement}
+\subsubsection*{Generative AI statement}
 
 The author acknowledges the use of Copilot to process and summarise the workshop transcript as well as the use of ChatGPT to help identify references, create BibLaTeX entries, support with LaTeX formatting, and proofread text. 
 
+\subsubsection*{Acknowledgements}
+
+I would like to thank everyone who contributed to the participatory modelling workshop. In particular, I would like to thank Aidan Hall, Alexander Quarrie-Jones, and Pravallika Sista for helping to facilitate the workshop. I would also like to thank Chung-Au Yeung, Daniel Slater, Evelyn Baileeves, Eloise Watkin, Jenny Riley, and Rebecca Howell-Jones for all their helpful thoughts and contributions. Finally, I would like to thank his supervisor Dmitri Nepogodiev for his support and guidance throughout this project. \textcolor{white}{Solidarity with the striking Birmingham bin workers!} 
 
 \printbibliography
 
@@ -812,8 +816,34 @@ This approximation simultaneously accounts for the reduced reporting period and 
 \section{Model Parameters}
 \label{app:model-params}
 
-A full list of parameters used in the full system dynamics model are presented in Table~\ref{tab:model-params}. The methods used to calculate parameters relating to vaccinations  and migration are outlined below in Sections~\ref{app:vaccinations}
-and~\ref{app:migration} respectively.
+Vaccination data was extracted from the NHS Federated Data Platform (FDP) \cite{NHSEngland2026FDP}. The yearly number of vaccinations in \bsol from 2021 to 2025 are presented in Figure~\ref{fig:yearly-vacs}. It can be seen that there was a substantial increase in vaccinations to those aged five to 25 years in 2024 due to the ``catch up'' vaccination program conducted during the 23/24 measles outbreak \cite{jary2025sociodemographic}. The annual child (one to four years) rate was taken to be the average number of yearly vaccines administered to children over this five years.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/model-params/yearly-vaccinations.pdf}
+    \caption{Number of first doses of MMR or MMRV administered by the \bsolicb each year from 2021 to 2025 \cite{NHSEngland2026FDP}. }
+    \label{fig:yearly-vacs}
+\end{figure}
+
+%\subsection{Migration}
+%\label{app:migration}
+
+A relatively crude method was used to estimate the number of vaccinated and unvaccinated persons entering BSol from abroad. Firstly, the 2021 census was used to calculate the number of babies (aged $<$ 1 year) and children (aged 1-4 years) living in BSol from each major world region: Africa, Antarctica and Oceania, Europe (not UK), Middle East and Asia, The Americas and Caribbean \cite{ONS2011census, ONS2021census}. The counted babies had only one year to enter the country, while the children had four years. Therefore, the yearly migration numbers for babies and children where taken to be the number of babies and the number of children divided by four, respectively. 
+
+It was then assumed that all babies were unvaccinated and that children were vaccinated at the same proportion as the WHO estimates for the percentage of the population from each region that have received at least one dose of measles-containing vaccine \cite{WHO_measles_coverage}. The region-specific estimates are shown in Figure~\ref{fig:migration}. From this, it is estimated that there are 226 babies and 882 children entering BSol from abroad each year, with 90.9\% of the children having received at least one measles-containing vaccine.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/model-params/migration-estimates.pdf}
+    \caption{Estimated number of vaccinated (blue) and unvaccinated (red) babies (top) and children (bottom) migrating each year to BSol from each of the WHO regions \cite{ONS2011census, ONS2021census, WHO_measles_coverage}.}
+    \label{fig:migration}
+\end{figure}
+
+The above estimate for child migration assumes that children migrated into the country at a consistent rate over the four years preceding the census. While this is a reasonable approximation over a four-year time scale, it is inappropriate to make the same assumption for all adults. Therefore, the "adult" migration rate was estimated by comparing the number of people aged five years or more who were born outside of the UK living in BSol in the 2011 and 2021 censuses \cite{ONS2011census, ONS2021census}. From this, it is estimated that 6305.2 adults migrate into BSol each year. It is then assumed that the current pattern of migration origins for adults matches that of children and that therefore 90.9\% of these adults are vaccinated. 
+
+These estimates should should reflect the rough ball-park figures for migration into \bsol. However, importantly, they do not account for migration out of \bsol or for internal migration to and from other areas within the UK. The latter is the most significant omission, as it is known that more people enter \bsol from other areas of the UK than abroad \cite{nomis_census2021_od}. Future models should take this additional incoming population source into account.
+
+A full list of parameters used in the full system dynamics model are presented in Table~\ref{tab:model-params}. 
 
 \begin{table}[ht!]
     \begin{tabular}{p{0.5\linewidth} | p{0.25\linewidth} | p{0.15\linewidth}}
@@ -858,38 +888,11 @@ and~\ref{app:migration} respectively.
     \label{tab:model-params} 
 \end{table}
 
-\subsection{Vaccination}
-\label{app:vaccinations}
-
-\tkDE{Vaccination data was extracted from the NHS Federated Data Platform (FDP) \cite{NHSEngland2026FDP}. Make it clear that the model parameter only includes the child part.}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.85\linewidth]{figures/model-params/yearly-vaccinations.pdf}
-    \caption{Number of first doses of MMR or MMRV administered by the \bsolicb each year from 2021 to 2025 \cite{NHSEngland2026FDP}. }
-    \label{fig:yearly-vacs}
-\end{figure}
-
-\subsection{Migration}
-\label{app:migration}
-
-A relatively crude method was used to estimate the number of vaccinated and unvaccinated persons entering BSol from abroad. Firstly, the 2021 census was used to calculate the number of babies (aged $<$ 1 year) and children (aged 1-4 years) living in BSol from each major world region: Africa, Antarctica and Oceania, Europe (not UK), Middle East and Asia, The Americas and Caribbean \cite{ONS2011census, ONS2021census}. The counted babies had only one year to enter the country, while the children had four years. Therefore, the yearly migration numbers for babies and children where taken to be the number of babies and the number of children divided by four, respectively. 
-
-It was then assumed that all babies were unvaccinated and that children were vaccinated at the same proportion as the WHO estimates for the percentage of the population from each region that have received at least one dose of measles-containing vaccine \cite{WHO_measles_coverage}. The region-specific estimates are shown in Figure~\ref{fig:migration}. From this, it is estimated that there are 226 babies and 882 children entering BSol from abroad each year, with 90.9\% of the children having received at least one measles-containing vaccine.
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/model-params/migration-estimates.pdf}
-    \caption{Estimated number of vaccinated (blue) and unvaccinated (red) babies (top) and children (bottom) migrating each year to BSol from each of the WHO regions \cite{ONS2011census, ONS2021census, WHO_measles_coverage}.}
-    \label{fig:migration}
-\end{figure}
-
-The above estimate for child migration assumes that children migrated into the country at a consistent rate over the four years preceding the census. While this is a reasonable approximation over a four-year time scale, it is inappropriate to make the same assumption for all adults. Therefore, the "adult" migration rate was estimated by comparing the number of people aged five years or more who were born outside of the UK living in BSol in the 2011 and 2021 censuses \cite{ONS2011census, ONS2021census}. From this, it is estimated that 6305.2 adults migrate into BSol each year. It is then assumed that the current pattern of migration origins for adults matches that of children and that therefore 90.9\% of these adults are vaccinated. 
-
-These estimates should should reflect the rough ball-park figures for migration into \bsol. However, importantly, they do not account for migration out of \bsol or for internal migration to and from other areas within the UK. The latter is the most significant omission, as it is known that more people enter \bsol from other areas of the UK than abroad \cite{nomis_census2021_od}. Future models should take this additional incoming population source into account.
-
+\newpage
 \section{Initial Conditions}
 \label{app:init-cond}
+
+
 
 \begin{table}[ht!]
     \centering
