@@ -11,7 +11,6 @@
 \usepackage{amssymb}
 \usepackage[dvipsnames]{xcolor}
 \usepackage[english]{babel}
-\usepackage{pgfgantt}
 \usepackage{csquotes}
 \usepackage{multirow}
 \usepackage{amsmath}
@@ -138,53 +137,28 @@
 \begin{document}
 
 \maketitle
-
+\vspace*{-1em}
 \begin{abstract}
-    Abstract here.
+    \noindent
+    \textbf{Background}: Measles outbreaks are becoming increasingly common in the UK coinciding with declining MMR vaccination coverage, particularly in Birmingham and Solihull (BSol). Geographic, ethnic, and socioeconomic inequalities in vaccination coverage result in substantial variation in vulnerability to measles infection.\\
+    \noindent
+    \textbf{Aims}: This study aims to investigate how a stakeholder-informed system dynamics model can support the development of interventions to increase MMR vaccination coverage and reduce outbreak burden.\\
+    \noindent
+    \textbf{Methods}: A rapid literature review investigated barriers to childhood MMR vaccination. A stakeholder workshop with local public health and NHS professionals elicited views on barriers, facilitators, and potential interventions. A system dynamics model incorporating five population states across three age groups was then developed and calibrated before exploring the impact of varying childhood vaccination rates and different outbreak-management scenarios on outbreak burden.\\
+    \noindent
+    \textbf{Results}: The rapid literature review identified vaccine accessibility, information/health literacy, trust, and other vaccine concerns as recurring factors preventing vaccination. Stakeholders identified vaccine accessibility and health literacy as the highest-priority factors, and prioritised extending vaccination into community settings and targeted communications as interventions for further investigation. The calibrated model reproduced the observed epidemic curve and hospital admissions, with modelled totals reaching 92\% and 98\% of observed values, respectively. Simulations estimated that reducing the delay to isolation substantially reduced outbreak burden, whereas increasing the isolation rate had a smaller effect. Furthermore, reductions in annual MMR vaccination produced disproportionately larger increases in infections and hospitalisations, particularly when sustained over longer periods.\\
+    \noindent
+    \textbf{Conclusion}: The findings demonstrate the potential of a stakeholder-informed system dynamics model to support local measles elimination planning. While further development and validation is needed before the model can be used to evaluate specific interventions, the present model represents a substantial first step towards the development of such a decision-support tool.
+    
 \end{abstract}
 
-\noindent
-\textbf{Student Contribution}:
-I was responsible for the research idea, study design, recruitment of stakeholders to the collaborative modelling workshop, data collection, model development, statistical analysis, data visualisation, and the preparation and writing of the dissertation. 
-
-\vspace{1em}
-\noindent
-\textbf{Word count}: 9304
 
 \newpage
 \tableofcontents
-\newpage
 
-\begin{table}[ht!]
-    \centering
-    \label{tab:acronyms}
-    \begin{tabularx}{\linewidth}{lX}
-        \toprule
-        \textbf{Acronym} & \textbf{Meaning} \\
-        \midrule
-        BCC & Birmingham City Council \\
-        BSol & Birmingham and Solihull \\
-        ED & Emergency department \\
-        FDP & Federated Data Platform \\
-        ICB & Integrated Care Board \\
-        IMD & Index of Multiple Deprivation \\
-        JCVI & Joint Committee on Vaccination and Immunisation \\
-        MMR & Measles, mumps and rubella \\
-        MMRV & Measles, mumps, rubella and varicella \\
-        NHSE & NHS England \\
-        NHS & National Health Service \\
-        ONS & Office for National Statistics \\
-        PHE & Public Health England \\
-        SIR & Susceptible--infectious--recovered \\
-        SMBC & Solihull Metropolitan Borough Council \\
-        UASC & Unaccompanied asylum-seeking children \\
-        UKHSA & UK Health Security Agency \\
-        WHO & World Health Organization \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
 
 \newpage
+
 \begin{table}[ht!]
     \centering
     \label{tab:key-terms}
@@ -229,6 +203,47 @@ I was responsible for the research idea, study design, recruitment of stakeholde
     \end{tabularx}
 \end{table}
 
+\newpage
+
+
+
+\begin{table}[ht!]
+    \centering
+    \label{tab:acronyms}
+    \begin{tabularx}{\linewidth}{lX}
+        \toprule
+        \textbf{Acronym} & \textbf{Meaning} \\
+        \midrule
+        BCC & Birmingham City Council \\
+        BSol & Birmingham and Solihull \\
+        ED & Emergency department \\
+        FDP & Federated Data Platform \\
+        ICB & Integrated Care Board \\
+        IMD & Index of Multiple Deprivation \\
+        JCVI & Joint Committee on Vaccination and Immunisation \\
+        MMR & Measles, mumps and rubella \\
+        MMRV & Measles, mumps, rubella and varicella \\
+        NHSE & NHS England \\
+        NHS & National Health Service \\
+        ONS & Office for National Statistics \\
+        PHE & Public Health England \\
+        SIR & Susceptible--infectious--recovered \\
+        SMBC & Solihull Metropolitan Borough Council \\
+        UASC & Unaccompanied asylum-seeking children \\
+        UKHSA & UK Health Security Agency \\
+        WHO & World Health Organization \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\noindent
+\textbf{Student Contribution}:
+I was responsible for the research idea, study design, recruitment of stakeholders to the collaborative modelling workshop, data collection, model development, statistical analysis, data visualisation, and the preparation and writing of the dissertation. 
+
+\vspace{1em}
+\noindent
+\textbf{Word count}: 9600
+
 
 \newpage
 \section{Introduction}
@@ -265,7 +280,7 @@ The bottom half of Figure~\ref{fig:measles-background} shows these outbreaks occ
 
 The decline in MMR(V) coverage has been attributed to a range of factors, including vaccine hesitancy, misinformation, health literacy, and trust in healthcare systems \cite{gschwend2026shadow, torracinta2021mmr, novilla2023parents}. These factors, alongside barriers to accessing vaccination, can vary between population groups and contribute to inequalities in coverage \cite{cagnotta2025parental}. Consequently, substantial ethnic and socioeconomic inequalities have been observed in MMR coverage \cite{Flatte079550, zhang2023ethnic}.
 
-During the outbreak in Birmingham from 13 October 2023, the measles infection rate was 3.4 times higher for those living in the most deprived quintile compared to those living in the third deprivation quintile. No infections were recorded amongst residents living in the least deprived quintile. Additionally, the infection rate for Black African residents was eight times greater than the White British population \cite{Tabacchi02072016}. Figure~\ref{fig:BSol-mmr-eth} shows that, except for Indian and Chinese children, all ethnic groups have lower MMR coverage at one dose than the White British cohort. Coverage among Black African and Black Caribbean children was particularly low at 74.2\% and 64.0\% respectively compared to 92.9\% for White British \cite{NHSEngland2026FDP}.
+During the outbreak in Birmingham from 13 October 2023 \tkDE{to...?}, the measles infection rate was 3.4 times higher for those living in the most deprived quintile compared to those living in the third deprivation quintile. No infections were recorded amongst residents living in the least deprived quintile. Additionally, the infection rate for Black African residents was eight times greater than the White British population \cite{jary2025sociodemographic}. Figure~\ref{fig:BSol-mmr-eth} shows that, except for Indian and Chinese children, all ethnic groups have lower MMR coverage at one dose than the White British cohort. Coverage among Black African and Black Caribbean children was particularly low at 74.2\% and 64.0\% respectively compared to 92.9\% for White British \cite{NHSEngland2026FDP}.
 
 \begin{figure}[ht!]
     \centering
@@ -472,7 +487,7 @@ Both models were initialised with a single infectious individual to represent th
 To maximise the use of data, the model is tuned by minimising an error function. As the objective is to reproduce the outbreak dynamics rather than the calendar timing of the outbreak, a temporal alignment parameter, $\tau$, was applied during error calculation to allow the simulated epidemic to be shifted relative to the observed epidemic. For each parameter combination, the value of $\tau$ that minimised the error was selected. The error function is then given by
 %
 \begin{equation}
-    E_V(\mathbf{p}, \tau) = \sum_t\left( V_{t+\tau}^{\text{sim}}(\mathbf{p}) - V_t^{\text{obs}}\right)^2 
+    E_V(\mathbf{p}, \tau) = \sum_t\left( V_{t+\tau}^{\text{sim}}(\mathbf{p}) - V_t^{\text{obs}}\right)^2, 
     \label{eq:error}
 \end{equation}
 %
@@ -481,7 +496,7 @@ where $\mathbf{p}$ represents all free model parameters to be tuned, and $V_{t+\
 There are two observable values for the model to be calibrated to: measles infections and hospital admissions. Therefore, the full error function to be minimised is
 %
 \begin{equation}
-    E(\mathbf{p}) = \frac{E_I(\mathbf{p})}{\mathrm{SD}(E_I)} + \omega \frac{E_H(\mathbf{p})}{\mathrm{SD}(E_H)}
+    E(\mathbf{p}) = \frac{E_I(\mathbf{p})}{\mathrm{SD}(E_I)} + \omega \frac{E_H(\mathbf{p})}{\mathrm{SD}(E_H)},
     \label{eq:error-comb}
 \end{equation}
 %
@@ -617,7 +632,7 @@ Figure~\ref{fig:outbreak-management} shows the number of estimates cases and adm
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=1\linewidth]{figures/results/outbreak-response.pdf}
-    \caption{Estimates number of cases (left) and hospital admissions (right) with changing isolation delay and proportion parameters compared to the 23/24 outbreak.}
+    \caption{Estimated number of cases (left) and hospital admissions (right) with changing isolation delay and proportion parameters compared to the 23/24 outbreak.}
     \label{fig:outbreak-management}
 \end{figure}
 
@@ -633,10 +648,9 @@ Given the calibrated model, it is also possible to predict what future measles o
 
 For each  annual vaccination rate value simulated, the simulation was repeated for every combination of the model parameters value including their maximum and minimum uncertainty values presented in Table~\ref{tab:tuned-params} giving a total of 3 $\times$ 3 $\times$ 3 = 29 simulations per vaccination rate. The uncertainty range shown was then determined by calculating the maximum and minimum number of cases and admissions for each vaccination rate.
 
-\vspace{-0.5em}
 \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/results/outbreak-prep.pdf}
+    \includegraphics[width=0.85\linewidth]{figures/results/outbreak-prep.pdf}
     \caption{Total number of estimated measles cases (top) and hospital admissions (bottom) over an outbreak occurring in one (red) or five (purple) years as a function of the number of yearly child MMR vaccinations distributed.}
     \label{fig:outbreak-prep}
 \end{figure}
