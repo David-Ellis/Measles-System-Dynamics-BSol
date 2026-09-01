@@ -131,7 +131,7 @@
 }
 
 
-\title{Participatory System Dynamics Modelling of Measles Vaccinations in Birmingham and Solihull}
+\title{Participatory System Dynamics Modelling of Measles Vaccination, Transmission and Outbreak Response in Birmingham and Solihull}
 \author{David Ellis}
 \date{}
 \begin{document}
@@ -253,10 +253,10 @@ I was responsible for the research idea, study design, recruitment of stakeholde
 \subsection{Measles Epidemiology}
 
 % Transmission and infectiousness
-Measles is a highly infectious viral disease that can cause serious complications and death \cite{WHO_measles_topic}. Measles is primarily transmitted through the respiratory route, including through airborne transmission from breathing contaminated air. Challenges in controlling airborne respiratory infections were highlighted during the COVID-19 pandemic \cite{who_covid_ventilation_2021}. As with COVID-19, transmission before the onset of symptoms presents challenges for controlling measles. For measles, infected persons are individuals typically infectious from around four days before until four days after rash onset \cite{WHO_measles_topic}. Additionally, with a basic reproduction number $R_0$ often cited as being between 12 and 18, measles is considerably more transmissible than most respiratory infections and therefore presents a substantial challenge to population-level control \cite{alimohamadi2020estimate, guerra2017basic}.  
+Measles is a highly transmissible viral disease that can cause serious complications and death \cite{WHO_measles_topic}. Measles is primarily transmitted through the respiratory route, including through airborne transmission from breathing contaminated air. Challenges in controlling airborne respiratory infections were highlighted during the COVID-19 pandemic \cite{who_covid_ventilation_2021}. As with COVID-19, transmission before the onset of symptoms presents challenges for controlling measles. For measles, infected persons are individuals typically infectious from around four days before until four days after rash onset \cite{WHO_measles_topic}. Additionally, with a basic reproduction number $R_0$ often cited as being between 12 and 18, measles is considerably more transmissible than most respiratory infections and therefore presents a substantial challenge to population-level control \cite{alimohamadi2020estimate, guerra2017basic}.  
 
 % Complications and hospitalisation
-A significant proportion of those infected with measles will develop complications and require hospital care. Potential complications from the disease include blindness, encephalitis, severe diarrhoea, ear infections, and breathing problems including pneumonia. Complications from measles infection can also be fatal with an estimated 95,000 people globally dying from measles in 2024. Most of these deaths occurred in low-income countries with weak health infrastructures \cite{WHO_measles_topic}. However, measles complications still pose a significant challenge in high-income countries where complications occur in around 10-20\% of cases, and the case-fatality ratio is around 0.05\% \cite{wolfson2009estimates, NICE2024MeaslesComplications}. Clinically vulnerable groups, such as immunosuppressed individuals, infants under one year, and pregnant people, are more likely to develop complications \cite{NHSEngland2024MeaslesGuidance}.
+A substantial proportion of those infected with measles will develop complications, some of which require hospital care. Potential complications from the disease include blindness, encephalitis, severe diarrhoea, ear infections, and breathing problems including pneumonia. Complications from measles infection can also be fatal with an estimated 95,000 people globally dying from measles in 2024. Most of these deaths occurred in low-income countries with weak health infrastructures \cite{WHO_measles_topic}. However, measles complications still pose a significant challenge in high-income countries where complications occur in around 10-20\% of cases, and the case-fatality ratio is around 0.05\% \cite{wolfson2009estimates, NICE2024MeaslesComplications}. Clinically vulnerable groups, such as immunosuppressed individuals, infants under one year, and pregnant people, are more likely to develop complications \cite{NHSEngland2024MeaslesGuidance}.
 
 Immunity to measles can be obtained either following infection or vaccination. Infants can also obtain temporary maternal immunity from their mothers \cite{TILEY2025106531}. Herd immunity is achieved when the proportion of the population immune to a disease is high enough to reduce transmission to a level at which sustained spread cannot be maintained. Assuming homogeneous mixing of completely immune individuals within a population, the critical proportion required for herd immunity is approximately $1 - 1/R_0$. Therefore, more infectious diseases require a higher proportion of the population to be immune. 
 
@@ -279,7 +279,7 @@ Under the current UK vaccination schedule, all children are offered a first dose
     \label{fig:measles-background}
 \end{figure}
 
-Figure~\ref{fig:measles-background} also shows that these outbreaks have occurred alongside falling national vaccination coverage from a peak of 92.7\% in 2013 down to 88.9\% in 2024. However, in \bsol, the coverage started lower and has fallen further than the England average from a peak of 89.7\% in 2014 down to 81.3\% in 2024 \cite{FTips}. This decline has left local and national coverage substantially below the 95\% WHO target for maintaining measles elimination and has coincided with substantial measles outbreaks in \bsol \cite{jary2025sociodemographic}. 
+Figure~\ref{fig:measles-background} also shows that these outbreaks have occurred alongside falling national vaccination coverage from a peak of 92.7\% in 2013 down to 88.9\% in 2024. However, in \bsol, the coverage started lower and has subsequently fallen further than the England average from a peak of 89.7\% in 2014 down to 81.3\% in 2024 \cite{FTips}. This decline has left local and national coverage substantially below the 95\% WHO target for maintaining measles elimination and has coincided with substantial measles outbreaks in \bsol \cite{jary2025sociodemographic}. 
 
 There is also substantial inequality in MMR vaccination coverage and therefore susceptibility to measles. Figure~\ref{fig:BSol-mmr-eth} shows that, in February 2026, with the exception of Indian and Chinese children, MMR coverage was lower across all reported ethnic groups than among White British children. Coverage among Black African and Black Caribbean children aged less than six years was particularly low at 74.2\%
 and 64.0\% respectively compared to 92.9\%  for White British \cite{NHSEngland2026FDP}. Additionally, children under six years living in the most deprived decile had an MMR coverage of just 62.7\%, which was significantly lower than that among children living in the least deprived decile at 77.6\%.
@@ -300,7 +300,7 @@ The factors influencing MMR vaccination uptake are complex, context-specific, an
 \subsection{Rationale and Aims}
 
 Parents' decisions about whether to vaccinate their children against measles are influenced by a complex combination of factors. Interactions between these factors, vaccination uptake, population immunity and measles transmission can produce complex dynamic behaviour, including feedback loops, non-linear relationships and time delays. 
-Simulating these interrelated factors therefore requires a modelling framework capable of representing interactions between behavioural and epidemiological processes and their interactions over time.
+Simulating these interrelated factors therefore requires a modelling framework capable of representing interactions between behavioural and epidemiological processes over time.
 
 System dynamics provides a framework for studying such complex systems and the interactions between their constituent elements \cite{bala2017system}. Within this framework, systems are represented using stocks, which describe quantities that accumulate or deplete over time, and flows, which determine the rates at which these quantities change. In public health, stocks may represent populations of people, such as susceptible or immune individuals, but can also represent resources such as hospital beds or medicine supplies. System dynamics can also incorporate more abstract behavioural and social factors, such as vaccine confidence and health literacy, and represent their hypothesised relationships with vaccination behaviour \cite{van2020explaining}. System dynamics has been widely applied to health and medicine, including disease-related modelling, patient and workforce management, and healthcare system modelling \cite{darabi2020system, davahli2020system, homer2006system}. The combination of epidemiological, behavioural and system-level processes considered in this study therefore makes system dynamics a suitable framework for modelling the interactions between vaccination uptake, measles transmission and disease burden in \bsol.
 
@@ -329,7 +329,7 @@ Titles and abstracts were screened for relevance, with potentially relevant publ
 
 \subsection{Stakeholder Engagement}
 
-Due to the complicated and multifaceted nature of the measles system, including vaccination, disease transmission, healthcare provision, and interventions to improve vaccine uptake, stakeholders with expertise of different aspects of the system were invited to a participatory modelling workshop. Organisations were invited to nominate delegates to participate. These organisations included \bsolicb, \ukhsa, and the public health teams from \bcc, and \solihull. Attempts were also made to ensure that a range of skill sets were present at the workshop including measles case management, child vaccinations, data analytics, and behavioural science. 
+Due to the complicated and multifaceted nature of the measles system, including vaccination, disease transmission, healthcare provision, and interventions to improve vaccine uptake, stakeholders with expertise in different aspects of the system were invited to a participatory modelling workshop. Organisations were invited to nominate delegates to participate. These organisations included \bsolicb, \ukhsa, and the public health teams from \bcc, and \solihull. Attempts were also made to ensure that a range of skill sets were represented at the workshop including measles case management, child vaccinations, data analytics, and behavioural science. 
 
 To promote full participation, stakeholders were divided into two groups, with group composition selected to provide a broad range of backgrounds and expertise. A simplified version of the stakeholder engagement approach used by \citeauthor{michail2025evaluation} was employed, incorporating a simple system diagram prompt and a combination of small-group discussions, whole-group facilitated discussions, and sticky notes to elicit and capture stakeholder ideas and knowledge \cite{michail2025evaluation}.  
 
@@ -337,24 +337,24 @@ Prior to the workshop, participants were provided with an evidence pack\footnote
 
 The workshop was divided into three parts. First, participants were given a high-level overview of the evidence pack and an introduction to system dynamics. A practical model-building exercise using flows of money into and out of a bank account was then used to introduce the core concepts of system dynamics.
 
-Second, participants were presented with a simplified measles model showing the principal stocks and flows within the system. For each key flow, participants identified factors that could facilitate or block the flow using sticky notes. Participants were then given three stickers each and asked to affix their stickers next to factors they considered most influential using a limited number of stickers. Participants could allocate more than one sticker to the same factor, but the limited number of stickers required them to prioritise the factors they considered most important. This was used to focus subsequent model development on factors considered most influential to system behaviour.
+Second, participants were presented with a simplified measles model showing the principal stocks and flows within the system. For each key flow, participants identified factors that could facilitate or block the flow using sticky notes. Participants were then given three stickers each and asked to affix their stickers next to factors they considered most influential using a limited number of stickers. Participants could allocate more than one sticker to the same factor, but the limited number of stickers required them to prioritise the factors they considered most important. This was used to focus subsequent model development on the factors considered most influential to system behaviour.
 
 Finally, participants identified flows that they considered could be improved and proposed potential policies and interventions to alter these flows. For each intervention, participants identified the organisation responsible, the location within the system at which it would act, and the expected direction of its effect on the relevant flow. These contributions were also recorded using sticky notes. Participants subsequently used an anonymous online voting platform to rank the proposed interventions according to their perceived feasibility and potential impact. The resulting prioritisation was used to identify the interventions on which subsequent modelling would focus.
 
-Working transparently with stakeholders is key to developing and maintaining trust and respect with the stakeholders and improves the overall legitimacy of the study \cite{ray2017strengthening}. Therefore, all materials from the workshop were digitally transcribed, results from participant voting were visualised, and presented back to stakeholders for approval and validation. Additionally, all group discussion activities were automatically transcribed using Microsoft Teams. Due to the workshop's length, Copilot was used to summarise this transcription. This summary was also presented back to the stakeholders to allow for accuracy checking. 
+Working transparently with stakeholders is key to developing and maintaining trust and respect with the stakeholders and improves the overall legitimacy of the study \cite{ray2017strengthening}. Therefore, all materials from the workshop were digitally transcribed, results from participant voting were visualised and presented back to stakeholders for approval and validation at a later online meeting. Additionally, all group discussion activities were automatically transcribed using Microsoft Teams. Due to the workshop's length, Copilot was used to summarise this transcription. This summary was also presented back to the stakeholders to allow for accuracy checking. 
 
 \subsection{Modelling}
 
 This study builds on the system dynamics model developed by \citeauthor{van2020explaining}, which models measles vaccination, infection, and mortality for two age groups (children and adults) \cite{van2020explaining}. The present model retains these components while also modelling hospital admissions and the isolation of infected individuals during outbreaks, and disaggregates the population into three age groups (babies, children, and adults). A simple SIR model was first developed to establish the basic transmission dynamics and provide a foundation for subsequent extensions.
 
-System dynamics modelling was conducted using Stella Architect \cite{StellaArchitect}, a proprietary software package with a graphical modelling interface. The visual representation facilitated engagement with non-technical stakeholders. This helps to engage stakeholders without technical expertise in the model building process. Hospital admission data were extracted using SQL Server Management Studio (version 19.3.4). All data processing and visualisation were performed in R (version 4.3.3). All code and Stella Architect models used in this study are publicly available on \href{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}{GitHub}.
+System dynamics modelling was conducted using Stella Architect \cite{StellaArchitect}, a proprietary software package with a graphical modelling interface. The visual representation facilitated engagement with stakeholders without technical expertise. Hospital admission data were extracted using SQL Server Management Studio (version 19.3.4). All data processing and visualisation were performed in R (version 4.3.3). All code and Stella Architect models used in this study are publicly available on \href{https://github.com/David-Ellis/Measles-System-Dynamics-BSol}{GitHub}.
 
 \subsubsection{SIR model}
 \label{sec:sir}
 
-To first simulate the most basic system behaviour, only three population states were included: susceptible (S), infected (I), and recovered (R). It is assumed that these three populations are perfectly mixed and that everyone within the population has an equal probability of contacting each other person.
+To first simulate the most basic system behaviour, only three population states were included: susceptible (S), infectious (I), and recovered (R). It is assumed that these three populations are perfectly mixed and that everyone within the population has an equal probability of contacting each other person.
 
-Infection occurs at a rate determined by $R_0$ and the infectious period $1/\gamma$, while infected individuals recover at rate $\gamma$. For this simple model, the transition between states can be described by the following set of ordinary differential equations
+New infections occur at a rate determined by $R_0$ and the infectious period $1/\gamma$, while infected individuals recover at rate $\gamma$. For this simple model, the transition between states can be described by the following set of ordinary differential equations
 
 \vspace{0.5em}
 \begin{equation}
@@ -369,7 +369,7 @@ Infection occurs at a rate determined by $R_0$ and the infectious period $1/\gam
 \annotatetwo[yshift=1em]{above}{rec1}{rec2}{Recovery rate}
 \vspace{1.5em}
 
-Since this model does not include births or deaths, $N = S + I + R$ is a fixed value. The values for $R_0$, $\gamma$, and $N$ are taken from the literature and are presented in Table~\ref{tab:model-params}. The proportion of the population initially susceptible to measles $S/N$, was taken to be 20\%. This basic SIR model is shown by the blue components of Figure~\ref{fig:SIR+isol}. 
+Since this model does not include births or deaths, $N = S + I + R$ is a fixed value. The values for $R_0$, $\gamma$, and $N$ are taken from the literature and are presented in Table~\ref{tab:model-params}. The proportion of the population initially susceptible to measles, $S/N$, was taken to be 20\%. This basic SIR model is shown by the blue components of Figure~\ref{fig:SIR+isol}. 
 
 However, the basic SIR model does not account for the isolation of individuals following identification of infection. This is an important omission when modelling measles outbreaks, as the identification and isolation of infectious individuals is a key component of outbreak management. An isolation mechanism was therefore incorporated into the extended model to allow the potential impact of outbreak response measures on transmission to be investigated.
 
@@ -485,14 +485,14 @@ The model was calibrated using a grid-search approach, in which simulations were
 
 Both models were initialised with a single infectious individual to represent the introduction of measles into an otherwise susceptible population. For the base model, this individual was assigned to the adult age group. For simplicity, the remaining population in the SIR model was initiated such that $S/N=0.9$. For the base model, the initial number of people in hospital or isolation was set to zero, and the number of people initially in the susceptible and recovered/vaccinated states were determined based on ONS census, NHS vaccination, and WHO vaccination data \cite{ONS2021census, NHSEngland2026FDP, WHO_measles_coverage}. The exact initial conditions used are presented in Appendix~\ref{app:init-cond}. 
 
-To maximise the use of data, the model is tuned by minimising an error function. As the objective is to reproduce the outbreak dynamics rather than the calendar timing of the outbreak, a temporal alignment parameter, $\tau$, was applied during error calculation to allow the simulated epidemic to be shifted relative to the observed epidemic. For each parameter combination, the value of $\tau$ that minimised the error was selected. The error function is then given by
+To maximise the use of data, the model is calibrated by minimising an error function. As the objective is to reproduce the outbreak dynamics rather than the calendar timing of the outbreak, a temporal alignment parameter, $\tau$, was applied during error calculation to allow the simulated epidemic to be shifted relative to the observed epidemic. For each parameter combination, the value of $\tau$ that minimised the error was selected. The error function is then given by
 %
 \begin{equation}
     E_V(\mathbf{p}, \tau) = \sum_t\left( V_{t+\tau}^{\text{sim}}(\mathbf{p}) - V_t^{\text{obs}}\right)^2, 
     \label{eq:error}
 \end{equation}
 %
-where $\mathbf{p}$ represents all free model parameters to be tuned, and $V_{t+\tau}^{\text{sim}}$ and $V^{\text{obs}}$ are the simulated and observed outcomes values respectively. 
+where $\mathbf{p}$ represents all free model parameters to be tuned, and $V_{t+\tau}^{\text{sim}}$ and $V^{\text{obs}}$ are the simulated and observed outcomes values, respectively. 
 
 There are two observable values for the model to be calibrated to: measles infections and hospital admissions. Therefore, the full error function to be minimised is
 %
@@ -501,7 +501,7 @@ There are two observable values for the model to be calibrated to: measles infec
     \label{eq:error-comb}
 \end{equation}
 %
-where $E_I$ and $E_H$ are the error functions for infections and hospital admissions, respectively and $\omega$ determines the relative weighting assigned to hospital admission error $E_H$ compared with infection error $E_I$. The error functions are normalised by dividing by their standard deviation across all parameter combinations tested in the grid search. Since this investigation is most interested in measles infections, a value of $\omega = 0.5$ was chosen. It should be noted that the choice for $\omega$ is subjective and that there is no ``correct" value. The impact of the choice of $\omega$ on the fitted calculated parameter values was investigated through sensitivity analysis. All model parameters used are presented in Table~\ref{tab:model-params} of Appendix~\ref{app:model-params}. 
+where $E_I$ and $E_H$ are the error functions for infections and hospital admissions, respectively and $\omega$ determines the relative weighting assigned to hospital admission error $E_H$ compared with infection error $E_I$. The error functions are normalised by dividing by their standard deviation across all parameter combinations tested in the grid search. Since this investigation is most interested in measles infections, a value of $\omega = 0.5$ was chosen. It should be noted that the choice for $\omega$ is subjective and that there is no ``correct" value. The impact of the choice of $\omega$ on the fitted parameter values was investigated through sensitivity analysis. All model parameters used are presented in Table~\ref{tab:model-params} of Appendix~\ref{app:model-params}. 
 
 
 \section{Results}
@@ -509,7 +509,7 @@ where $E_I$ and $E_H$ are the error functions for infections and hospital admiss
 \subsection{Literature Review}
 \label{sec:vaccine-barriers}
 
-There were 16 and 35 publications identified by PubMed and ProQuest, respectively. Five additional publications were included, four of which were grey literature based on local community engagement workshops conducted by \bcc and \solihull \cite{smbc_community_engagement_learning_2025, kemishi_uasc_health_wellbeing_2025, palmer_birmingham_measles_engagement_2024, bissett_measles_soft_intelligence_2024}. The publications included are presented in Table~\ref{tab:vaccine-hesitancy-papers1}.  Due to their increased relevance to the present work, the following review pays particular focus on the local evidence.
+There were 16 and 35 publications identified by PubMed and ProQuest, respectively. Five additional publications were included, four of which were grey literature based on local community engagement workshops conducted by \bcc and \solihull \cite{smbc_community_engagement_learning_2025, kemishi_uasc_health_wellbeing_2025, palmer_birmingham_measles_engagement_2024, bissett_measles_soft_intelligence_2024}. The publications included are presented in Table~\ref{tab:vaccine-hesitancy-papers1}.  Due to their increased relevance to the present work, the following review focuses particularly on the local evidence.
 
 
 % Vaccine hesitancy review
@@ -552,7 +552,7 @@ As shown in Figure~\ref{fig:flow-factors}, all of the factors voted on related t
 
 Participants were asked to review the models they had created and identify the ``problematic" flows within the system. In their groups, they were asked to brainstorm a list of potential interventions to improve vaccine uptake and which organisations they thought would be responsible for these interventions. These interventions are also shown in Figures~\ref{fig:group1-model} and \ref{fig:group2-model}.
 
-The groups were then asked to each choose the three interventions that they thought were worth prioritising including in the model. These six interventions were then anonymously ranked by each of the workshop attendees using Mentimeter. The results were then aggregated using a Borda count approach, in which each ranked position was assigned a decreasing number of points (six points for rank one, five points for rank two, etc) and the total score for each option was used to generate the final ordering \cite{borda1784, taylor2005}. The total number of points for each intervention is shown in Figure~\ref{fig:int-voting}.
+Each group was then asked to each choose the three interventions that they thought were worth prioritising for inclusion in the model. These six interventions were then anonymously ranked by each of the workshop attendees using Mentimeter. The results were then aggregated using a Borda count approach, in which each ranked position was assigned a decreasing number of points (six points for rank one, five points for rank two, etc) and the total score for each option was used to generate the final ordering \cite{borda1784, taylor2005}. The total number of points for each intervention is shown in Figure~\ref{fig:int-voting}.
 
 \begin{figure}[ht!]
     \centering
@@ -650,7 +650,7 @@ Figure~\ref{fig:epi-curve} compares the epidemic curves for the three models dis
 
 Within the presented model, outbreak management is controlled by the isolation delay $p_D$ and isolation proportion $p_P$. By varying these values it is possible to estimate how different outbreak management scenarios changes the number of people estimated to be infected and hospitalised during an outbreak. 
 
-Figure~\ref{fig:outbreak-management} shows the number of estimates cases and admissions associated with changes in the isolation delay and proportion parameters from those derived from fitting to data from the 23/24 outbreak shown in Table~\ref{tab:tuned-params}. The isolation delay was varied from 35.5 days (-36\%) to 75 days (+36\%), and the isolation proportion was varied from 0.0763 (-19\%) to 0.150 (60\%). 
+Figure~\ref{fig:outbreak-management} shows the number of estimated cases and admissions associated with changes in the isolation delay and proportion parameters from those derived from fitting to data from the 23/24 outbreak shown in Table~\ref{tab:tuned-params}. The isolation delay was varied from 35.5 days (-36\%) to 75 days (+36\%), and the isolation proportion was varied from 0.0763 (-19\%) to 0.150 (60\%). 
 
 \begin{figure}[ht!]
     \centering
@@ -669,7 +669,7 @@ In contrast, a 20\% reduction in the isolation delay (11.6 days) results in 191.
 
 Given the calibrated model, it is also possible to predict what future measles outbreaks might look like given different levels of child vaccination. Figure~\ref{fig:outbreak-prep} shows the estimated number of measles infections and measles-related hospital admissions after one and five years as a function of changing relative number of MMR vaccinations. For 0\% change, the number of yearly vaccinations is fixed to the average annual number of vaccines given to children aged 1 to 4 years old within BSol between 2021 and 2025. 
 
-For each  annual vaccination rate value simulated, the simulation was repeated for every combination of the model parameters value including their maximum and minimum uncertainty values presented in Table~\ref{tab:tuned-params} giving a total of 3 $\times$ 3 $\times$ 3 = 29 simulations per vaccination rate. The uncertainty range shown was then determined by calculating the maximum and minimum number of cases and admissions for each vaccination rate.
+For each  annual vaccination rate value simulated, the simulation was repeated for every combination of the model parameters value including their maximum and minimum uncertainty values presented in Table~\ref{tab:tuned-params} giving a total of 3 $\times$ 3 $\times$ 3 = 27 simulations per vaccination rate. The uncertainty range shown was then determined by calculating the maximum and minimum number of cases and admissions for each vaccination rate.
 
 \begin{figure}[ht!]
     \centering
@@ -678,7 +678,7 @@ For each  annual vaccination rate value simulated, the simulation was repeated f
     \label{fig:outbreak-prep}
 \end{figure}
 
-It is estimated that, at current birth and vaccination rates, the number of people that would be infected in an outbreak reduces over time. After one year, the estimated number of measles infections and hospital admissions are 179.6 (78.3, 567.7) and 61.9 (30.9, 158.1), respectively, which are 193.4 (51.8\%) and 62.7 (50.3\%) fewer than the simulated estimate for today (see Table~\ref{tab:summary-stat-comp}). After five years, the estimated number of infections and hospital admissions fall to 42.9 (23.9, 92.8) and 15.2 (9.8, 26.4), respectively. Under the assumptions of the current model, the projected number of infections declines over time at current vaccination rates. This suggests that population susceptibility may decline in the coming years; however, this should not be interpreted as evidence that BSol is on a trajectory towards measles elimination due to the geographic, ethnic, and socioeconomic heterogeneity in vaccination rates. 
+It is estimated that, at current birth and vaccination rates, the estimated number of infections during an outbreak decreases over time. After one year, the estimated number of measles infections and hospital admissions are 179.6 (78.3, 567.7) and 61.9 (30.9, 158.1), respectively, which are 193.4 (51.8\%) and 62.7 (50.3\%) fewer than the simulated estimate for today (see Table~\ref{tab:summary-stat-comp}). After five years, the estimated number of infections and hospital admissions fall to 42.9 (23.9, 92.8) and 15.2 (9.8, 26.4), respectively. Under the assumptions of the current model, the projected number of infections declines over time at current vaccination rates. This suggests that population susceptibility may decline in the coming years; however, this should not be interpreted as evidence that BSol is on a trajectory towards measles elimination due to the geographic, ethnic, and socioeconomic heterogeneity in vaccination rates. 
 
 However, Figure~\ref{fig:outbreak-prep} also shows how the number of estimated infections and hospital admissions rises rapidly with falling yearly MMR vaccinations. If yearly MMR vaccinations were reduced by 10\% (1,536) or 20\% (3,072) then the estimated number of infections after one year are estimated to be 295.9 (115.3, 1174.9) and 517.2 (174.9, 2949.5) respectively, and after five years to be 171.8 (73.7, 551.8) and 1028.1 (285.4, 6815.9) respectively. It can be seen from the larger uncertainty ranges, that the estimates relating to lower child vaccination rates are much more dependent on the specific model parameters. 
 
@@ -792,13 +792,16 @@ However, the present model was calibrated and assessed against data from the sam
 
 This study demonstrates the potential for a system dynamics model built in collaboration with local system experts to model population susceptibility, measles transmission, and hospital admission. Following further development, including incorporating the behavioural factors and potential interventions identified by stakeholders, such a model could provide a valuable decision-support tool for intervention planning and outbreak response.
 
+\vspace*{-0.5em}
 \subsubsection*{Ethical Approval}
 Ethical approval was not required for this study. The data were routinely collected for health service evaluation and were provided in either pseudonymised or fully anonymised form. Additionally, participants involved in this study were acting in their professional capacities as representatives of partner organisations. The NHS Health Research Authority's self-assessment tool indicated that NHS Research Ethics Committee review was not required.
 
+\vspace*{-0.5em}
 \subsubsection*{Generative AI statement}
 
 The author acknowledges the use of Copilot to process and summarise the workshop transcript, as well as the use of ChatGPT to help identify references, create BibLaTeX entries, support LaTeX formatting, and proofread text. 
 
+\vspace*{-0.5em}
 \subsubsection*{Acknowledgements}
 
 I would like to thank everyone who contributed to the participatory modelling workshop. In particular, I would like to thank Maria Michail for her advice in planning the workshop and Aidan Hall, Alexander Quarrie-Jones, and Pravallika Sista for helping to facilitate the workshop. I would also like to thank Chung-Au Yeung, Daniel Slater, Evelyn Baileeves, Eloise Watkin, Jenny Riley, and Rebecca Howell-Jones for their helpful thoughts and contributions. Finally, I would like to thank my supervisor Dmitri Nepogodiev for his support and guidance throughout this project. \textcolor{white}{Solidarity with the striking Birmingham bin workers!} 
@@ -965,11 +968,10 @@ A full list of parameters used in the base system dynamics model are presented i
 
 %    Measles transmission rate, $\beta = R_0\gamma$ & 1.54 day$^{-1}$ &  \cite{WHO2025MeaslesFactsheet, https://doi.org/10.1111/risa.12637}  \\
 
-    Hospitalisation rate & 0.0021 day$^{-1}$ & \cite{NICE2024MeaslesComplications} \\
+    %Hospitalisation rate & 0.0021 day$^{-1}$ & \cite{NICE2024MeaslesComplications} \\
 
     Median hospital stay & 2 days & Locally calculated \cite{BSolICBWarehouse2026} \\
 
-    
     
     \bottomrule
     \end{tabular}
